@@ -6,7 +6,6 @@ import { ParticlesBackground } from '@/Components/particles-background';
 import { Footer } from '@/Components/footer';
 import { getPersonalInfo } from '@/lib/config';
 import { Toaster } from '@/Components/ui/toaster';
-import { LoadingAnimation } from '@/Components/loading-animation';
 import { CustomCursor } from '@/Components/custom-cursor';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -29,7 +28,6 @@ export default function RootLayout({ children }) {
           disableTransitionOnChange
         >
           <CustomCursor />
-          <LoadingAnimation />
           <ParticlesBackground />
           <Navbar />
           <main className="min-h-screen overflow-x-hidden">{children}</main>

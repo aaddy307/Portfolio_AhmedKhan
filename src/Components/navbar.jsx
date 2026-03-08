@@ -50,7 +50,7 @@ export function Navbar() {
   return (
     <motion.header
       className={cn(
-        "fixed top-0 w-full z-50 backdrop-blur-sm transition-all duration-300 overflow-x-hidden",
+        "fixed top-0 w-full z-[100] backdrop-blur-sm transition-all duration-300 overflow-x-hidden",
         scrollY.get() > 50 ? "bg-background/80" : "bg-transparent"
       )}
       initial={{ y: 0 }}
@@ -68,7 +68,7 @@ export function Navbar() {
           </motion.span>
         </Link>
         
-        <div className="flex items-center gap-2 relative z-50">
+        <div className="flex items-center gap-2 relative z-[110]">
           <nav className="hidden md:flex items-center gap-2">
             {navItems.map((item, i) => (
               <motion.div
@@ -91,52 +91,8 @@ export function Navbar() {
           </nav>
           
           <ThemeSwitch />
-          
-          <button
-            className="md:hidden p-2 hover:bg-accent rounded-md transition-colors relative z-50"
-            onClick={toggleMenu}
-            aria-label="Toggle menu"
-            type="button"
-          >
-            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
         </div>
       </div>
-      
-      {isOpen && (
-        <motion.div
-          className="md:hidden fixed inset-0 top-16 bg-background/95 backdrop-blur-sm overflow-y-auto"
-          style={{
-            backgroundColor: "rgba(0, 0, 0, 0.4)",
-          }}
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.2 }}
-        >
-          <nav className="flex flex-col gap-2">
-            {navItems.map((item, i) => (
-              <motion.div
-                key={item.label}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.1 }}
-              >
-                <Button
-                  variant="ghost"
-                  asChild
-                  className="w-full justify-start text-lg py-6"
-                  onClick={closeMenu}
-                >
-                  <Link href={item.href}>
-                    {item.label}
-                  </Link>
-                </Button>
-              </motion.div>
-            ))}
-          </nav>
-        </motion.div>
-      )}
     </motion.header>
   );
 }

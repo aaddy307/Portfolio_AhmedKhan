@@ -7,7 +7,7 @@ export function SectionContainer({ id, children, className }) {
   return (
     <motion.section
       id={id}
-      className={cn("py-16 md:py-24 overflow-x-hidden", className)}
+      className={cn("py-16 md:py-24 overflow-x-hidden relative", className)}
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.5 }}

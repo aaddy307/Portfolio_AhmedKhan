@@ -104,11 +104,11 @@ function ProjectCard({ project, onSelect }) {
           className="transition-all duration-700 group-hover:scale-110 filter group-hover:saturate-150"
         />
         {/* Diagonal overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-background/90 via-background/40 to-transparent group-hover:from-background/70 transition-all duration-700" />
+        <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/40 to-transparent group-hover:from-black/70 transition-all duration-700" />
         
         {/* Title overlay on image */}
         <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-0 group-hover:translate-y-[-8px] transition-transform duration-500">
-          <h3 className="text-xl font-bold text-white drop-shadow-lg line-clamp-1">
+          <h3 className="text-xl font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] line-clamp-1">
             {project.title}
           </h3>
         </div>

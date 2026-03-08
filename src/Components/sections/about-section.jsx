@@ -2,7 +2,8 @@
 
 import { SectionContainer } from "@/Components/section-container";
 import { SectionHeading } from "@/Components/section-heading";
-import { RadialIntro } from "@/Components/radial-intro";
+import { RadialIntroMobile } from "@/Components/radial-intro-mobile";
+import { RadialIntroDesktop } from "@/Components/radial-intro-desktop";
 import { getSkills } from "@/lib/config";
 import { Progress } from "@/Components/ui/progress";
 import { motion } from "framer-motion";
@@ -90,16 +91,22 @@ export function AboutSection() {
         subtitle="I'm a passionate web developer with a focus on creating beautiful, functional, and user-friendly experiences."
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12 items-center">
-        {/* Radial Intro - Left Side */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12 items-start">
+        {/* Radial Intro - Mobile and Desktop with scroll rotation */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true, margin: "-100px" }}
-          className="lg:col-span-1 flex items-center justify-center"
+          className="lg:col-span-1 flex items-start justify-center lg:pt-8"
+          id="radial-target"
         >
-          <RadialIntro orbitItems={radialItems} />
+          <div className="lg:hidden">
+            <RadialIntroMobile orbitItems={radialItems} />
+          </div>
+          <div className="hidden lg:block">
+            <RadialIntroDesktop orbitItems={radialItems} showAfterAnimation={false} />
+          </div>
         </motion.div>
 
         {/* Who I Am - Right Side */}
@@ -108,7 +115,7 @@ export function AboutSection() {
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true, margin: "-100px" }}
-          className="lg:col-span-2 flex flex-col justify-center"
+          className="lg:col-span-2 flex flex-col justify-start"
         >
           <h3 className="text-xl font-semibold mb-4">Who I Am</h3>
           <div className="space-y-4 text-muted-foreground">
@@ -125,13 +132,16 @@ export function AboutSection() {
         </motion.div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="space-y-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-8">
+        {/* Left Column */}
+        <div className="flex flex-col">
+          {/* Frontend Skills */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true, margin: "-100px" }}
+            className="mb-8"
           >
             <h3 className="text-xl font-semibold mb-4">Frontend Skills</h3>
             <div className="space-y-4">
@@ -140,26 +150,11 @@ export function AboutSection() {
               ))}
             </div>
           </motion.div>
-        </div>
 
-        <div className="space-y-8">
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true, margin: "-100px" }}
-          >
-            <h3 className="text-xl font-semibold mb-4">Backend Skills</h3>
-            <div className="space-y-4">
-              {backendSkills.map((skill, index) => (
-                <SkillBar key={skill.name} skill={skill} index={index} />
-              ))}
-            </div>
-          </motion.div>
-
+          {/* Tools & Others */}
           {toolsSkills.length > 0 && (
             <motion.div
-              initial={{ opacity: 0, x: 20 }}
+              initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
               viewport={{ once: true, margin: "-100px" }}
@@ -172,12 +167,32 @@ export function AboutSection() {
               </div>
             </motion.div>
           )}
+        </div>
 
+        {/* Right Column */}
+        <div className="flex flex-col">
+          {/* Backend Skills */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="mb-8 lg:h-[308px]"
+          >
+            <h3 className="text-xl font-semibold mb-4">Backend Skills</h3>
+            <div className="space-y-4">
+              {backendSkills.map((skill, index) => (
+                <SkillBar key={skill.name} skill={skill} index={index} />
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Design Skills */}
           {otherSkills.length > 0 && (
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
               viewport={{ once: true, margin: "-100px" }}
             >
               <h3 className="text-xl font-semibold mb-4">Design Skills</h3>

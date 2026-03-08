@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 
-export function RadialIntro({ orbitItems }) {
+export function RadialIntroMobile({ orbitItems }) {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [glowingIndex, setGlowingIndex] = useState(0);
   const containerRef = useRef(null);
@@ -14,7 +14,12 @@ export function RadialIntro({ orbitItems }) {
     offset: ["start end", "end start"]
   });
   
-  const rotate = useTransform(scrollYProgress, [0, 1], [0, 360]);
+  const rotate = useTransform(
+    scrollYProgress, 
+    [0, 1], 
+    [0, 360],
+    { clamp: false }
+  );
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -29,11 +34,12 @@ export function RadialIntro({ orbitItems }) {
       <motion.div 
         className="relative w-[220px] h-[220px] md:w-[340px] md:h-[340px] flex items-center justify-center"
         style={{ rotate }}
+        transition={{ type: "spring", stiffness: 100, damping: 30 }}
       >
         {/* Orbit items */}
         {orbitItems.map((item, index) => {
           const angle = (index / orbitItems.length) * 2 * Math.PI;
-          const radius = 90; // Mobile radius
+          const radius = 90;
           const x = Math.cos(angle) * radius;
           const y = Math.sin(angle) * radius;
 
@@ -71,7 +77,7 @@ export function RadialIntro({ orbitItems }) {
                     src={item.src}
                     alt={item.name}
                     fill
-                    className={`object-cover p-1.5 md:p-2 ${item.invert ? 'invert brightness-0 dark:invert dark:brightness-200' : ''}`}
+                    className={`object-cover p-1.5 md:p-2 ${item.invert ? 'dark:invert' : ''}`}
                   />
                 </div>
 

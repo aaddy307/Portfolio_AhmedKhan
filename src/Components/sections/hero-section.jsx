@@ -7,6 +7,7 @@ import { Github, Linkedin, Instagram } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { WhatsAppIcon } from "@/Components/icons/whatsapp-icon";
 import { MorphingName } from "@/Components/morphing-name";
+import { CodeSnippetAnimation } from "@/Components/code-snippet-animation";
 import { useState, useEffect } from "react";
 
 export function HeroSection() {
@@ -33,12 +34,9 @@ export function HeroSection() {
   const greetingFull = "Hi, I'm";
   const bioFull = personalInfo.bio;
 
-  // Start animation after loading screen (2.5s loading + 0.3s buffer)
+  // Start animation immediately
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setStartAnimation(true);
-    }, 2800);
-    return () => clearTimeout(timer);
+    setStartAnimation(true);
   }, []);
 
   // Greeting typewriter effect
@@ -112,24 +110,35 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-20 pb-12 overflow-x-hidden">
-      <div className="container mx-auto px-4 relative z-10 max-w-full">
-        <div className="max-w-4xl mx-auto">
+      {/* Code Snippet Animation - Right Side */}
+      <CodeSnippetAnimation />
+      
+      <div className="container mx-auto px-4 lg:px-12 relative z-10 max-w-full">
+        <div className="max-w-4xl">
           <div className="space-y-2">
             {/* Greeting and Name */}
             <div>
               <h1 className="text-4xl md:text-6xl font-bold mb-2">
-                <div className="text-3xl md:text-5xl mb-2">
-                  {greetingText}
-                  {greetingText.length < greetingFull.length && (
-                    <span className="inline-block w-0.5 h-[0.9em] bg-foreground ml-1 animate-blink"></span>
-                  )}
-                </div>
+                {startAnimation && (
+                  <motion.div 
+                    className="text-3xl md:text-5xl mb-2"
+                    transition={{ 
+                      duration: 0.5, 
+                      ease: [0.25, 0.1, 0.25, 1] 
+                    }}
+                  >
+                    {greetingText}
+                    {greetingText.length < greetingFull.length && (
+                      <span className="inline-block w-0.5 h-[0.9em] bg-foreground ml-1 animate-blink"></span>
+                    )}
+                  </motion.div>
+                )}
                 
                 {showName && (
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
                   >
                     <MorphingName startAnimation={animationComplete} />
                   </motion.div>
@@ -140,9 +149,9 @@ export function HeroSection() {
             {/* Role Badge */}
             {showRole && (
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
                 className="relative flex justify-start"
               >
                 <div className="relative h-[50px] w-fit max-w-[90%] flex items-center justify-center overflow-visible">
@@ -190,28 +199,41 @@ export function HeroSection() {
 
             {/* Bio with typewriter */}
             {showRole && (
-              <div>
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+              >
                 <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-2">
                   {bioText}
                   {bioText.length < bioFull.length && (
                     <span className="inline-block w-0.5 h-[0.9em] bg-muted-foreground ml-1 animate-blink"></span>
                   )}
                 </p>
-              </div>
+              </motion.div>
             )}
 
             {/* Buttons with fade in */}
             {showButtons && (
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
                 className="flex flex-wrap gap-4 mb-8"
               >
-                <ButtonLink href="/#projects" icon={true}>
-                  View My Work
+                <ButtonLink 
+                  href="/#projects" 
+                  icon={true}
+                  className="relative overflow-hidden bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 group"
+                >
+                  <span className="relative z-10">View My Work</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
                 </ButtonLink>
-                <ButtonLink href="/#contact" variant="outline">
+                <ButtonLink 
+                  href="/#contact" 
+                  variant="outline"
+                  className="relative overflow-hidden border-2 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300"
+                >
                   Get In Touch
                 </ButtonLink>
               </motion.div>
@@ -220,9 +242,9 @@ export function HeroSection() {
             {/* Social icons with fade in */}
             {showButtons && (
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1], delay: 0.2 }}
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1], delay: 0.1 }}
               >
                 <div className="flex gap-6">
                   {socials.map((social) => {
