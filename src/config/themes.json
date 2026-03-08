@@ -1,0 +1,32 @@
+{
+  "themes": [
+    {
+      "name": "light",
+      "particleConfig": {
+        "enabled": true,
+        "particleCount": 65,
+        "color": "hsl(204, 100%, 40%)",
+        "linkColor": "hsl(204, 100%, 40%, 0.2)",
+        "speed": 0.8,
+        "size": 3,
+        "shape": "circle",
+        "linked": true,
+        "opacity": 0.7
+      }
+    },
+    {
+      "name": "dark",
+      "particleConfig": {
+        "enabled": true,
+        "particleCount": 65,
+        "color": "hsl(204, 100%, 50%)",
+        "linkColor": "hsl(204, 100%, 50%, 0.2)",
+        "speed": 0.8,
+        "size": 3,
+        "shape": "circle",
+        "linked": true,
+        "opacity": 0.7
+      }
+    }
+  ]
+}

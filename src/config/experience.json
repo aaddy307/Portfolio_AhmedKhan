@@ -1,0 +1,43 @@
+[
+  {
+    "id": "work-1",
+    "company": "Nexcore Alliance LLP",
+    "position": "Intern",
+    "duration": "2024 - Present",
+    "startDate": "2024-01-01",
+    "description": "Working as an intern, gaining hands-on experience in web development and contributing to real-world projects. Learning industry best practices and collaborating with experienced developers.",
+    "technologies": ["React", "Next.js", "JavaScript", "Tailwind CSS", "Web Development"],
+    "type": "work"
+  },
+  {
+    "id": "edu-1",
+    "company": "Nexcore Institute of Technology",
+    "position": "B.Voc in Artificial Intelligence & Machine Learning",
+    "duration": "2024 - 2025",
+    "startDate": "2024-01-01",
+    "description": "Pursuing a comprehensive program focused on artificial intelligence, machine learning, and their practical applications. Building expertise in programming, data analysis, and AI-driven solutions.",
+    "technologies": ["Python", "Machine Learning", "AI", "Data Science", "Programming"],
+    "type": "education"
+  },
+  {
+    "id": "edu-2",
+    "company": "Universal AI University",
+    "position": "Karjat",
+    "duration": "2024 - 2025",
+    "startDate": "2024-01-01",
+    "description": "Gained foundational knowledge in artificial intelligence and its applications, which sparked my passion for pursuing advanced studies in AI and machine learning.",
+    "technologies": ["AI Fundamentals", "Machine Learning Basics", "Programming"],
+    "type": "education"
+  },
+  {
+    "id": "edu-3",
+    "company": "Maharashtra State Board",
+    "position": "12th HSC - Science Stream",
+    "duration": "2023 - 2024",
+    "startDate": "2023-06-01",
+    "endDate": "2024-05-31",
+    "description": "Successfully completed Higher Secondary Certificate with Science stream, building a strong foundation in Physics, Chemistry, Mathematics, and Biology that paved the way for pursuing technology and AI studies.",
+    "technologies": ["Physics", "Chemistry", "Mathematics", "Biology"],
+    "type": "education"
+  }
+]

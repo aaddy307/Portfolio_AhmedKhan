@@ -1,0 +1,80 @@
+[
+  {
+    "name": "React.js",
+    "level": 70,
+    "category": "frontend",
+    "icon": "react"
+  },
+  {
+    "name": "Next.js",
+    "level": 80,
+    "category": "frontend",
+    "icon": "nextjs"
+  },
+  {
+    "name": "Tailwind CSS",
+    "level": 65,
+    "category": "frontend",
+    "icon": "tailwind"
+  },
+  {
+    "name": "JavaScript",
+    "level": 60,
+    "category": "frontend",
+    "icon": "javascript"
+  },
+  {
+    "name": "HTML5 & CSS3",
+    "level": 80,
+    "category": "frontend",
+    "icon": "html5"
+  },
+  {
+    "name": "Node.js",
+    "level": 70,
+    "category": "backend",
+    "icon": "nodejs"
+  },
+  {
+    "name": "Express.js",
+    "level": 70,
+    "category": "backend",
+    "icon": "express"
+  },
+  {
+    "name": "MongoDB",
+    "level": 82,
+    "category": "backend",
+    "icon": "mongodb"
+  },
+  {
+    "name": "MySQL",
+    "level": 78,
+    "category": "backend",
+    "icon": "mysql"
+  },
+  {
+    "name": "Git & GitHub",
+    "level": 75,
+    "category": "tools",
+    "icon": "github"
+  },
+  {
+    "name": "VS Code",
+    "level": 100,
+    "category": "tools",
+    "icon": "vscode"
+  },
+  {
+    "name": "WordPress",
+    "level": 100,
+    "category": "cms",
+    "icon": "wordpress"
+  },
+  {
+    "name": "UI/UX",
+    "level": 95,
+    "category": "design",
+    "icon": "figma"
+  }
+]
