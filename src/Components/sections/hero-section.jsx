@@ -6,6 +6,7 @@ import { ButtonLink } from "@/Components/button-link";
 import { Github, Linkedin, Instagram } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { WhatsAppIcon } from "@/Components/icons/whatsapp-icon";
+import { MorphingName } from "@/Components/morphing-name";
 import { useState, useEffect } from "react";
 
 export function HeroSection() {
@@ -19,13 +20,6 @@ export function HeroSection() {
   const [currentRole, setCurrentRole] = useState(0);
   const [roleDisplayedText, setRoleDisplayedText] = useState("");
   const [isRoleDeleting, setIsRoleDeleting] = useState(false);
-
-  const names = [
-    { text: "Ahmed Khan", lang: "en" },
-    { text: "अहमद खान", lang: "hi" },
-    { text: "احمد خان", lang: "ur" }
-  ];
-  const [currentNameIndex, setCurrentNameIndex] = useState(0);
 
   // Entry animation states
   const [greetingText, setGreetingText] = useState("");
@@ -116,24 +110,14 @@ export function HeroSection() {
     return () => clearTimeout(timer);
   }, [roleDisplayedText, isRoleDeleting, currentRole, roles, animationComplete]);
 
-  // Name rotation (only after animation complete)
-  useEffect(() => {
-    if (!animationComplete) return;
-    
-    const interval = setInterval(() => {
-      setCurrentNameIndex((prev) => (prev + 1) % names.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [animationComplete]);
-
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-20 pb-12 overflow-x-hidden">
       <div className="container mx-auto px-4 relative z-10 max-w-full">
         <div className="max-w-4xl mx-auto">
-          <div className="space-y-6">
+          <div className="space-y-4">
             {/* Greeting and Name */}
             <div>
-              <h1 className="text-4xl md:text-6xl font-bold mb-6">
+              <h1 className="text-4xl md:text-6xl font-bold mb-4">
                 <div className="text-3xl md:text-5xl mb-3">
                   {greetingText}
                   {greetingText.length < greetingFull.length && (
@@ -142,41 +126,13 @@ export function HeroSection() {
                 </div>
                 
                 {showName && (
-                  <motion.span
+                  <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-                    className="relative inline-block overflow-hidden"
-                    style={{ minWidth: '400px', height: '1.2em' }}
                   >
-                    <AnimatePresence mode="wait">
-                      <motion.span
-                        key={currentNameIndex}
-                        initial={{ 
-                          scaleX: 0,
-                          opacity: 0
-                        }}
-                        animate={{ 
-                          scaleX: 1,
-                          opacity: 1
-                        }}
-                        exit={{ 
-                          scaleX: 0,
-                          opacity: 0
-                        }}
-                        transition={{ 
-                          duration: 0.8,
-                          ease: [0.25, 0.1, 0.25, 1]
-                        }}
-                        className="text-blue-500 absolute left-0 bottom-0 whitespace-nowrap origin-left"
-                        style={{ 
-                          direction: names[currentNameIndex].lang === "ur" ? "rtl" : "ltr"
-                        }}
-                      >
-                        {names[currentNameIndex].text}..
-                      </motion.span>
-                    </AnimatePresence>
-                  </motion.span>
+                    <MorphingName startAnimation={animationComplete} />
+                  </motion.div>
                 )}
               </h1>
             </div>
