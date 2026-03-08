@@ -121,11 +121,14 @@ export function AchievementsSection() {
 
 function AchievementCard({ achievement, onSelect }) {
   return (
-    <Card className="overflow-hidden h-full flex flex-col hover:shadow-xl hover:shadow-primary/10 hover:border-primary/40 hover:-translate-y-1 transition-all duration-300 ease-out group cursor-pointer"
+    <Card className="overflow-hidden h-full flex flex-col group relative bg-card hover:shadow-2xl transition-all duration-700 border-0 rounded-2xl cursor-pointer"
       onClick={onSelect}
     >
-      {/* Certificate Image */}
-      <div className="relative h-48 overflow-hidden">
+      {/* Animated corner accent */}
+      <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-primary/30 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      
+      {/* Certificate Image with overlay */}
+      <div className="relative h-56 overflow-hidden">
         {achievement.imageUrl ? (
           <>
             <Image
@@ -134,46 +137,46 @@ function AchievementCard({ achievement, onSelect }) {
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               style={{ objectFit: "cover" }}
-              className="transition-all duration-500 grayscale brightness-110 contrast-90 group-hover:grayscale-0 group-hover:brightness-100 group-hover:contrast-100 group-hover:scale-110"
+              className="transition-all duration-700 group-hover:scale-110 filter group-hover:saturate-150"
             />
-            <div className="absolute top-3 right-3">
-              <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm group-hover:bg-primary/20 transition-colors duration-300">
-                {achievement.type}
-              </Badge>
-            </div>
           </>
         ) : (
           <div className="relative h-full bg-gradient-to-br from-primary/5 via-purple-500/5 to-pink-500/5 group-hover:from-primary/10 group-hover:via-purple-500/10 group-hover:to-pink-500/10 transition-all duration-500">
             <div className="absolute inset-0 flex items-center justify-center">
               <Award className="h-16 w-16 text-primary/20 group-hover:text-primary/40 group-hover:scale-110 transition-all duration-500" />
             </div>
-            <div className="absolute top-3 right-3">
-              <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm group-hover:bg-primary/20 transition-colors duration-300">
-                {achievement.type}
-              </Badge>
-            </div>
           </div>
         )}
+        
+        {/* Diagonal overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-background/90 via-background/40 to-transparent group-hover:from-background/70 transition-all duration-700" />
+        
+        {/* Title overlay on image */}
+        <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-0 group-hover:translate-y-[-8px] transition-transform duration-500">
+          <h3 className="text-xl font-bold text-white drop-shadow-lg line-clamp-2">
+            {achievement.title}
+          </h3>
+        </div>
+        
+        {/* Type badge overlay */}
+        <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-x-4 group-hover:translate-x-0">
+          <Badge className="bg-primary/90 backdrop-blur-sm text-primary-foreground border-0 shadow-lg">
+            {achievement.type}
+          </Badge>
+        </div>
       </div>
-      
-      <CardHeader className="flex-grow-0 pb-3">
-        <CardTitle className="line-clamp-2 text-lg group-hover:text-blue-500 transition-all duration-300">
-          {achievement.title}
-        </CardTitle>
-        <CardDescription className="flex items-center gap-1 text-sm font-medium group-hover:text-primary/80 transition-colors duration-300">
-          <Award className="h-3.5 w-3.5" />
-          {achievement.organization}
-        </CardDescription>
-      </CardHeader>
-      
-      <CardContent className="flex-grow pb-3">
-        <p className="text-sm text-muted-foreground line-clamp-3 group-hover:text-foreground/70 transition-colors duration-300">
+
+      <CardContent className="flex-grow p-5 space-y-3">
+        <div className="flex items-center gap-2 text-sm text-muted-foreground group-hover:text-primary transition-colors duration-300">
+          <Award className="h-4 w-4" />
+          <span className="font-medium">{achievement.organization}</span>
+        </div>
+        
+        <CardDescription className="line-clamp-2 text-sm leading-relaxed">
           {achievement.description}
-        </p>
-      </CardContent>
-      
-      <CardFooter className="flex flex-col gap-3 pt-3 border-t mt-auto">
-        <div className="flex items-center justify-between w-full text-xs text-muted-foreground">
+        </CardDescription>
+        
+        <div className="flex items-center justify-between text-xs text-muted-foreground pt-2">
           <div className="flex items-center gap-1.5">
             <Calendar className="h-3.5 w-3.5" />
             <span>{achievement.date}</span>
@@ -183,13 +186,15 @@ function AchievementCard({ achievement, onSelect }) {
             <span>{achievement.duration}</span>
           </div>
         </div>
-        
+      </CardContent>
+
+      <CardFooter className="p-5 pt-0">
         <Button 
-          variant="ghost" 
-          size="sm" 
-          className="w-full group-hover:bg-primary/5 group-hover:text-primary transition-all duration-300"
+          className="w-full rounded-full font-semibold group-hover:shadow-lg group-hover:shadow-primary/30 transition-all duration-300"
+          size="lg"
         >
-          View Details <ExternalLink className="ml-2 h-3.5 w-3.5" />
+          View Certificate
+          <ExternalLink className="ml-2 h-4 w-4 group-hover:translate-x-2 transition-transform duration-300" />
         </Button>
       </CardFooter>
     </Card>

@@ -89,80 +89,103 @@ export function ProjectsSection() {
 
 function ProjectCard({ project, onSelect }) {
   return (
-    <Card className="overflow-visible h-full flex flex-col hover:shadow-xl hover:shadow-primary/10 hover:border-primary/40 hover:-translate-y-1 transition-all duration-300 ease-out group">
-      <div className="relative h-48 overflow-hidden rounded-t-lg group/image">
+    <Card className="overflow-hidden h-full flex flex-col group relative bg-card hover:shadow-2xl transition-all duration-700 border-0 rounded-2xl">
+      {/* Animated corner accent */}
+      <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-primary/30 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      
+      {/* Image with split reveal effect */}
+      <div className="relative h-56 overflow-hidden">
         <Image
           src={project.imageUrl}
           alt={project.title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           style={{ objectFit: "cover" }}
-          className="transition-all duration-500 grayscale brightness-110 contrast-90 group-hover:grayscale-0 group-hover:brightness-100 group-hover:contrast-100 group-hover:scale-110"
+          className="transition-all duration-700 group-hover:scale-110 filter group-hover:saturate-150"
         />
+        {/* Diagonal overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-background/90 via-background/40 to-transparent group-hover:from-background/70 transition-all duration-700" />
+        
+        {/* Title overlay on image */}
+        <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-0 group-hover:translate-y-[-8px] transition-transform duration-500">
+          <h3 className="text-xl font-bold text-white drop-shadow-lg line-clamp-1">
+            {project.title}
+          </h3>
+        </div>
+        
+        {/* Action buttons overlay */}
+        <div className="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-x-4 group-hover:translate-x-0">
+          {project.figmaUrl && (
+            <Button 
+              variant="secondary" 
+              size="icon" 
+              asChild 
+              className="h-9 w-9 rounded-full shadow-lg backdrop-blur-sm bg-background/90 hover:bg-primary hover:text-primary-foreground"
+            >
+              <a href={project.figmaUrl} target="_blank" rel="noopener noreferrer">
+                <Figma className="h-4 w-4" />
+              </a>
+            </Button>
+          )}
+          {project.githubUrl && (
+            <Button 
+              variant="secondary" 
+              size="icon" 
+              asChild 
+              className="h-9 w-9 rounded-full shadow-lg backdrop-blur-sm bg-background/90 hover:bg-primary hover:text-primary-foreground"
+            >
+              <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                <Github className="h-4 w-4" />
+              </a>
+            </Button>
+          )}
+          {project.liveUrl && (
+            <Button 
+              variant="secondary" 
+              size="icon" 
+              asChild 
+              className="h-9 w-9 rounded-full shadow-lg backdrop-blur-sm bg-background/90 hover:bg-primary hover:text-primary-foreground"
+            >
+              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                <ExternalLink className="h-4 w-4" />
+              </a>
+            </Button>
+          )}
+        </div>
       </div>
-      <CardHeader className="flex-grow-0">
-        <CardTitle className="line-clamp-1 group-hover:text-blue-500 transition-all duration-300">{project.title}</CardTitle>
-        <CardDescription className="line-clamp-2 min-h-[2.5rem] group-hover:text-foreground/80 transition-colors duration-300">{project.description}</CardDescription>
-      </CardHeader>
-      <CardContent className="flex-grow">
-        <div className="flex flex-wrap gap-2 min-h-[2rem]">
-          {project.tags.slice(0, 3).map((tag) => (
-            <Badge key={tag} variant="secondary" className="group-hover:bg-primary/10 group-hover:text-primary transition-colors duration-300">
+
+      <CardContent className="flex-grow p-5 space-y-3">
+        <CardDescription className="line-clamp-2 text-sm leading-relaxed">
+          {project.description}
+        </CardDescription>
+        
+        <div className="flex flex-wrap gap-2">
+          {project.tags.map((tag, index) => (
+            <Badge 
+              key={tag} 
+              variant="secondary" 
+              className="text-xs px-2.5 py-0.5 rounded-full bg-primary/10 text-primary border-0 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300"
+              style={{ transitionDelay: `${index * 50}ms` }}
+            >
               {tag}
             </Badge>
           ))}
-          {project.tags.length > 3 && (
-            <Badge variant="outline" className="group-hover:border-primary/40 transition-colors duration-300">+{project.tags.length - 3}</Badge>
-          )}
         </div>
       </CardContent>
-      <CardFooter className="flex justify-between mt-auto pt-4">
+
+      <CardFooter className="p-5 pt-0">
         <Dialog>
           <DialogTrigger asChild>
-            <Button variant="ghost" size="sm" onClick={onSelect} className="group-hover:text-primary transition-colors duration-300">
-              Learn More <ArrowRight className="ml-2 h-4 w-4" />
+            <Button 
+              onClick={onSelect} 
+              className="w-full rounded-full font-semibold group-hover:shadow-lg group-hover:shadow-primary/30 transition-all duration-300"
+              size="lg"
+            >
+              View Details
+              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-2 transition-transform duration-300" />
             </Button>
           </DialogTrigger>
         </Dialog>
-        
-        <div className="flex gap-2">
-          {project.figmaUrl && (
-            <div className="relative group/tooltip">
-              <Button variant="outline" size="icon" asChild className="hover:bg-primary/5 hover:border-primary/40 hover:shadow-md transition-all duration-300">
-                <a href={project.figmaUrl} target="_blank" rel="noopener noreferrer" aria-label="Figma Design">
-                  <Figma className="h-4 w-4 group-hover/tooltip:scale-110 transition-transform duration-300" />
-                </a>
-              </Button>
-              <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 text-xs text-white bg-gray-900 dark:bg-gray-800 rounded-md opacity-0 group-hover/tooltip:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50 shadow-lg">
-                Open Figma File
-              </span>
-            </div>
-          )}
-          {project.githubUrl && (
-            <div className="relative group/tooltip">
-              <Button variant="outline" size="icon" asChild className="hover:bg-primary/5 hover:border-primary/40 hover:shadow-md transition-all duration-300">
-                <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" aria-label="GitHub Repository">
-                  <Github className="h-4 w-4 group-hover/tooltip:scale-110 transition-transform duration-300" />
-                </a>
-              </Button>
-              <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 text-xs text-white bg-gray-900 dark:bg-gray-800 rounded-md opacity-0 group-hover/tooltip:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50 shadow-lg">
-                GitHub Repository
-              </span>
-            </div>
-          )}
-          {project.liveUrl && (
-            <div className="relative group/tooltip">
-              <Button variant="outline" size="icon" asChild className="hover:bg-primary/5 hover:border-primary/40 hover:shadow-md transition-all duration-300">
-                <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" aria-label="Live Demo">
-                  <ExternalLink className="h-4 w-4 group-hover/tooltip:scale-110 transition-transform duration-300" />
-                </a>
-              </Button>
-              <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 text-xs text-white bg-gray-900 dark:bg-gray-800 rounded-md opacity-0 group-hover/tooltip:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50 shadow-lg">
-                Live Demo
-              </span>
-            </div>
-          )}
-        </div>
       </CardFooter>
     </Card>
   );

@@ -2,6 +2,7 @@
 
 import { SectionContainer } from "@/Components/section-container";
 import { SectionHeading } from "@/Components/section-heading";
+import { RadialIntro } from "@/Components/radial-intro";
 import { getSkills } from "@/lib/config";
 import { Progress } from "@/Components/ui/progress";
 import { motion } from "framer-motion";
@@ -18,7 +19,7 @@ const skillIcons = {
   express: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/express/express-original-wordmark.svg",
   mongodb: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
   mysql: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg",
-  github: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original-wordmark.svg",
+  github: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg",
   vscode: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg",
   wordpress: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/wordpress/wordpress-plain.svg",
   figma: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg",
@@ -70,6 +71,18 @@ export function AboutSection() {
     skill.category !== "tools"
   );
 
+  // Radial intro items based on skills
+  const radialItems = [
+    { id: 1, name: "React", src: skillIcons.react },
+    { id: 2, name: "Next.js", src: skillIcons.nextjs },
+    { id: 3, name: "Tailwind CSS", src: skillIcons.tailwind },
+    { id: 4, name: "JavaScript", src: skillIcons.javascript },
+    { id: 5, name: "Node.js", src: skillIcons.nodejs },
+    { id: 6, name: "MongoDB", src: skillIcons.mongodb },
+    { id: 7, name: "Figma", src: skillIcons.figma },
+    { id: 8, name: "GitHub", src: skillIcons.github, invert: true },
+  ];
+
   return (
     <SectionContainer id="about">
       <SectionHeading 
@@ -77,12 +90,25 @@ export function AboutSection() {
         subtitle="I'm a passionate web developer with a focus on creating beautiful, functional, and user-friendly experiences."
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12 items-center">
+        {/* Radial Intro - Left Side */}
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
+          initial={{ opacity: 0, scale: 0.8 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true, margin: "-100px" }}
+          className="lg:col-span-1 flex items-center justify-center"
+        >
+          <RadialIntro orbitItems={radialItems} />
+        </motion.div>
+
+        {/* Who I Am - Right Side */}
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true, margin: "-100px" }}
+          className="lg:col-span-2 flex flex-col justify-center"
         >
           <h3 className="text-xl font-semibold mb-4">Who I Am</h3>
           <div className="space-y-4 text-muted-foreground">
@@ -97,10 +123,12 @@ export function AboutSection() {
             </p>
           </div>
         </motion.div>
+      </div>
 
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="space-y-8">
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
+            initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true, margin: "-100px" }}
@@ -112,11 +140,13 @@ export function AboutSection() {
               ))}
             </div>
           </motion.div>
+        </div>
 
+        <div className="space-y-8">
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={{ duration: 0.5 }}
             viewport={{ once: true, margin: "-100px" }}
           >
             <h3 className="text-xl font-semibold mb-4">Backend Skills</h3>
@@ -131,7 +161,7 @@ export function AboutSection() {
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
               viewport={{ once: true, margin: "-100px" }}
             >
               <h3 className="text-xl font-semibold mb-4">Tools & Others</h3>
@@ -147,7 +177,7 @@ export function AboutSection() {
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
               viewport={{ once: true, margin: "-100px" }}
             >
               <h3 className="text-xl font-semibold mb-4">Design Skills</h3>
