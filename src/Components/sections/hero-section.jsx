@@ -114,11 +114,11 @@ export function HeroSection() {
     <section className="relative min-h-screen flex items-center justify-center pt-20 pb-12 overflow-x-hidden">
       <div className="container mx-auto px-4 relative z-10 max-w-full">
         <div className="max-w-4xl mx-auto">
-          <div className="space-y-4">
+          <div className="space-y-2">
             {/* Greeting and Name */}
             <div>
-              <h1 className="text-4xl md:text-6xl font-bold mb-4">
-                <div className="text-3xl md:text-5xl mb-3">
+              <h1 className="text-4xl md:text-6xl font-bold mb-2">
+                <div className="text-3xl md:text-5xl mb-2">
                   {greetingText}
                   {greetingText.length < greetingFull.length && (
                     <span className="inline-block w-0.5 h-[0.9em] bg-foreground ml-1 animate-blink"></span>
@@ -191,7 +191,7 @@ export function HeroSection() {
             {/* Bio with typewriter */}
             {showRole && (
               <div>
-                <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-6">
+                <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-2">
                   {bioText}
                   {bioText.length < bioFull.length && (
                     <span className="inline-block w-0.5 h-[0.9em] bg-muted-foreground ml-1 animate-blink"></span>
@@ -206,7 +206,7 @@ export function HeroSection() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-                className="flex flex-wrap gap-4 mb-6"
+                className="flex flex-wrap gap-4 mb-8"
               >
                 <ButtonLink href="/#projects" icon={true}>
                   View My Work

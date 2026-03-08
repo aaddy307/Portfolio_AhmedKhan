@@ -50,7 +50,7 @@ export function Navbar() {
   return (
     <motion.header
       className={cn(
-        "fixed top-0 w-full z-40 backdrop-blur-sm transition-all duration-300 overflow-x-hidden",
+        "fixed top-0 w-full z-50 backdrop-blur-sm transition-all duration-300 overflow-x-hidden",
         scrollY.get() > 50 ? "bg-background/80" : "bg-transparent"
       )}
       initial={{ y: 0 }}
@@ -68,7 +68,7 @@ export function Navbar() {
           </motion.span>
         </Link>
         
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 relative z-50">
           <nav className="hidden md:flex items-center gap-2">
             {navItems.map((item, i) => (
               <motion.div
@@ -92,15 +92,14 @@ export function Navbar() {
           
           <ThemeSwitch />
           
-          <Button
-            variant="ghost"
-            size="icon"
-            className="md:hidden"
+          <button
+            className="md:hidden p-2 hover:bg-accent rounded-md transition-colors relative z-50"
             onClick={toggleMenu}
             aria-label="Toggle menu"
+            type="button"
           >
-            {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </Button>
+            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
         </div>
       </div>
       

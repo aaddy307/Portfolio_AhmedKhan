@@ -173,59 +173,59 @@ function ProjectDialog({ project, onClose }) {
   
   return (
     <Dialog open={!!project} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto w-[95vw] sm:w-full">
         <DialogHeader>
-          <DialogTitle className="text-2xl">{project.title}</DialogTitle>
-          <DialogDescription>{project.description}</DialogDescription>
+          <DialogTitle className="text-xl sm:text-2xl pr-8">{project.title}</DialogTitle>
+          <DialogDescription className="text-sm sm:text-base">{project.description}</DialogDescription>
         </DialogHeader>
         
-        <div className="relative h-64 md:h-96 overflow-hidden rounded-lg">
+        <div className="relative h-48 sm:h-64 md:h-96 overflow-hidden rounded-lg">
           <Image
             src={project.imageUrl}
             alt={project.title}
             fill
-            sizes="(max-width: 768px) 100vw, 896px"
+            sizes="(max-width: 768px) 95vw, 896px"
             style={{ objectFit: "cover" }}
           />
         </div>
         
         <div className="mt-4">
-          <h4 className="text-lg font-semibold mb-2">About this project</h4>
-          <p className="text-muted-foreground">
+          <h4 className="text-base sm:text-lg font-semibold mb-2">About this project</h4>
+          <p className="text-muted-foreground text-sm sm:text-base">
             {project.longDescription || project.description}
           </p>
         </div>
         
         <div className="mt-4">
-          <h4 className="text-lg font-semibold mb-2">Technologies</h4>
+          <h4 className="text-base sm:text-lg font-semibold mb-2">Technologies</h4>
           <div className="flex flex-wrap gap-2">
             {project.tags.map((tag) => (
-              <Badge key={tag} variant="secondary">
+              <Badge key={tag} variant="secondary" className="text-xs sm:text-sm">
                 {tag}
               </Badge>
             ))}
           </div>
         </div>
         
-        <div className="flex gap-4 mt-6">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-6">
           {project.figmaUrl && (
-            <Button variant="outline" asChild>
+            <Button variant="outline" asChild className="w-full sm:w-auto text-sm">
               <a href={project.figmaUrl} target="_blank" rel="noopener noreferrer">
-                View Figma Design <Figma className="ml-2 h-4 w-4" />
+                View Figma <Figma className="ml-2 h-4 w-4" />
               </a>
             </Button>
           )}
           {project.liveUrl && (
-            <Button asChild>
+            <Button asChild className="w-full sm:w-auto text-sm">
               <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                View Live Demo <ExternalLink className="ml-2 h-4 w-4" />
+                Live Demo <ExternalLink className="ml-2 h-4 w-4" />
               </a>
             </Button>
           )}
           {project.githubUrl && (
-            <Button variant="outline" asChild>
+            <Button variant="outline" asChild className="w-full sm:w-auto text-sm">
               <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                GitHub Repository <Github className="ml-2 h-4 w-4" />
+                GitHub <Github className="ml-2 h-4 w-4" />
               </a>
             </Button>
           )}

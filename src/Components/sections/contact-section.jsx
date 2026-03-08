@@ -41,16 +41,16 @@ export function ContactSection() {
           <div className="space-y-6">
             <Card className="hover:border-primary transition-all duration-300 cursor-pointer">
               <CardContent className="flex items-center gap-4 p-6">
-                <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+                <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                   <Mail className="h-5 w-5 text-primary" />
                 </div>
-                <div>
+                <div className="min-w-0 flex-1">
                   <p className="text-sm text-muted-foreground">Email</p>
                   <a 
                     href={`https://mail.google.com/mail/?view=cm&fs=1&to=${personalInfo.email}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-medium hover:text-primary transition-colors"
+                    className="font-medium hover:text-primary transition-colors break-all text-sm sm:text-base"
                   >
                     {personalInfo.email}
                   </a>

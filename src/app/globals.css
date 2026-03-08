@@ -73,6 +73,17 @@
     width: 100%;
     position: relative;
   }
+  
+  /* Show default cursor on mobile/touch devices */
+  @media (hover: none) and (pointer: coarse) {
+    body {
+      cursor: auto !important;
+    }
+    
+    body * {
+      cursor: auto !important;
+    }
+  }
 }
 
 /* Custom Cursor Styles */
@@ -117,6 +128,13 @@
 /* Cursor styles for interactive elements */
 a, button, [role="button"], input, textarea, select {
   cursor: none;
+}
+
+/* Show default cursor on mobile/touch devices */
+@media (hover: none) and (pointer: coarse) {
+  a, button, [role="button"], input, textarea, select {
+    cursor: auto !important;
+  }
 }
 
 /* Blink animation for typewriter cursor */

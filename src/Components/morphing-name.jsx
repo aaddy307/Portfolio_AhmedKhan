@@ -28,7 +28,7 @@ export function MorphingName({ startAnimation }) {
   }, [startAnimation]);
 
   return (
-    <div className="relative inline-block" style={{ minWidth: '320px', minHeight: '1.3em' }}>
+    <div className="relative inline-flex items-center justify-center w-full" style={{ maxWidth: '100%', height: '1.5em', padding: '0.2em 0' }}>
       <AnimatePresence mode="wait">
         <motion.div
           key={currentIndex}
@@ -54,13 +54,13 @@ export function MorphingName({ startAnimation }) {
             duration: 0.8,
             ease: [0.25, 0.1, 0.25, 1]
           }}
-          className="absolute left-0 top-0 w-full"
+          className="absolute left-0 top-0 w-full h-full flex items-center justify-start px-2"
           style={{ 
             direction: names[currentIndex].lang === "ur" ? "rtl" : "ltr"
           }}
         >
           <motion.span 
-            className="text-blue-500 font-bold whitespace-nowrap inline-block relative"
+            className="text-blue-500 font-bold whitespace-nowrap inline-block relative text-4xl md:text-6xl"
             initial={{ 
               opacity: 0,
               y: 25,
@@ -85,12 +85,13 @@ export function MorphingName({ startAnimation }) {
             }}
             style={{
               textShadow: isTransitioning 
-                ? "0 0 30px rgba(59, 130, 246, 0.6), 0 0 60px rgba(59, 130, 246, 0.4), 0 0 90px rgba(59, 130, 246, 0.2)"
-                : "0 0 15px rgba(59, 130, 246, 0.3), 0 0 30px rgba(59, 130, 246, 0.15)",
+                ? "0 0 10px rgba(59, 130, 246, 0.4), 0 0 20px rgba(59, 130, 246, 0.2)"
+                : "0 0 5px rgba(59, 130, 246, 0.3)",
               transition: "text-shadow 0.4s ease-in-out",
               transformStyle: 'preserve-3d',
               transformOrigin: 'center center',
-              perspective: '1000px'
+              perspective: '1000px',
+              filter: isTransitioning ? 'drop-shadow(0 0 8px rgba(59, 130, 246, 0.3))' : 'none'
             }}
           >
             {names[currentIndex].text}
