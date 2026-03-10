@@ -7,8 +7,21 @@ export function CustomCursor() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
 
   useEffect(() => {
+    // Check if device is touch-only
+    const checkTouchDevice = () => {
+      return window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+    };
+    
+    setIsTouchDevice(checkTouchDevice());
+    
+    // Don't set up cursor on touch devices
+    if (checkTouchDevice()) {
+      return;
+    }
+
     const updateMousePosition = (e) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
@@ -44,11 +57,16 @@ export function CustomCursor() {
     };
   }, []);
 
+  // Don't render cursor on touch devices
+  if (isTouchDevice) {
+    return null;
+  }
+
   return (
     <>
       {/* Main cursor dot */}
       <motion.div
-        className="custom-cursor-dot"
+        className="custom-cursor-dot hidden md:block"
         animate={{
           x: mousePosition.x - 6,
           y: mousePosition.y - 6,
@@ -64,7 +82,7 @@ export function CustomCursor() {
 
       {/* Cursor ring */}
       <motion.div
-        className="custom-cursor-ring"
+        className="custom-cursor-ring hidden md:block"
         animate={{
           x: mousePosition.x - 20,
           y: mousePosition.y - 20,

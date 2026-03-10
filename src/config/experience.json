@@ -12,10 +12,10 @@
   {
     "id": "edu-1",
     "company": "Nexcore Institute of Technology",
-    "position": "B.Voc in Artificial Intelligence & Machine Learning",
-    "duration": "2024 - 2025",
-    "startDate": "2024-01-01",
-    "description": "Pursuing a comprehensive program focused on artificial intelligence, machine learning, and their practical applications. Building expertise in programming, data analysis, and AI-driven solutions.",
+    "position": "B.Voc in Artificial Intelligence & Data Science (AI & DS)",
+    "duration": "2025 - Present",
+    "startDate": "2025-01-01",
+    "description": "Pursuing a comprehensive program focused on artificial intelligence, data science, and their practical applications. Building expertise in programming, data analysis, and AI-driven solutions.",
     "technologies": ["Python", "Machine Learning", "AI", "Data Science", "Programming"],
     "type": "education"
   },
@@ -23,9 +23,10 @@
     "id": "edu-2",
     "company": "Universal AI University",
     "position": "Karjat",
-    "duration": "2024 - 2025",
+    "duration": "2024",
     "startDate": "2024-01-01",
-    "description": "Gained foundational knowledge in artificial intelligence and its applications, which sparked my passion for pursuing advanced studies in AI and machine learning.",
+    "endDate": "2024-12-31",
+    "description": "Ex-student of Universal AI University, Karjat. Completed 1st year.",
     "technologies": ["AI Fundamentals", "Machine Learning Basics", "Programming"],
     "type": "education"
   },
@@ -36,8 +37,8 @@
     "duration": "2023 - 2024",
     "startDate": "2023-06-01",
     "endDate": "2024-05-31",
-    "description": "Successfully completed Higher Secondary Certificate with Science stream, building a strong foundation in Physics, Chemistry, Mathematics, and Biology that paved the way for pursuing technology and AI studies.",
-    "technologies": ["Physics", "Chemistry", "Mathematics", "Biology"],
+    "description": "Successfully completed Higher Secondary Certificate with Science stream, building a strong foundation in Physics, Chemistry, and Mathematics that paved the way for pursuing technology and AI studies.",
+    "technologies": ["Physics", "Chemistry", "Mathematics"],
     "type": "education"
   }
 ]

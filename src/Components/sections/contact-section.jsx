@@ -69,35 +69,6 @@ export function ContactSection() {
                 </div>
               </CardContent>
             </Card>
-            
-            {personalInfo.phone && (
-              <Card 
-                className="hover:border-primary transition-all duration-300 cursor-pointer"
-                onClick={copyToClipboard}
-              >
-                <CardContent className="flex items-center gap-4 p-6">
-                  <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Phone className="h-5 w-5 text-primary" />
-                  </div>
-                  <div className="flex-grow">
-                    <p className="text-sm text-muted-foreground">Phone</p>
-                    <p className="font-medium hover:text-primary transition-colors">
-                      {personalInfo.phone}
-                    </p>
-                  </div>
-                  {copied && (
-                    <motion.span
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0 }}
-                      className="text-sm text-primary font-medium"
-                    >
-                      Copied!
-                    </motion.span>
-                  )}
-                </CardContent>
-              </Card>
-            )}
           </div>
         </motion.div>
       </div>

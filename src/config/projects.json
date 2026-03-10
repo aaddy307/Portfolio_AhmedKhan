@@ -4,7 +4,7 @@
     "title": "Airbnb Clone",
     "description": "A complete front-end clone of the Airbnb website built using pure HTML and Tailwind CSS.",
     "longDescription": "A complete front-end clone of the Airbnb website built using pure HTML and Tailwind CSS. This project showcases modern web design principles, responsive layouts, and attention to detail in recreating the Airbnb user interface. The design is fully responsive and optimized for all screen sizes, demonstrating proficiency in HTML structure and Tailwind CSS utility classes. Key features include pixel-perfect recreation of Airbnb's homepage, fully responsive design for all devices, modern UI components and layouts, clean and semantic HTML structure, utility-first CSS with Tailwind, and optimized for performance and accessibility.",
-    "tags": ["Web Development"],
+    "tags": ["HTML", "Tailwind CSS"],
     "imageUrl": "/projects/airbnb.png",
     "githubUrl": "https://github.com/aaddy307/AirBNB_Clone.git",
     "featured": true
@@ -14,7 +14,7 @@
     "title": "Netflix Clone",
     "description": "A complete design-to-code Netflix clone project that showcases the full development workflow.",
     "longDescription": "A complete design-to-code Netflix clone project that showcases the full development workflow. Starting with high-fidelity UI/UX design in Figma, the project was then brought to life using pure HTML and CSS. This project demonstrates expertise in both design thinking and front-end development, featuring Netflix's signature dark theme, card-based layouts, hover effects, and responsive design patterns. The implementation includes custom CSS animations, grid layouts, and attention to detail in recreating the streaming platform's user experience.",
-    "tags": ["Web Design", "Web Development"],
+    "tags": ["HTML", "CSS"],
     "imageUrl": "/projects/netflix1.svg",
     "githubUrl": "https://github.com/aaddy307/Netflix_Clone.git",
     "figmaUrl": "https://www.figma.com/design/wWvb2jAu6Ff3GSgr4oKLhL/NETFLIX?node-id=0-1&t=NwszoJ2SVE1V6bUQ-1",
@@ -25,7 +25,7 @@
     "title": "Zepto App Clone",
     "description": "A complete Figma-based clone of the Zepto app, focusing on replicating the original app's user interface.",
     "longDescription": "A complete Figma-based clone of the Zepto app, focusing on replicating the original app's user interface, interactions, and navigation flow. The project emphasizes attention to detail, consistency, and UI best practices. Features include high-fidelity UI recreation, interactive prototype for app flow, consistent design patterns and components, focus on user-friendly navigation, and attention to detail in spacing, typography, and colors.",
-    "tags": ["Web Design"],
+    "tags": ["Figma"],
     "imageUrl": "/projects/zepto.png",
     "figmaUrl": "https://www.figma.com/design/TDkwpqsgNs8ETJtOVkqE8P/ZEPTO?node-id=0-1&t=xKNjXS9gzZy6GYvD-1",
     "featured": true
@@ -35,7 +35,7 @@
     "title": "Snapdeal Website Clone",
     "description": "A Figma-based clone of the Snapdeal website, replicating its homepage, product listing, and category navigation.",
     "longDescription": "This project is a Figma-based clone of the Snapdeal website, replicating its homepage, product listing, and category navigation. The design emphasizes clean layouts, intuitive navigation, and interactive elements to showcase a realistic web shopping experience. Features include high-fidelity recreation of Snapdeal website pages, interactive prototype to demonstrate user flow, consistent visual components and spacing, focus on user-friendly browsing and shopping experience, responsive web design considerations, and attention to typography, colors, and layout.",
-    "tags": ["Web Design"],
+    "tags": ["Figma"],
     "imageUrl": "/projects/Snapdeal.svg",
     "figmaUrl": "https://www.figma.com/design/IA4CXbGEoriGk5aQ889aGH/SNAPDEAL?node-id=0-1&t=03XV5VgBAnptxk2q-1",
     "featured": true
@@ -45,7 +45,7 @@
     "title": "Travel Website Design",
     "description": "A complete Figma-based travel website design emphasizing modern aesthetics and user-friendly navigation. (Client Work - NDA)",
     "longDescription": "A complete Figma-based travel website design, emphasizing modern aesthetics, easy-to-use navigation, and engaging user interactions. The design includes destination pages, booking interface, and responsive layouts suitable for both desktop and mobile. Note: This is real client work, and due to confidentiality agreements, I don't have permission to show the full design publicly. Features include high-fidelity UI screens for a travel website, interactive prototype showcasing user flow, responsive design for desktop and mobile, clean and modern visual aesthetics, consistent design system and components, and focus on user-friendly booking and exploration experience.",
-    "tags": ["Web Design"],
+    "tags": ["Figma", "Client Work"],
     "imageUrl": "https://images.pexels.com/photos/346885/pexels-photo-346885.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     "featured": true
   }
