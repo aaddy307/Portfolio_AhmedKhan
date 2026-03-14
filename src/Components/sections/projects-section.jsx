@@ -234,7 +234,7 @@ function ProjectDialog({ project, onClose }) {
       }
     }}>
       <DialogContent className="max-w-3xl max-h-[90vh] w-[95vw] sm:w-full pt-16 md:pt-14" style={{ WebkitOverflowScrolling: 'touch' }}>
-        <DialogHeader className="pr-12">
+        <DialogHeader className="pr-12 text-left sm:text-center">
           <DialogTitle className="text-xl sm:text-2xl pr-4">{project.title}</DialogTitle>
           <DialogDescription className="text-sm sm:text-base">{project.description}</DialogDescription>
         </DialogHeader>

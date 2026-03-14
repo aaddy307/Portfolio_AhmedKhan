@@ -245,7 +245,7 @@ function AchievementDialog({ achievement, onClose }) {
       }
     }}>
       <DialogContent className="max-w-2xl max-h-[90vh] w-[95vw] sm:w-full pt-16 md:pt-14" style={{ WebkitOverflowScrolling: 'touch' }}>
-        <DialogHeader className="pr-12">
+        <DialogHeader className="pr-12 text-left sm:text-center">
           <div className="flex items-start justify-between gap-4">
             <div className="flex-1 pr-4">
               <DialogTitle className="text-lg md:text-2xl mb-2 leading-tight">{achievement.title}</DialogTitle>
