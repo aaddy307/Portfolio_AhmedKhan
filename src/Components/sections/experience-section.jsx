@@ -84,7 +84,7 @@ function ExperienceItem({ experience, index }) {
           ease: "easeOut"
         }}
         viewport={{ once: true, amount: 0.15 }}
-        className="ml-[7.5rem] transition-all duration-300 ease-out hover:ml-[7.75rem]"
+        className="ml-[7.5rem] transition-all duration-300 ease-out hover:ml-[7.75rem] md:hover:mr-[-3rem]"
       >
         <Card className="relative hover:border-primary transition-all duration-300 ease-out">
           <CardHeader className="relative">

@@ -230,7 +230,7 @@ export function HeroSection() {
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
                 </ButtonLink>
                 <ButtonLink 
-                  href="/resume.pdf" 
+                  href="/resume/AhmedKhan_Resume.pdf" 
                   newTab={true}
                   variant="default"
                   className="relative overflow-hidden bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 text-sm md:text-base w-full sm:w-auto"
