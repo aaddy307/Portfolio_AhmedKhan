@@ -109,7 +109,7 @@ export function HeroSection() {
   }, [roleDisplayedText, isRoleDeleting, currentRole, roles, animationComplete]);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center pt-16 md:pt-20 pb-8 md:pb-12 overflow-x-hidden">
+    <section className="relative min-h-screen flex items-center justify-center pt-20 md:pt-24 pb-8 md:pb-12 overflow-x-hidden">
       {/* Code Snippet Animation - Right Side */}
       <CodeSnippetAnimation />
       
@@ -204,7 +204,7 @@ export function HeroSection() {
                 animate={{ height: "auto", opacity: 1 }}
                 transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
               >
-                <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-2">
+                <p className="text-base md:text-lg text-muted-foreground max-w-3xl mb-2 leading-relaxed">
                   {bioText}
                   {bioText.length < bioFull.length && (
                     <span className="inline-block w-0.5 h-[0.9em] bg-muted-foreground ml-1 animate-blink"></span>
@@ -219,12 +219,12 @@ export function HeroSection() {
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-                className="flex flex-wrap gap-3 md:gap-4 mb-8"
+                className="flex flex-col sm:flex-row flex-wrap gap-3 md:gap-4 mb-8"
               >
                 <ButtonLink 
                   href="/#projects" 
                   icon={true}
-                  className="relative overflow-hidden bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 group text-sm md:text-base"
+                  className="relative overflow-hidden bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 group text-sm md:text-base w-full sm:w-auto"
                 >
                   <span className="relative z-10">View My Work</span>
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
@@ -233,14 +233,14 @@ export function HeroSection() {
                   href="/resume.pdf" 
                   newTab={true}
                   variant="default"
-                  className="relative overflow-hidden bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 text-sm md:text-base"
+                  className="relative overflow-hidden bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 text-sm md:text-base w-full sm:w-auto"
                 >
                   Download Resume ↓
                 </ButtonLink>
                 <ButtonLink 
                   href="/#contact" 
                   variant="outline"
-                  className="relative overflow-hidden border-2 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300 text-sm md:text-base"
+                  className="relative overflow-hidden border-2 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300 text-sm md:text-base w-full sm:w-auto"
                 >
                   Get In Touch
                 </ButtonLink>

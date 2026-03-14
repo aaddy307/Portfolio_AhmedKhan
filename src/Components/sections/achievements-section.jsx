@@ -1,14 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SectionContainer } from "@/Components/section-container";
 import { SectionHeading } from "@/Components/section-heading";
 import { motion } from "framer-motion";
 import { Badge } from "@/Components/ui/badge";
 import { Button } from "@/Components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/Components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter } from "@/Components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/Components/ui/dialog";
-import { Award, Calendar, Clock, ExternalLink } from "lucide-react";
+import { Award, Calendar, Clock, ExternalLink, X } from "lucide-react";
 import Image from "next/image";
 
 const achievements = [
@@ -100,8 +100,8 @@ export function AchievementsSection() {
             key={achievement.id}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.5, delay: index * 0.08 }}
+            viewport={{ once: true, amount: 0.15 }}
           >
             <AchievementCard 
               achievement={achievement} 
@@ -121,11 +121,11 @@ export function AchievementsSection() {
 
 function AchievementCard({ achievement, onSelect }) {
   return (
-    <Card className="overflow-hidden h-full flex flex-col group relative bg-card hover:shadow-2xl transition-all duration-700 border-0 rounded-2xl cursor-pointer"
+    <Card className="overflow-hidden h-full flex flex-col group relative bg-card hover:shadow-2xl transition-all duration-300 border-0 rounded-2xl cursor-pointer"
       onClick={onSelect}
     >
       {/* Animated corner accent */}
-      <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-primary/30 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-primary/30 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       
       {/* Certificate Image with overlay */}
       <div className="relative h-56 overflow-hidden">
@@ -137,29 +137,29 @@ function AchievementCard({ achievement, onSelect }) {
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               style={{ objectFit: "cover" }}
-              className="transition-all duration-700 group-hover:scale-110 filter group-hover:saturate-150"
+              className="transition-transform duration-300 group-hover:scale-105"
             />
           </>
         ) : (
-          <div className="relative h-full bg-gradient-to-br from-primary/5 via-purple-500/5 to-pink-500/5 group-hover:from-primary/10 group-hover:via-purple-500/10 group-hover:to-pink-500/10 transition-all duration-500">
+          <div className="relative h-full bg-gradient-to-br from-primary/5 via-purple-500/5 to-pink-500/5 group-hover:from-primary/10 group-hover:via-purple-500/10 group-hover:to-pink-500/10 transition-all duration-300">
             <div className="absolute inset-0 flex items-center justify-center">
-              <Award className="h-16 w-16 text-primary/20 group-hover:text-primary/40 group-hover:scale-110 transition-all duration-500" />
+              <Award className="h-16 w-16 text-primary/20 group-hover:text-primary/40 group-hover:scale-110 transition-all duration-300" />
             </div>
           </div>
         )}
         
         {/* Diagonal overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/40 to-transparent group-hover:from-black/70 transition-all duration-700" />
+        <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/40 to-transparent group-hover:from-black/70 transition-all duration-300" />
         
         {/* Title overlay on image */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-0 group-hover:translate-y-[-8px] transition-transform duration-500">
+        <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-0 group-hover:translate-y-[-4px] transition-transform duration-300">
           <h3 className="text-xl font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] line-clamp-2">
             {achievement.title}
           </h3>
         </div>
         
         {/* Type badge overlay */}
-        <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-x-4 group-hover:translate-x-0">
+        <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-4 group-hover:translate-x-0">
           <Badge className="bg-primary/90 backdrop-blur-sm text-primary-foreground border-0 shadow-lg">
             {achievement.type}
           </Badge>
@@ -188,13 +188,13 @@ function AchievementCard({ achievement, onSelect }) {
         </div>
       </CardContent>
 
-      <CardFooter className="p-5 pt-0">
+      <CardFooter className="p-5 pt-0 mt-auto">
         <Button 
           className="w-full rounded-full font-semibold group-hover:shadow-lg group-hover:shadow-primary/30 transition-all duration-300"
           size="lg"
         >
           View Certificate
-          <ExternalLink className="ml-2 h-4 w-4 group-hover:translate-x-2 transition-transform duration-300" />
+          <ExternalLink className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
         </Button>
       </CardFooter>
     </Card>
@@ -202,11 +202,51 @@ function AchievementCard({ achievement, onSelect }) {
 }
 
 function AchievementDialog({ achievement, onClose }) {
+  useEffect(() => {
+    if (achievement) {
+      // Lock background scroll
+      document.body.style.overflow = "hidden";
+      
+      // Push history state for Android back button
+      window.history.pushState({ modal: true }, '');
+      
+      // Handle popstate (back button)
+      const handlePopState = () => {
+        onClose();
+      };
+      
+      window.addEventListener('popstate', handlePopState);
+      
+      return () => {
+        // Unlock background scroll
+        document.body.style.overflow = "auto";
+        window.removeEventListener('popstate', handlePopState);
+      };
+    }
+  }, [achievement, onClose]);
+  
   if (!achievement) return null;
   
   return (
-    <Dialog open={!!achievement} onOpenChange={(open) => !open && onClose()}>
+    <Dialog open={!!achievement} onOpenChange={(open) => {
+      if (!open) {
+        // Remove the history state we added
+        if (window.history.state?.modal) {
+          window.history.back();
+        } else {
+          onClose();
+        }
+      }
+    }}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <button
+          onClick={onClose}
+          className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground min-w-[44px] min-h-[44px] flex items-center justify-center z-50"
+          aria-label="Close"
+        >
+          <X className="h-5 w-5" />
+        </button>
+        
         <DialogHeader>
           <div className="flex items-start justify-between gap-4">
             <div className="flex-1 pr-8">

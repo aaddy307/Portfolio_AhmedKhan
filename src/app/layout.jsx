@@ -1,6 +1,5 @@
 import './globals.css';
 import { Inter } from 'next/font/google';
-import { ThemeProvider } from '@/Components/theme-provider';
 import { Navbar } from '@/Components/navbar';
 import { ParticlesBackground } from '@/Components/particles-background';
 import { Footer } from '@/Components/footer';
@@ -19,21 +18,14 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning className="overflow-x-hidden">
+    <html lang="en" className="dark overflow-x-hidden">
       <body className={`${inter.className} overflow-x-hidden`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <CustomCursor />
-          <ParticlesBackground />
-          <Navbar />
-          <main className="min-h-screen overflow-x-hidden">{children}</main>
-          <Footer />
-          <Toaster />
-        </ThemeProvider>
+        <CustomCursor />
+        <ParticlesBackground />
+        <Navbar />
+        <main className="min-h-screen overflow-x-hidden">{children}</main>
+        <Footer />
+        <Toaster />
       </body>
     </html>
   );

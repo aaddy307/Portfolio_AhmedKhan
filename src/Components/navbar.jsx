@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
-import { ThemeSwitch } from "@/Components/theme-switch";
 import { Button } from "@/Components/ui/button";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
@@ -104,8 +103,6 @@ export function Navbar() {
               </motion.div>
             ))}
           </nav>
-          
-          <ThemeSwitch />
           
           {/* Mobile Menu Button */}
           <Button

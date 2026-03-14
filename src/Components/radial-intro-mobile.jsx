@@ -33,7 +33,7 @@ export function RadialIntroMobile({ orbitItems }) {
     <div ref={containerRef} className="relative w-full h-full min-h-[280px] md:min-h-[400px] flex items-center justify-center">
       <motion.div 
         className="relative w-[220px] h-[220px] md:w-[340px] md:h-[340px] flex items-center justify-center"
-        style={{ rotate }}
+        style={{ rotate, willChange: "transform" }}
         transition={{ type: "spring", stiffness: 100, damping: 30 }}
       >
         {/* Orbit items */}
@@ -50,7 +50,7 @@ export function RadialIntroMobile({ orbitItems }) {
               animate={{ scale: 1, opacity: 1 }}
               transition={{
                 duration: 0.5,
-                delay: index * 0.1,
+                delay: index * 0.08,
                 ease: "easeOut",
               }}
               whileHover={{ scale: 1.2, zIndex: 20 }}
@@ -61,11 +61,12 @@ export function RadialIntroMobile({ orbitItems }) {
                 left: `calc(50% + ${x}px)`,
                 top: `calc(50% + ${y}px)`,
                 transform: "translate(-50%, -50%)",
+                willChange: "transform"
               }}
             >
               <motion.div 
                 className="relative group"
-                style={{ rotate: useTransform(rotate, (r) => -r) }}
+                style={{ rotate: useTransform(rotate, (r) => -r), willChange: "transform" }}
               >
                 {/* Item circle */}
                 <div 
@@ -77,7 +78,7 @@ export function RadialIntroMobile({ orbitItems }) {
                     src={item.src}
                     alt={item.name}
                     fill
-                    className={`object-cover p-1.5 md:p-2 ${item.invert ? 'dark:invert' : ''}`}
+                    className={`object-cover p-1.5 md:p-2 ${item.invert ? 'invert' : ''}`}
                   />
                 </div>
 

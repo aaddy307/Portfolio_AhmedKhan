@@ -31,8 +31,8 @@ function SkillBar({ skill, index }) {
     <motion.div
       initial={{ opacity: 0, x: -20 }}
       whileInView={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: index * 0.08, ease: "easeOut" }}
+      viewport={{ once: true, amount: 0.15 }}
       className="space-y-2"
     >
       <div className="flex justify-between items-center">
@@ -46,7 +46,7 @@ function SkillBar({ skill, index }) {
                 height={24}
                 className={`object-contain ${
                   skill.icon === 'express' || skill.icon === 'github' 
-                    ? 'dark:invert dark:brightness-0 dark:contrast-200' 
+                    ? 'invert brightness-0 contrast-200' 
                     : ''
                 }`}
               />
@@ -96,8 +96,8 @@ export function AboutSection() {
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          viewport={{ once: true, amount: 0.15 }}
           className="lg:col-span-1 flex items-start justify-center lg:pt-8"
           id="radial-target"
         >
@@ -113,8 +113,8 @@ export function AboutSection() {
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          viewport={{ once: true, amount: 0.15 }}
           className="lg:col-span-2 flex flex-col justify-start"
         >
           <h3 className="text-xl font-semibold mb-4">Who I Am</h3>
@@ -139,8 +139,8 @@ export function AboutSection() {
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.15 }}
             className="mb-8"
           >
             <h3 className="text-xl font-semibold mb-4">Frontend Skills</h3>
@@ -156,8 +156,8 @@ export function AboutSection() {
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+              viewport={{ once: true, amount: 0.15 }}
             >
               <h3 className="text-xl font-semibold mb-4">Tools & Others</h3>
               <div className="space-y-4">
@@ -175,8 +175,8 @@ export function AboutSection() {
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.15 }}
             className="mb-8 lg:h-[308px]"
           >
             <h3 className="text-xl font-semibold mb-4">Backend Skills</h3>
@@ -192,8 +192,8 @@ export function AboutSection() {
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+              viewport={{ once: true, amount: 0.15 }}
             >
               <h3 className="text-xl font-semibold mb-4">Design Skills</h3>
               <div className="space-y-4">

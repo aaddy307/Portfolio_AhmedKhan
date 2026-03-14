@@ -1,14 +1,12 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { useTheme } from "next-themes";
 import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
 import { getThemeByName } from "@/lib/config";
 
 export function ParticlesBackground() {
   const [mounted, setMounted] = useState(false);
-  const { theme } = useTheme();
   const [particleConfig, setParticleConfig] = useState(null);
 
   const particlesInit = useCallback(async (engine) => {
@@ -20,17 +18,21 @@ export function ParticlesBackground() {
   }, []);
 
   useEffect(() => {
-    if (mounted && theme) {
+    if (mounted) {
       try {
-        const currentTheme = getThemeByName(theme === "system" ? "light" : theme);
+        const currentTheme = getThemeByName("dark");
         
         if (currentTheme) {
           const config = currentTheme.particleConfig;
           
+          // Reduce particle count on mobile
+          const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+          const particleCount = isMobile ? 15 : (config.particleCount || 35);
+          
           const newConfig = {
             particles: {
               number: {
-                value: config.particleCount || 35,
+                value: particleCount,
                 density: {
                   enable: true,
                   value_area: 800,
@@ -140,7 +142,7 @@ export function ParticlesBackground() {
         console.error("Error setting up particles:", error);
       }
     }
-  }, [mounted, theme]);
+  }, [mounted]);
 
   if (!mounted || !particleConfig) {
     return null;

@@ -24,8 +24,8 @@ export function ExperienceSection() {
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          viewport={{ once: true, amount: 0.15 }}
           className="flex justify-center mb-8"
         >
           <TabsList className="grid grid-cols-2 w-[300px]">
@@ -78,17 +78,12 @@ function ExperienceItem({ experience, index }) {
       <motion.div
         initial={{ opacity: 0, x: -20 }}
         whileInView={{ opacity: 1, x: 0 }}
-        whileHover={{ scale: 1.02 }}
         transition={{ 
           duration: 0.5, 
-          delay: index * 0.1,
-          scale: {
-            type: "spring",
-            stiffness: 300,
-            damping: 20
-          }
+          delay: index * 0.08,
+          ease: "easeOut"
         }}
-        viewport={{ once: true, margin: "-100px" }}
+        viewport={{ once: true, amount: 0.15 }}
         className="ml-[7.5rem] transition-all duration-300 ease-out hover:ml-[7.75rem]"
       >
         <Card className="relative hover:border-primary transition-all duration-300 ease-out">

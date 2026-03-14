@@ -33,7 +33,7 @@ export function RadialIntroDesktop({ orbitItems }) {
     <div ref={containerRef} className="relative w-full h-full min-h-[400px] flex items-center justify-center">
       <motion.div 
         className="relative w-[280px] h-[280px] flex items-center justify-center"
-        style={{ rotate }}
+        style={{ rotate, willChange: "transform" }}
         transition={{ type: "spring", stiffness: 100, damping: 30 }}
       >
         {orbitItems.map((item, index) => {
@@ -49,7 +49,7 @@ export function RadialIntroDesktop({ orbitItems }) {
               animate={{ scale: 1, opacity: 1 }}
               transition={{
                 duration: 0.5,
-                delay: index * 0.1,
+                delay: index * 0.08,
                 ease: "easeOut",
               }}
               whileHover={{ scale: 1.2, zIndex: 20 }}
@@ -60,11 +60,12 @@ export function RadialIntroDesktop({ orbitItems }) {
                 left: `calc(50% + ${x}px)`,
                 top: `calc(50% + ${y}px)`,
                 transform: "translate(-50%, -50%)",
+                willChange: "transform"
               }}
             >
               <motion.div 
                 className="relative group"
-                style={{ rotate: useTransform(rotate, (r) => -r) }}
+                style={{ rotate: useTransform(rotate, (r) => -r), willChange: "transform" }}
               >
                 <div 
                   className={`relative w-12 h-12 rounded-full bg-background border-2 border-primary/30 group-hover:border-primary transition-all duration-300 overflow-hidden shadow-lg ${
@@ -75,7 +76,7 @@ export function RadialIntroDesktop({ orbitItems }) {
                     src={item.src}
                     alt={item.name}
                     fill
-                    className={`object-cover p-1.5 ${item.invert ? 'dark:invert' : ''}`}
+                    className={`object-cover p-1.5 ${item.invert ? 'invert' : ''}`}
                   />
                 </div>
 
