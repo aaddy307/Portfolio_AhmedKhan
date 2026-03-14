@@ -209,29 +209,27 @@ function AchievementDialog({ achievement, onClose }) {
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <div className="flex items-start justify-between gap-4">
-            <div className="flex-1">
-              <DialogTitle className="text-2xl mb-2">{achievement.title}</DialogTitle>
-              <DialogDescription className="flex items-center gap-2 text-base">
-                <Award className="h-4 w-4" />
-                {achievement.organization}
+            <div className="flex-1 pr-8">
+              <DialogTitle className="text-lg md:text-2xl mb-2 leading-tight">{achievement.title}</DialogTitle>
+              <DialogDescription className="flex items-center gap-2 text-sm md:text-base">
+                <Award className="h-4 w-4 flex-shrink-0" />
+                <span className="line-clamp-2">{achievement.organization}</span>
               </DialogDescription>
             </div>
-            <Badge variant="secondary" className="text-sm">
-              {achievement.type}
-            </Badge>
           </div>
         </DialogHeader>
         
         {/* Certificate Image */}
-        <div className="relative h-64 md:h-80 overflow-hidden rounded-lg border border-border">
+        <div className="relative h-48 md:h-80 overflow-hidden rounded-lg border border-border mt-4">
           {achievement.imageUrl ? (
             <Image
               src={achievement.imageUrl}
               alt={achievement.title}
               fill
-              sizes="(max-width: 768px) 100vw, 672px"
+              sizes="(max-width: 768px) 95vw, 672px"
               style={{ objectFit: "contain" }}
               className="rounded-lg bg-muted"
+              loading="lazy"
             />
           ) : (
             <div className="relative h-full bg-gradient-to-br from-primary/5 via-purple-500/5 to-pink-500/5">
@@ -243,26 +241,26 @@ function AchievementDialog({ achievement, onClose }) {
           )}
         </div>
         
-        <div className="grid grid-cols-2 gap-4 py-4">
+        <div className="grid grid-cols-2 gap-3 md:gap-4 py-3 md:py-4 mt-2">
           <div className="flex items-center gap-2 text-sm">
-            <Calendar className="h-4 w-4 text-primary" />
+            <Calendar className="h-4 w-4 text-primary flex-shrink-0" />
             <div>
               <p className="text-xs text-muted-foreground">Date</p>
-              <p className="font-medium">{achievement.date}</p>
+              <p className="font-medium text-sm">{achievement.date}</p>
             </div>
           </div>
           <div className="flex items-center gap-2 text-sm">
-            <Clock className="h-4 w-4 text-primary" />
+            <Clock className="h-4 w-4 text-primary flex-shrink-0" />
             <div>
               <p className="text-xs text-muted-foreground">Duration</p>
-              <p className="font-medium">{achievement.duration}</p>
+              <p className="font-medium text-sm">{achievement.duration}</p>
             </div>
           </div>
         </div>
         
-        <div className="mt-2">
-          <h4 className="text-lg font-semibold mb-3">About this achievement</h4>
-          <p className="text-muted-foreground leading-relaxed">
+        <div className="mt-2 md:mt-4">
+          <h4 className="text-base md:text-lg font-semibold mb-2 md:mb-3">About this achievement</h4>
+          <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
             {achievement.description}
           </p>
         </div>
