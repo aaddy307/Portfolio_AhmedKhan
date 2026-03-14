@@ -193,8 +193,11 @@ function ProjectCard({ project, onSelect }) {
 function ProjectDialog({ project, onClose }) {
   useEffect(() => {
     if (project) {
-      // Lock background scroll
-      document.body.style.overflow = "hidden";
+      // Lock background scroll - comprehensive fix for mobile
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.documentElement.style.overflow = 'hidden';
       
       // Push history state for Android back button
       window.history.pushState({ modal: true }, '');
@@ -207,8 +210,11 @@ function ProjectDialog({ project, onClose }) {
       window.addEventListener('popstate', handlePopState);
       
       return () => {
-        // Unlock background scroll
-        document.body.style.overflow = "auto";
+        // Unlock background scroll - restore all properties
+        document.body.style.overflow = '';
+        document.body.style.position = '';
+        document.body.style.width = '';
+        document.documentElement.style.overflow = '';
         window.removeEventListener('popstate', handlePopState);
       };
     }
@@ -227,21 +233,13 @@ function ProjectDialog({ project, onClose }) {
         }
       }
     }}>
-      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto w-[95vw] sm:w-full">
-        <button
-          onClick={onClose}
-          className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground min-w-[44px] min-h-[44px] flex items-center justify-center z-50"
-          aria-label="Close"
-        >
-          <X className="h-5 w-5" />
-        </button>
-        
-        <DialogHeader>
-          <DialogTitle className="text-xl sm:text-2xl pr-8">{project.title}</DialogTitle>
+      <DialogContent className="max-w-3xl max-h-[90vh] w-[95vw] sm:w-full pt-16 md:pt-14" style={{ WebkitOverflowScrolling: 'touch' }}>
+        <DialogHeader className="pr-12">
+          <DialogTitle className="text-xl sm:text-2xl pr-4">{project.title}</DialogTitle>
           <DialogDescription className="text-sm sm:text-base">{project.description}</DialogDescription>
         </DialogHeader>
         
-        <div className="relative h-48 sm:h-64 md:h-96 overflow-hidden rounded-lg">
+        <div className="relative h-48 sm:h-64 md:h-96 overflow-hidden rounded-lg overflow-y-auto" style={{ WebkitOverflowScrolling: 'touch' }}>
           <Image
             src={project.imageUrl}
             alt={project.title}

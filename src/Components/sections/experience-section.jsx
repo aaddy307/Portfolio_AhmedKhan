@@ -96,7 +96,7 @@ function ExperienceItem({ experience, index }) {
                 <GraduationCap className="h-6 w-6 text-primary-foreground" />
               )}
             </div>
-            <CardTitle>{experience.position}</CardTitle>
+            <CardTitle className="font-semibold">{experience.position}</CardTitle>
             <CardDescription>
               {experience.company} | {experience.duration}
             </CardDescription>

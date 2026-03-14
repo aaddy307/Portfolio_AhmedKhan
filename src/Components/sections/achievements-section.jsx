@@ -204,8 +204,11 @@ function AchievementCard({ achievement, onSelect }) {
 function AchievementDialog({ achievement, onClose }) {
   useEffect(() => {
     if (achievement) {
-      // Lock background scroll
-      document.body.style.overflow = "hidden";
+      // Lock background scroll - comprehensive fix for mobile
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.documentElement.style.overflow = 'hidden';
       
       // Push history state for Android back button
       window.history.pushState({ modal: true }, '');
@@ -218,8 +221,11 @@ function AchievementDialog({ achievement, onClose }) {
       window.addEventListener('popstate', handlePopState);
       
       return () => {
-        // Unlock background scroll
-        document.body.style.overflow = "auto";
+        // Unlock background scroll - restore all properties
+        document.body.style.overflow = '';
+        document.body.style.position = '';
+        document.body.style.width = '';
+        document.documentElement.style.overflow = '';
         window.removeEventListener('popstate', handlePopState);
       };
     }
@@ -238,18 +244,10 @@ function AchievementDialog({ achievement, onClose }) {
         }
       }
     }}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-        <button
-          onClick={onClose}
-          className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground min-w-[44px] min-h-[44px] flex items-center justify-center z-50"
-          aria-label="Close"
-        >
-          <X className="h-5 w-5" />
-        </button>
-        
-        <DialogHeader>
+      <DialogContent className="max-w-2xl max-h-[90vh] w-[95vw] sm:w-full pt-16 md:pt-14" style={{ WebkitOverflowScrolling: 'touch' }}>
+        <DialogHeader className="pr-12">
           <div className="flex items-start justify-between gap-4">
-            <div className="flex-1 pr-8">
+            <div className="flex-1 pr-4">
               <DialogTitle className="text-lg md:text-2xl mb-2 leading-tight">{achievement.title}</DialogTitle>
               <DialogDescription className="flex items-center gap-2 text-sm md:text-base">
                 <Award className="h-4 w-4 flex-shrink-0" />
@@ -260,7 +258,7 @@ function AchievementDialog({ achievement, onClose }) {
         </DialogHeader>
         
         {/* Certificate Image */}
-        <div className="relative h-48 md:h-80 overflow-hidden rounded-lg border border-border mt-4">
+        <div className="relative h-48 md:h-80 overflow-hidden rounded-lg border border-border mt-4 overflow-y-auto" style={{ WebkitOverflowScrolling: 'touch' }}>
           {achievement.imageUrl ? (
             <Image
               src={achievement.imageUrl}
