@@ -120,7 +120,7 @@ export function AboutSection() {
           <h3 className="text-xl font-semibold mb-4">Who I Am</h3>
           <div className="space-y-4 text-muted-foreground">
             <p>
-              Passionate first-year B.Voc AI & ML student at Nexcore Institute of Technology with a strong foundation in full-stack web development using modern technologies.
+              Passionate first-year B.Voc AI & DS student at Nexcore Institute of Technology with a strong foundation in full-stack web development using modern technologies.
             </p>
             <p>
               Ex-student of Universal AI University, Karjat with deep appreciation for artificial intelligence. I combine my knowledge of AI/ML with web development to create innovative and intelligent solutions.
