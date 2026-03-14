@@ -136,9 +136,10 @@ export function HeroSection() {
                 
                 {showName && (
                   <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
+                    initial={{ opacity: 0, maxHeight: 0 }}
+                    animate={{ opacity: 1, maxHeight: "200px" }}
                     transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+                    className="overflow-hidden"
                   >
                     <MorphingName startAnimation={animationComplete} />
                   </motion.div>
@@ -149,10 +150,10 @@ export function HeroSection() {
             {/* Role Badge */}
             {showRole && (
               <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
+                initial={{ opacity: 0, maxHeight: 0 }}
+                animate={{ opacity: 1, maxHeight: "100px" }}
                 transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-                className="relative flex justify-start"
+                className="relative flex justify-start overflow-hidden"
               >
                 <div className="relative h-[50px] w-fit max-w-[90%] flex items-center justify-center overflow-visible">
                   <motion.div
@@ -200,9 +201,10 @@ export function HeroSection() {
             {/* Bio with typewriter */}
             {showRole && (
               <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
+                initial={{ maxHeight: 0, opacity: 0 }}
+                animate={{ maxHeight: "300px", opacity: 1 }}
                 transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+                className="overflow-hidden"
               >
                 <p className="text-base md:text-lg text-muted-foreground max-w-3xl mb-2 leading-relaxed">
                   {bioText}
@@ -216,10 +218,10 @@ export function HeroSection() {
             {/* Buttons with fade in */}
             {showButtons && (
               <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
+                initial={{ opacity: 0, maxHeight: 0 }}
+                animate={{ opacity: 1, maxHeight: "200px" }}
                 transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-                className="flex flex-col sm:flex-row flex-wrap gap-3 md:gap-4 mb-8"
+                className="flex flex-col sm:flex-row flex-wrap gap-3 md:gap-4 mb-8 overflow-hidden"
               >
                 <ButtonLink 
                   href="/#projects" 
@@ -250,9 +252,10 @@ export function HeroSection() {
             {/* Social icons with fade in */}
             {showButtons && (
               <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
+                initial={{ opacity: 0, maxHeight: 0 }}
+                animate={{ opacity: 1, maxHeight: "100px" }}
                 transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1], delay: 0.1 }}
+                className="overflow-hidden"
               >
                 <div className="flex gap-6">
                   {socials.map((social) => {

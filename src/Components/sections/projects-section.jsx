@@ -9,7 +9,7 @@ import { Badge } from "@/Components/ui/badge";
 import { Button } from "@/Components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter } from "@/Components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/Components/ui/dialog";
-import { Github, ExternalLink, ArrowRight, Figma, X } from "lucide-react";
+import { Github, ExternalLink, ArrowRight, Figma } from "lucide-react";
 import Image from "next/image";
 
 export function ProjectsSection() {

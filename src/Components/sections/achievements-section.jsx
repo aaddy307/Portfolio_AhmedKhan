@@ -8,7 +8,7 @@ import { Badge } from "@/Components/ui/badge";
 import { Button } from "@/Components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter } from "@/Components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/Components/ui/dialog";
-import { Award, Calendar, Clock, ExternalLink, X } from "lucide-react";
+import { Award, Calendar, Clock, ExternalLink } from "lucide-react";
 import Image from "next/image";
 
 const achievements = [
