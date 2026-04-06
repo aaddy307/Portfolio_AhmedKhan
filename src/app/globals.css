@@ -36,10 +36,13 @@
 @layer base {
   * {
     @apply border-border;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   html {
     overflow-x: hidden;
     width: 100%;
+    scroll-behavior: smooth;
   }
   body {
     @apply bg-background text-foreground;
@@ -47,6 +50,12 @@
     overflow-x: hidden;
     width: 100%;
     position: relative;
+  }
+  
+  @media (prefers-reduced-motion: no-preference) {
+    * {
+      scroll-behavior: smooth;
+    }
   }
   
   /* Show default cursor on mobile/touch devices */
