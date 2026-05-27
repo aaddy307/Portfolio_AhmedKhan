@@ -46,7 +46,6 @@
   }
   body {
     @apply bg-background text-foreground;
-    cursor: none;
     overflow-x: hidden;
     width: 100%;
     position: relative;
@@ -57,84 +56,6 @@
       scroll-behavior: smooth;
     }
   }
-  
-  /* Show default cursor on mobile/touch devices */
-  @media (hover: none) and (pointer: coarse) {
-    body {
-      cursor: auto !important;
-    }
-    
-    body * {
-      cursor: auto !important;
-    }
-  }
-}
-
-/* Custom Cursor Styles */
-.custom-cursor-dot {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 12px;
-  height: 12px;
-  background: hsl(var(--primary));
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  mix-blend-mode: difference;
-  will-change: transform;
-}
-
-.custom-cursor-ring {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 40px;
-  height: 40px;
-  border: 2px solid hsl(var(--primary));
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9998;
-  opacity: 0.5;
-  will-change: transform;
-}
-
-/* Show default cursor on mobile/touch devices */
-@media (hover: none) and (pointer: coarse) {
-  body {
-    cursor: auto !important;
-  }
-  
-  .custom-cursor-dot,
-  .custom-cursor-ring {
-    display: none;
-  }
-}
-
-/* Cursor styles for interactive elements */
-a, button, [role="button"], input, textarea, select {
-  cursor: none;
-}
-
-/* Show default cursor on mobile/touch devices */
-@media (hover: none) and (pointer: coarse) {
-  a, button, [role="button"], input, textarea, select {
-    cursor: auto !important;
-  }
-}
-
-/* Blink animation for typewriter cursor */
-@keyframes blink {
-  0%, 50% {
-    opacity: 1;
-  }
-  51%, 100% {
-    opacity: 0;
-  }
-}
-
-.animate-blink {
-  animation: blink 1s step-end infinite;
 }
 
 /* Clockwise glow animation for radial icons */

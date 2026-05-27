@@ -105,7 +105,7 @@ export function AboutSection() {
             <RadialIntroMobile orbitItems={radialItems} />
           </div>
           <div className="hidden lg:block">
-            <RadialIntroDesktop orbitItems={radialItems} showAfterAnimation={false} />
+            <RadialIntroDesktop orbitItems={radialItems} />
           </div>
         </motion.div>
 
@@ -177,7 +177,7 @@ export function AboutSection() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
             viewport={{ once: true, amount: 0.15 }}
-            className="mb-8 lg:h-[308px]"
+            className="mb-8 lg:min-h-[308px]"
           >
             <h3 className="text-xl font-semibold mb-4">Backend Skills</h3>
             <div className="space-y-4">

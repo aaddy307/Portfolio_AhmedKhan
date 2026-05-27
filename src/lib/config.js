@@ -1,6 +1,6 @@
 import personalInfoJson from '@/config/personal.json';
 import skillsJson from '@/config/skills.json';
-import projectsJson from '@/config/projects.json';
+
 import experienceJson from '@/config/experience.json';
 import socialJson from '@/config/social.json';
 import themesJson from '@/config/themes.json';
@@ -11,15 +11,6 @@ export function getPersonalInfo() {
 
 export function getSkills() {
   return skillsJson;
-}
-
-export function getProjects() {
-  return projectsJson;
-}
-
-export function getFeaturedProjects() {
-  const projects = getProjects();
-  return projects.filter(project => project.featured);
 }
 
 export function getExperiences() {

@@ -12,7 +12,7 @@ export function MorphingName({ startAnimation }) {
         className="absolute left-0 top-0 w-full h-full flex items-center"
       >
         <span 
-          className="text-blue-500 font-bold whitespace-nowrap inline-block relative text-4xl md:text-6xl"
+          className="text-blue-500 font-bold whitespace-normal sm:whitespace-nowrap inline-block relative text-4xl md:text-6xl"
           style={{
             textShadow: "0 0 5px rgba(59, 130, 246, 0.3)",
             maxWidth: '100%'

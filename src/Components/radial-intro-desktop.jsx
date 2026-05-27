@@ -20,6 +20,7 @@ export function RadialIntroDesktop({ orbitItems }) {
     [0, 360],
     { clamp: false }
   );
+  const counterRotate = useTransform(rotate, (r) => -r);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -65,7 +66,7 @@ export function RadialIntroDesktop({ orbitItems }) {
             >
               <motion.div 
                 className="relative group"
-                style={{ rotate: useTransform(rotate, (r) => -r), willChange: "transform" }}
+                style={{ rotate: counterRotate, willChange: "transform" }}
               >
                 <div 
                   className={`relative w-12 h-12 rounded-full bg-background border-2 border-primary/30 group-hover:border-primary transition-all duration-300 overflow-hidden shadow-lg ${

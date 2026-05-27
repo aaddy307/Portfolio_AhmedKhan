@@ -3,19 +3,30 @@
 import { useState, useEffect } from "react";
 import { SectionContainer } from "@/Components/section-container";
 import { SectionHeading } from "@/Components/section-heading";
-import { getProjects } from "@/lib/config";
 import { motion, AnimatePresence } from "framer-motion";
 import { Badge } from "@/Components/ui/badge";
 import { Button } from "@/Components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter } from "@/Components/ui/card";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/Components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/Components/ui/dialog";
 import { Github, ExternalLink, ArrowRight, Figma } from "lucide-react";
 import Image from "next/image";
 
 export function ProjectsSection() {
-  const allProjects = getProjects();
+  const [allProjects, setAllProjects] = useState([]);
   const [selectedTag, setSelectedTag] = useState(null);
   const [selectedProject, setSelectedProject] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/projects')
+      .then(res => res.json())
+      .then(data => {
+        const mapped = data.map(p => ({ ...p, id: p._id }));
+        setAllProjects(mapped);
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
   
   const allTags = Array.from(
     new Set(allProjects.flatMap(project => project.tags))
@@ -24,6 +35,8 @@ export function ProjectsSection() {
   const filteredProjects = selectedTag
     ? allProjects.filter(project => project.tags.includes(selectedTag))
     : allProjects;
+
+  if (loading) return null;
     
   return (
     <SectionContainer id="projects">
@@ -101,6 +114,7 @@ function ProjectCard({ project, onSelect }) {
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           style={{ objectFit: "cover" }}
           className="transition-transform duration-300 group-hover:scale-105"
+          loading="lazy"
         />
         {/* Diagonal overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/40 to-transparent group-hover:from-black/70 transition-all duration-300" />
@@ -173,18 +187,14 @@ function ProjectCard({ project, onSelect }) {
       </CardContent>
 
       <CardFooter className="p-5 pt-0 mt-auto">
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button 
-              onClick={onSelect} 
-              className="w-full rounded-full font-semibold group-hover:shadow-lg group-hover:shadow-primary/30 transition-all duration-300"
-              size="lg"
-            >
-              View Details
-              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
-            </Button>
-          </DialogTrigger>
-        </Dialog>
+        <Button 
+          onClick={onSelect} 
+          className="w-full rounded-full font-semibold group-hover:shadow-lg group-hover:shadow-primary/30 transition-all duration-300"
+          size="lg"
+        >
+          View Details
+          <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
+        </Button>
       </CardFooter>
     </Card>
   );
@@ -246,6 +256,7 @@ function ProjectDialog({ project, onClose }) {
             fill
             sizes="(max-width: 768px) 95vw, 896px"
             style={{ objectFit: "cover" }}
+            loading="lazy"
           />
         </div>
         

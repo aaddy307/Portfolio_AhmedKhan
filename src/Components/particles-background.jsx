@@ -35,7 +35,6 @@ export function ParticlesBackground() {
                 value: particleCount,
                 density: {
                   enable: true,
-                  value_area: 800,
                 },
               },
               color: {
@@ -50,7 +49,7 @@ export function ParticlesBackground() {
                 anim: {
                   enable: false,
                   speed: 1,
-                  opacity_min: 0.1,
+                  opacityMin: 0.1,
                   sync: false,
                 },
               },
@@ -60,11 +59,11 @@ export function ParticlesBackground() {
                 anim: {
                   enable: false,
                   speed: 40,
-                  size_min: 0.1,
+                  sizeMin: 0.1,
                   sync: false,
                 },
               },
-              line_linked: {
+              links: {
                 enable: config.particleLinked !== false,
                 distance: config.particleLinkDistance || 150,
                 color: config.particleLinkColor || "#0088ff",
@@ -77,7 +76,7 @@ export function ParticlesBackground() {
                 direction: "none",
                 random: false,
                 straight: false,
-                out_mode: "out",
+                outModes: { default: "out" },
                 bounce: false,
                 attract: {
                   enable: false,
@@ -87,13 +86,13 @@ export function ParticlesBackground() {
               },
             },
             interactivity: {
-              detect_on: "canvas",
+              detectsOn: "canvas",
               events: {
-                onhover: {
+                onHover: {
                   enable: true,
                   mode: "repulse",
                 },
-                onclick: {
+                onClick: {
                   enable: true,
                   mode: "push",
                 },
@@ -102,7 +101,7 @@ export function ParticlesBackground() {
               modes: {
                 grab: {
                   distance: 140,
-                  line_linked: {
+                  links: {
                     opacity: 1,
                   },
                 },
@@ -116,19 +115,17 @@ export function ParticlesBackground() {
                 repulse: {
                   distance: 200,
                   duration: 0.5,
-                  factor: 100,
                   speed: 1,
-                  maxSpeed: 50,
                 },
                 push: {
-                  particles_nb: 4,
+                  quantity: 4,
                 },
                 remove: {
-                  particles_nb: 2,
+                  quantity: 2,
                 },
               },
             },
-            retina_detect: true,
+            detectRetina: true,
             fpsLimit: 60,
             fullScreen: {
               enable: true,

@@ -20,6 +20,7 @@ export function RadialIntroMobile({ orbitItems }) {
     [0, 360],
     { clamp: false }
   );
+  const counterRotate = useTransform(rotate, (r) => -r);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -66,7 +67,7 @@ export function RadialIntroMobile({ orbitItems }) {
             >
               <motion.div 
                 className="relative group"
-                style={{ rotate: useTransform(rotate, (r) => -r), willChange: "transform" }}
+                style={{ rotate: counterRotate, willChange: "transform" }}
               >
                 {/* Item circle */}
                 <div 

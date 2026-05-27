@@ -11,131 +11,28 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Award, Calendar, Clock, ExternalLink } from "lucide-react";
 import Image from "next/image";
 
-const achievements = [
-  {
-    id: 1,
-    title: "Understanding Prompt Engineering",
-    organization: "DataCamp",
-    date: "Nov 07, 2024",
-    duration: "1 Hour",
-    type: "Course",
-    description: "Successfully completed a comprehensive course on Prompt Engineering, learning techniques to effectively communicate with AI models and optimize their responses for various applications.",
-    imageUrl: "/projects/Promt.jpg",
-  },
-  {
-    id: 2,
-    title: "AI For All - AI Appreciate",
-    organization: "Intel & Digital India",
-    date: "Jan 06, 2026",
-    duration: "2 Hours",
-    type: "Program",
-    description: "Participated in AI For All program by Intel and Digital India, completing the AI Appreciate stage. Gained foundational knowledge in artificial intelligence concepts and applications.",
-    imageUrl: "/projects/intel.jpg",
-  },
-  {
-    id: 6,
-    title: "AI For All - AI Aware",
-    organization: "Intel & Digital India",
-    date: "Jan 06, 2026",
-    duration: "1 Hour",
-    type: "Program",
-    description: "Participated in AI For All program by Intel and Digital India, completing the AI Aware stage. Demonstrated awareness and understanding of AI technologies and their real-world applications.",
-    imageUrl: "/projects/Intell.jpg",
-  },
-  {
-    id: 7,
-    title: "Yuva AI For ALL - English",
-    organization: "AISECT LEARN (IndiaAI)",
-    date: "Jan 21, 2026",
-    duration: "1 Hour",
-    type: "Course",
-    description: "Successfully completed Yuva AI For ALL English course offered by AISECT LEARN, a unit of AISECT LTD in collaboration with IndiaAI. Comprehensive AI education program for youth empowerment.",
-    imageUrl: "/projects/India.jpg",
-  },
-  {
-    id: 5,
-    title: "Error Detection & Debugging Appreciation",
-    organization: "Nexcore Alliance",
-    date: "Oct 05, 2025",
-    duration: "Testing Phase",
-    type: "Recognition",
-    description: "Received appreciation from Nexcore Alliance for proactive efforts in detecting and reporting multiple errors during User Panel and Admin Mobile Testing phase, identifying over ten critical and minor issues.",
-    imageUrl: "/projects/Error.jpg",
-  },
-  {
-    id: 3,
-    title: "Climate Change: Carbon Capture and Storage",
-    organization: "University of Edinburgh",
-    date: "Feb 27, 2025",
-    duration: "2 Hours",
-    type: "Course",
-    description: "Successfully completed and received a passing grade in CCSx: Climate Change: Carbon Capture and Storage course offered by EdinburghX, an online learning initiative of University of Edinburgh.",
-    imageUrl: "/projects/edX.jpg",
-  },
-  {
-    id: 4,
-    title: "Professional Ethics Webinar",
-    organization: "HCLTech Career Shaper",
-    date: "Sep-Nov 2024",
-    duration: "Webinar Series",
-    type: "Webinar",
-    description: "Successfully participated in the webinar series on Professional Ethics conducted by HCLTech Career Shaper during September 2024 and November 2024, learning about workplace ethics and professional conduct.",
-    imageUrl: "/projects/HCL.jpg",
-  },
-  {
-    id: 8,
-    title: "Claude 101",
-    organization: "Anthropic",
-    date: "Feb - March 2026",
-    duration: "Short Course",
-    type: "Course",
-    description: "Successfully completed Claude 101 course by Anthropic, gaining foundational knowledge of Claude AI, its capabilities, and how to effectively use it for various tasks.",
-    imageUrl: "/projects/Claude_101.png",
-  },
-  {
-    id: 9,
-    title: "AI Fluency for Educators",
-    organization: "Anthropic",
-    date: "Feb - March 2026",
-    duration: "Short Course",
-    type: "Course",
-    description: "Completed AI Fluency for Educators by Anthropic in collaboration with UCC, Ringling College of Art + Design, HEA, and National Forum. Gained skills to integrate AI tools effectively in educational settings.",
-    imageUrl: "/projects/Educators.png",
-  },
-  {
-    id: 10,
-    title: "AI Fluency: Framework & Foundations",
-    organization: "Anthropic",
-    date: "Feb - March 2026",
-    duration: "Short Course",
-    type: "Course",
-    description: "Completed AI Fluency: Framework & Foundations by Anthropic in collaboration with UCC, Ringling College of Art + Design, HEA, and National Forum. Built a strong conceptual foundation in AI frameworks and core principles.",
-    imageUrl: "/projects/Framework_&_Foundation.png",
-  },
-  {
-    id: 11,
-    title: "AI Fluency for Nonprofits",
-    organization: "Anthropic & GivingTuesday",
-    date: "Feb - March 2026",
-    duration: "Short Course",
-    type: "Course",
-    description: "Completed AI Fluency for Nonprofits by Anthropic in collaboration with GivingTuesday. Learned how AI tools can be leveraged to support nonprofit missions and social impact work.",
-    imageUrl: "/projects/Non_Profit.png",
-  },
-  {
-    id: 12,
-    title: "AI Fluency for Students",
-    organization: "Anthropic",
-    date: "Feb - March 2026",
-    duration: "Short Course",
-    type: "Course",
-    description: "Completed AI Fluency for Students by Anthropic in collaboration with UCC, Ringling College of Art + Design, HEA, and National Forum. Developed practical AI literacy skills tailored for academic and learning contexts.",
-    imageUrl: "/projects/Students.png",
-  },
-];
-
 export function AchievementsSection() {
   const [selectedAchievement, setSelectedAchievement] = useState(null);
+  const [achievements, setAchievements] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/certificates')
+      .then(res => res.json())
+      .then(data => {
+        const mapped = data.map(c => ({
+          ...c,
+          id: c._id,
+          organization: c.issuer,
+          imageUrl: c.imageUrl || '',
+        }));
+        setAchievements(mapped);
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) return null;
   
   return (
     <SectionContainer id="achievements">
@@ -188,6 +85,7 @@ function AchievementCard({ achievement, onSelect }) {
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               style={{ objectFit: "cover" }}
               className="transition-transform duration-300 group-hover:scale-105"
+              loading="lazy"
             />
           </>
         ) : (
@@ -239,13 +137,27 @@ function AchievementCard({ achievement, onSelect }) {
       </CardContent>
 
       <CardFooter className="p-5 pt-0 mt-auto">
-        <Button 
-          className="w-full rounded-full font-semibold group-hover:shadow-lg group-hover:shadow-primary/30 transition-all duration-300"
-          size="lg"
-        >
-          View Certificate
-          <ExternalLink className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
-        </Button>
+        {achievement.certificateUrl ? (
+          <a href={achievement.certificateUrl} target="_blank" rel="noopener noreferrer" className="w-full">
+            <Button 
+              className="w-full rounded-full font-semibold group-hover:shadow-lg group-hover:shadow-primary/30 transition-all duration-300"
+              size="lg"
+              onClick={(e) => e.stopPropagation()}
+            >
+              View Certificate
+              <ExternalLink className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
+            </Button>
+          </a>
+        ) : (
+          <Button 
+            className="w-full rounded-full font-semibold group-hover:shadow-lg group-hover:shadow-primary/30 transition-all duration-300"
+            size="lg"
+            onClick={onSelect}
+          >
+            View Details
+            <ExternalLink className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
+          </Button>
+        )}
       </CardFooter>
     </Card>
   );
@@ -308,7 +220,7 @@ function AchievementDialog({ achievement, onClose }) {
         </DialogHeader>
         
         {/* Certificate Image */}
-        <div className="relative h-48 md:h-80 overflow-hidden rounded-lg border border-border mt-4 overflow-y-auto" style={{ WebkitOverflowScrolling: 'touch' }}>
+        <div className="relative h-48 md:h-80 rounded-lg border border-border mt-4 overflow-hidden" style={{ WebkitOverflowScrolling: 'touch' }}>
           {achievement.imageUrl ? (
             <Image
               src={achievement.imageUrl}

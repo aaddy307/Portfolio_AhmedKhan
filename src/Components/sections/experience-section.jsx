@@ -28,7 +28,7 @@ export function ExperienceSection() {
           viewport={{ once: true, amount: 0.15 }}
           className="flex justify-center mb-8"
         >
-          <TabsList className="grid grid-cols-2 w-[300px]">
+          <TabsList className="grid grid-cols-2 w-full sm:w-[300px] max-w-full">
             <TabsTrigger value="work" className="flex items-center gap-2">
               <BriefcaseIcon className="h-4 w-4" /> Work
             </TabsTrigger>
@@ -41,7 +41,7 @@ export function ExperienceSection() {
         <TabsContent value="work">
           <div className="relative space-y-6">
             {/* Continuous vertical timeline line */}
-            <div className="absolute left-[3.75rem] top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-primary/50 to-transparent"></div>
+            <div className="hidden sm:block absolute left-[3.75rem] top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-primary/50 to-transparent"></div>
             
             {workExperiences.map((experience, index) => (
               <ExperienceItem 
@@ -56,7 +56,7 @@ export function ExperienceSection() {
         <TabsContent value="education">
           <div className="relative space-y-6">
             {/* Continuous vertical timeline line */}
-            <div className="absolute left-[3.75rem] top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-primary/50 to-transparent"></div>
+            <div className="hidden sm:block absolute left-[3.75rem] top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-primary/50 to-transparent"></div>
             
             {educationExperiences.map((experience, index) => (
               <ExperienceItem 
@@ -84,16 +84,16 @@ function ExperienceItem({ experience, index }) {
           ease: "easeOut"
         }}
         viewport={{ once: true, amount: 0.15 }}
-        className="ml-[7.5rem] transition-all duration-300 ease-out hover:ml-[7.75rem] md:hover:mr-[-3rem]"
+        className="ml-0 sm:ml-[7.5rem] transition-all duration-300 ease-out hover:ml-[7.75rem] md:hover:mr-[-3rem]"
       >
         <Card className="relative hover:border-primary transition-all duration-300 ease-out">
           <CardHeader className="relative">
             {/* Timeline dot/icon */}
-            <div className="absolute -left-[5.25rem] top-6 h-12 w-12 rounded-full bg-primary flex items-center justify-center ring-4 ring-background z-10">
+            <div className="absolute -left-12 sm:-left-[5.25rem] top-6 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-primary flex items-center justify-center ring-4 ring-background z-10">
               {experience.type === 'work' ? (
-                <BriefcaseIcon className="h-6 w-6 text-primary-foreground" />
+                <BriefcaseIcon className="h-5 w-5 sm:h-6 sm:w-6 text-primary-foreground" />
               ) : (
-                <GraduationCap className="h-6 w-6 text-primary-foreground" />
+                <GraduationCap className="h-5 w-5 sm:h-6 sm:w-6 text-primary-foreground" />
               )}
             </div>
             <CardTitle className="font-semibold">{experience.position}</CardTitle>

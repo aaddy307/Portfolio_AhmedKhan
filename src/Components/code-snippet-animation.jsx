@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react";
 
 export function CodeSnippetAnimation() {
   const canvasRef = useRef(null);
+  const terminalRef = useRef(null);
   const [commands, setCommands] = useState([]);
   const [currentCommandIndex, setCurrentCommandIndex] = useState(0);
 
@@ -20,13 +21,17 @@ export function CodeSnippetAnimation() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    const terminalEl = terminalRef.current;
+    const terminalWidth = terminalEl ? terminalEl.offsetWidth : 280;
     const ctx = canvas.getContext("2d");
-    canvas.width = 350;
-    canvas.height = 200;
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = terminalWidth * dpr;
+    canvas.height = 200 * dpr;
+    ctx.scale(dpr, dpr);
 
     const chars = "01アイウエオカキクケコサシスセソタチツテト";
     const fontSize = 14;
-    const columns = canvas.width / fontSize;
+    const columns = terminalWidth / fontSize;
     const drops = Array(Math.floor(columns)).fill(1);
 
     let animationId;
@@ -95,7 +100,7 @@ export function CodeSnippetAnimation() {
           </div>
 
           {/* Terminal Window */}
-          <div className="relative w-[350px] rounded-xl overflow-hidden shadow-2xl border border-blue-500/30 bg-black/90 backdrop-blur-sm">
+          <div ref={terminalRef} className="relative w-[280px] xl:w-[350px] rounded-xl overflow-hidden shadow-2xl border border-blue-500/30 bg-black/90 backdrop-blur-sm">
             {/* Terminal Header */}
             <div className="flex items-center justify-between px-4 py-2 bg-gradient-to-r from-blue-900/50 to-cyan-900/50 border-b border-blue-500/30">
               <div className="flex items-center gap-2">

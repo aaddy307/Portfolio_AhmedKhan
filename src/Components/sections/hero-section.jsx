@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { getPersonalInfo, getSocialLinks } from "@/lib/config";
 import { ButtonLink } from "@/Components/button-link";
 import { Github, Linkedin, Instagram } from "lucide-react";
@@ -120,18 +120,12 @@ export function HeroSection() {
             <div>
               <h1 className="text-4xl md:text-6xl font-bold mb-2">
                 {startAnimation && (
-                  <motion.div 
-                    className="text-3xl md:text-5xl mb-2"
-                    transition={{ 
-                      duration: 0.5, 
-                      ease: [0.25, 0.1, 0.25, 1] 
-                    }}
-                  >
+                  <div className="text-3xl md:text-5xl mb-2">
                     {greetingText}
                     {greetingText.length < greetingFull.length && (
                       <span className="inline-block w-0.5 h-[0.9em] bg-foreground ml-1 animate-blink"></span>
                     )}
-                  </motion.div>
+                  </div>
                 )}
                 
                 {showName && (
@@ -231,14 +225,16 @@ export function HeroSection() {
                   <span className="relative z-10">View My Work</span>
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
                 </ButtonLink>
-                <ButtonLink 
-                  href="/resume/AhmedKhan_Resume.pdf" 
-                  newTab={true}
-                  variant="default"
-                  className="relative overflow-hidden bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 text-sm md:text-base w-full sm:w-auto"
-                >
-                  Download Resume ↓
-                </ButtonLink>
+                {personalInfo.resumeUrl && (
+                  <ButtonLink 
+                    href={personalInfo.resumeUrl}
+                    newTab={true}
+                    variant="default"
+                    className="relative overflow-hidden bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 text-sm md:text-base w-full sm:w-auto"
+                  >
+                    Download Resume ↓
+                  </ButtonLink>
+                )}
                 <ButtonLink 
                   href="/#contact" 
                   variant="outline"
@@ -257,7 +253,7 @@ export function HeroSection() {
                 transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1], delay: 0.1 }}
                 className="overflow-hidden"
               >
-                <div className="flex gap-6">
+                <div className="flex flex-wrap justify-center gap-3 sm:gap-6">
                   {socials.map((social) => {
                     const iconMap = {
                       Github: Github,
