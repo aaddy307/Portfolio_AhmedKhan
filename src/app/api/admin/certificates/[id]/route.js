@@ -4,6 +4,7 @@ import { verifyAdmin } from '@/lib/verifyAdmin';
 import Certificate from '@/models/Certificate';
 
 export async function PUT(request, { params }) {
+  const { id } = await params;
   const admin = verifyAdmin(request);
   if (!admin) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -14,7 +15,7 @@ export async function PUT(request, { params }) {
     const body = await request.json();
 
     const certificate = await Certificate.findByIdAndUpdate(
-      params.id,
+      id,
       {
         title: body.title,
         type: body.type || '',
@@ -25,7 +26,7 @@ export async function PUT(request, { params }) {
         imageUrl: body.imageUrl || '',
         certificateUrl: body.certificateUrl || '',
       },
-      { new: true }
+      { returnDocument: 'after' }
     );
 
     if (!certificate) {
@@ -40,6 +41,7 @@ export async function PUT(request, { params }) {
 }
 
 export async function DELETE(request, { params }) {
+  const { id } = await params;
   const admin = verifyAdmin(request);
   if (!admin) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -47,7 +49,7 @@ export async function DELETE(request, { params }) {
 
   try {
     await connectDB();
-    const certificate = await Certificate.findByIdAndDelete(params.id);
+    const certificate = await Certificate.findByIdAndDelete(id);
 
     if (!certificate) {
       return NextResponse.json({ error: 'Certificate not found' }, { status: 404 });

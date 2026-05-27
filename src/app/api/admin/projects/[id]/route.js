@@ -4,6 +4,7 @@ import { verifyAdmin } from '@/lib/verifyAdmin';
 import Project from '@/models/Project';
 
 export async function PUT(request, { params }) {
+  const { id } = await params;
   const admin = verifyAdmin(request);
   if (!admin) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -14,7 +15,7 @@ export async function PUT(request, { params }) {
     const body = await request.json();
 
     const project = await Project.findByIdAndUpdate(
-      params.id,
+      id,
       {
         title: body.title,
         description: body.description || '',
@@ -27,7 +28,7 @@ export async function PUT(request, { params }) {
         imageUrl: body.imageUrl || '',
         featured: body.featured || false,
       },
-      { new: true }
+      { returnDocument: 'after' }
     );
 
     if (!project) {
@@ -42,6 +43,7 @@ export async function PUT(request, { params }) {
 }
 
 export async function DELETE(request, { params }) {
+  const { id } = await params;
   const admin = verifyAdmin(request);
   if (!admin) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -49,7 +51,7 @@ export async function DELETE(request, { params }) {
 
   try {
     await connectDB();
-    const project = await Project.findByIdAndDelete(params.id);
+    const project = await Project.findByIdAndDelete(id);
 
     if (!project) {
       return NextResponse.json({ error: 'Project not found' }, { status: 404 });
