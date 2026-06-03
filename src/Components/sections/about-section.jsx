@@ -98,7 +98,7 @@ export function AboutSection() {
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
           viewport={{ once: true, amount: 0.15 }}
-          className="lg:col-span-1 flex items-start justify-center lg:pt-8"
+          className="lg:col-span-1 flex items-start justify-center lg:pt-8 relative"
           id="radial-target"
         >
           <div className="lg:hidden">

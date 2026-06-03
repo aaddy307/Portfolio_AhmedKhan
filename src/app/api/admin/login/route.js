@@ -2,6 +2,19 @@ import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
+export async function HEAD(request) {
+  try {
+    const token = request.cookies.get('admin_token')?.value;
+    if (!token) {
+      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+    }
+    jwt.verify(token, process.env.JWT_SECRET);
+    return NextResponse.json({ message: 'Authenticated' }, { status: 200 });
+  } catch {
+    return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+  }
+}
+
 export async function POST(request) {
   try {
     const { username, password } = await request.json();

@@ -138,16 +138,17 @@ function AchievementCard({ achievement, onSelect }) {
 
       <CardFooter className="p-5 pt-0 mt-auto">
         {achievement.certificateUrl ? (
-          <a href={achievement.certificateUrl} target="_blank" rel="noopener noreferrer" className="w-full">
-            <Button 
-              className="w-full rounded-full font-semibold group-hover:shadow-lg group-hover:shadow-primary/30 transition-all duration-300"
-              size="lg"
-              onClick={(e) => e.stopPropagation()}
-            >
+          <Button 
+            asChild
+            className="w-full rounded-full font-semibold group-hover:shadow-lg group-hover:shadow-primary/30 transition-all duration-300"
+            size="lg"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <a href={achievement.certificateUrl} target="_blank" rel="noopener noreferrer">
               View Certificate
               <ExternalLink className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
-            </Button>
-          </a>
+            </a>
+          </Button>
         ) : (
           <Button 
             className="w-full rounded-full font-semibold group-hover:shadow-lg group-hover:shadow-primary/30 transition-all duration-300"

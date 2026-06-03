@@ -32,7 +32,7 @@ export function Footer() {
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center justify-center">
           <Link href="/" className="text-xl font-bold mb-6">
-            {personalInfo.name.split(' ')[0]}<span className="text-primary">{personalInfo.name.split(' ')[1] || ''}</span>
+            <span>{personalInfo.name.split(' ').slice(0, -1).join(' ')}</span><span className="text-primary">{personalInfo.name.split(' ').pop()}</span>
           </Link>
 
           <motion.div 

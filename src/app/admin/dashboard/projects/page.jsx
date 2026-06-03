@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 const emptyForm = {
   title: "",
   description: "",
+  longDescription: "",
   tags: "",
   category: [],
   githubUrl: "",
@@ -84,6 +85,7 @@ export default function ProjectsAdmin() {
     const body = {
       title: form.title,
       description: form.description,
+      longDescription: form.longDescription,
       tags: form.tags.split(",").map((t) => t.trim()).filter(Boolean),
       category: form.category,
       githubUrl: form.githubUrl,
@@ -125,6 +127,7 @@ export default function ProjectsAdmin() {
     setForm({
       title: project.title || "",
       description: project.description || "",
+      longDescription: project.longDescription || "",
       tags: (project.tags || []).join(", "),
       category: project.category || [],
       githubUrl: project.githubUrl || "",
@@ -156,7 +159,7 @@ export default function ProjectsAdmin() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-white">📁 Projects</h1>
+                        <h1 className="text-2xl font-bold text-white"><span aria-hidden="true">📁</span> Projects</h1>
         <button
           onClick={() => {
             setShowForm(!showForm);
@@ -207,6 +210,16 @@ export default function ProjectsAdmin() {
                 value={form.description}
                 onChange={(e) => setForm({ ...form, description: e.target.value })}
                 rows={3}
+                className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white focus:outline-none focus:border-cyan-500 resize-none"
+              />
+            </div>
+
+            <div className="md:col-span-2">
+              <label className="block text-sm text-zinc-400 mb-1">Long Description (detailed)</label>
+              <textarea
+                value={form.longDescription}
+                onChange={(e) => setForm({ ...form, longDescription: e.target.value })}
+                rows={5}
                 className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white focus:outline-none focus:border-cyan-500 resize-none"
               />
             </div>
@@ -301,7 +314,7 @@ export default function ProjectsAdmin() {
         </div>
       ) : projects.length === 0 ? (
         <div className="text-center py-20 text-zinc-500">
-          <p className="text-4xl mb-3">📁</p>
+          <p className="text-4xl mb-3" aria-hidden="true">📁</p>
           <p>No projects yet. Click "Add Project" to create one.</p>
         </div>
       ) : (
@@ -320,7 +333,7 @@ export default function ProjectsAdmin() {
                 <tr key={project._id} className="border-b border-zinc-800/50 hover:bg-zinc-900/50">
                   <td className="py-3 px-4">
                     {project.imageUrl ? (
-                      <img src={project.imageUrl} alt="" className="h-10 w-14 rounded object-cover" />
+                      <img src={project.imageUrl} alt={project.title} className="h-10 w-14 rounded object-cover" loading="lazy" />
                     ) : (
                       <div className="h-10 w-14 rounded bg-zinc-800 flex items-center justify-center text-zinc-600 text-xs">No img</div>
                     )}

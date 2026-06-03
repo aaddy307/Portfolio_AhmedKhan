@@ -18,7 +18,7 @@ export default function ConditionalLayout({ children }) {
     <>
       <ParticlesBackground />
       <Navbar />
-      <main id="main-content" className="min-h-screen overflow-x-hidden">{children}</main>
+      <main id="main-content" className="min-h-screen overflow-x-hidden relative">{children}</main>
       <Footer />
       <Toaster />
     </>

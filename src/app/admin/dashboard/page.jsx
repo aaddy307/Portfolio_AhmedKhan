@@ -26,7 +26,7 @@ export default function DashboardPage() {
         <Link href="/admin/dashboard/projects"
           className="group bg-zinc-900/80 border border-zinc-800 rounded-2xl p-6 hover:border-cyan-500/50 transition-all duration-200"
         >
-          <div className="text-3xl mb-2">📁</div>
+          <div className="text-3xl mb-2" aria-hidden="true">📁</div>
           <div className="text-3xl font-bold text-white group-hover:text-cyan-400 transition-colors">{stats.projects}</div>
           <div className="text-zinc-400 text-sm mt-1">Projects</div>
         </Link>
@@ -34,7 +34,7 @@ export default function DashboardPage() {
         <Link href="/admin/dashboard/certificates"
           className="group bg-zinc-900/80 border border-zinc-800 rounded-2xl p-6 hover:border-cyan-500/50 transition-all duration-200"
         >
-          <div className="text-3xl mb-2">🏆</div>
+          <div className="text-3xl mb-2" aria-hidden="true">🏆</div>
           <div className="text-3xl font-bold text-white group-hover:text-cyan-400 transition-colors">{stats.certificates}</div>
           <div className="text-zinc-400 text-sm mt-1">Certificates</div>
         </Link>

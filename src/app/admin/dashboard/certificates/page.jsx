@@ -147,7 +147,7 @@ export default function CertificatesAdmin() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-white">🏆 Certificates</h1>
+        <h1 className="text-2xl font-bold text-white"><span aria-hidden="true">🏆</span> Certificates</h1>
         <button
           onClick={() => {
             setShowForm(!showForm);
@@ -286,7 +286,7 @@ export default function CertificatesAdmin() {
         </div>
       ) : certificates.length === 0 ? (
         <div className="text-center py-20 text-zinc-500">
-          <p className="text-4xl mb-3">🏆</p>
+          <p className="text-4xl mb-3" aria-hidden="true">🏆</p>
           <p>No certificates yet. Click "Add Certificate" to create one.</p>
         </div>
       ) : (
@@ -295,7 +295,7 @@ export default function CertificatesAdmin() {
             <div key={cert._id} className="bg-zinc-900/80 border border-zinc-800 rounded-xl overflow-hidden group">
               <div className="relative h-40 overflow-hidden">
                 {cert.imageUrl ? (
-                  <img src={cert.imageUrl} alt={cert.title} className="w-full h-full object-cover" />
+                  <img src={cert.imageUrl} alt={cert.title} className="w-full h-full object-cover" loading="lazy" />
                 ) : (
                   <div className="w-full h-full bg-zinc-800 flex items-center justify-center text-zinc-600">
                     <span className="text-3xl">🏆</span>

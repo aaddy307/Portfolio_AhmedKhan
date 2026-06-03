@@ -67,7 +67,7 @@ export default function AdminLogin() {
       >
         <div className="bg-zinc-900/80 border border-zinc-800 rounded-2xl p-8 backdrop-blur-sm">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-white mb-2">⚙️ Admin</h1>
+            <h1 className="text-3xl font-bold text-white mb-2"><span aria-hidden="true">⚙️</span> Admin</h1>
             <p className="text-zinc-400">Sign in to manage your portfolio</p>
           </div>
 

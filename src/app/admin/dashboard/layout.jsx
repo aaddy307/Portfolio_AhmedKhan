@@ -46,9 +46,9 @@ export default function DashboardLayout({ children }) {
       >
         <div className="flex flex-col h-full">
           <div className="p-6 border-b border-zinc-800">
-            <Link href="/admin/dashboard/projects" className="text-xl font-bold text-white">
-              ⚙️ Admin Panel
-            </Link>
+              <Link href="/admin/dashboard/projects" className="text-xl font-bold text-white">
+                <span aria-hidden="true">⚙️</span> Admin Panel
+              </Link>
           </div>
 
           <nav className="flex-1 p-4 space-y-1">
@@ -77,7 +77,7 @@ export default function DashboardLayout({ children }) {
               onClick={handleLogout}
               className="flex items-center gap-3 w-full px-4 py-2.5 rounded-lg text-sm font-medium text-zinc-400 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200"
             >
-              <span>🚪</span>
+              <span aria-hidden="true">🚪</span>
               <span>Logout</span>
             </button>
           </div>
@@ -96,7 +96,7 @@ export default function DashboardLayout({ children }) {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
-          <span className="text-sm font-medium text-zinc-400">⚙️ Admin Panel</span>
+          <span className="text-sm font-medium text-zinc-400"><span aria-hidden="true">⚙️</span> Admin Panel</span>
           <div className="w-10" />
         </header>
 
