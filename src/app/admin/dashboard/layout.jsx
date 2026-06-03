@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
@@ -14,6 +14,16 @@ export default function DashboardLayout({ children }) {
   const pathname = usePathname();
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [checkingAuth, setCheckingAuth] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/admin/login", { method: "HEAD" })
+      .then((res) => {
+        if (!res.ok) router.replace("/admin");
+      })
+      .catch(() => router.replace("/admin"))
+      .finally(() => setCheckingAuth(false));
+  }, [router]);
 
   const handleLogout = async () => {
     try {
@@ -24,6 +34,14 @@ export default function DashboardLayout({ children }) {
       toast.error("Logout failed");
     }
   };
+
+  if (checkingAuth) {
+    return (
+      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+        <div className="h-8 w-8 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] flex">
