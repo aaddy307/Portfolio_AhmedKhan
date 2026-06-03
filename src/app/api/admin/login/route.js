@@ -1,6 +1,31 @@
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { connectDB } from '@/lib/mongodb';
+import Admin from '@/models/Admin';
+
+async function findAdmin(username) {
+  try {
+    await connectDB();
+    const admin = await Admin.findOne({ username });
+    return admin;
+  } catch {
+    return null;
+  }
+}
+
+async function verifyCredentials(username, password) {
+  const admin = await findAdmin(username);
+  if (admin) {
+    const valid = await bcrypt.compare(password, admin.passwordHash);
+    if (valid) return true;
+  }
+  if (username === process.env.ADMIN_USERNAME) {
+    const valid = await bcrypt.compare(password, process.env.ADMIN_PASSWORD_HASH || '');
+    if (valid) return true;
+  }
+  return false;
+}
 
 export async function HEAD(request) {
   try {
@@ -26,14 +51,7 @@ export async function POST(request) {
       );
     }
 
-    if (username !== process.env.ADMIN_USERNAME) {
-      return NextResponse.json(
-        { error: 'Invalid credentials' },
-        { status: 401 }
-      );
-    }
-
-    const isValid = await bcrypt.compare(password, process.env.ADMIN_PASSWORD_HASH);
+    const isValid = await verifyCredentials(username, password);
 
     if (!isValid) {
       return NextResponse.json(
@@ -48,7 +66,6 @@ export async function POST(request) {
       { expiresIn: '7d' }
     );
 
-    // Token is returned in body AND set as cookie for reliability
     const response = NextResponse.json(
       { message: 'Login successful', token },
       { status: 200 }
