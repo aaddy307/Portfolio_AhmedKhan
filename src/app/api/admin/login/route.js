@@ -50,10 +50,23 @@ async function verifyCredentials(username, password) {
 
 export async function HEAD(request) {
   try {
-    const token = request.cookies.get('admin_token')?.value;
+    // Check Authorization header first (from client-side localStorage fetch)
+    const authHeader = request.headers.get('authorization');
+    let token = null;
+
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      token = authHeader.slice(7);
+    }
+
+    // Fall back to cookie (for direct browser navigation)
+    if (!token) {
+      token = request.cookies.get('admin_token')?.value;
+    }
+
     if (!token) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
+
     jwt.verify(token, process.env.JWT_SECRET);
     return NextResponse.json({ message: 'Authenticated' }, { status: 200 });
   } catch {

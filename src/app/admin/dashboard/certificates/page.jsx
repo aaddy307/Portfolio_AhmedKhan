@@ -16,6 +16,11 @@ const emptyForm = {
 
 const typeOptions = ["Course", "Program", "Webinar", "Recognition"];
 
+function getAuthHeader() {
+  const token = localStorage.getItem('admin_token');
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
 export default function CertificatesAdmin() {
   const [certificates, setCertificates] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -27,7 +32,7 @@ export default function CertificatesAdmin() {
 
   const fetchCertificates = useCallback(async () => {
     try {
-      const res = await fetch("/api/admin/certificates");
+      const res = await fetch("/api/admin/certificates", { headers: getAuthHeader() });
       if (res.ok) {
         const data = await res.json();
         setCertificates(data);
@@ -52,7 +57,11 @@ export default function CertificatesAdmin() {
       const formData = new FormData();
       formData.append("file", file);
 
-      const res = await fetch("/api/admin/upload", { method: "POST", body: formData });
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        headers: getAuthHeader(),
+        body: formData,
+      });
       const data = await res.json();
 
       if (res.ok) {
@@ -91,7 +100,7 @@ export default function CertificatesAdmin() {
 
       const res = await fetch(url, {
         method,
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...getAuthHeader() },
         body: JSON.stringify(body),
       });
 
@@ -132,7 +141,10 @@ export default function CertificatesAdmin() {
     if (!confirm("Are you sure you want to delete this certificate?")) return;
 
     try {
-      const res = await fetch(`/api/admin/certificates/${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/admin/certificates/${id}`, {
+        method: "DELETE",
+        headers: getAuthHeader(),
+      });
       if (res.ok) {
         toast.success("Certificate deleted");
         fetchCertificates();

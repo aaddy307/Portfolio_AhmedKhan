@@ -17,6 +17,11 @@ const emptyForm = {
 
 const categoryOptions = ["CSS", "HTML", "Tailwind CSS", "Figma", "Client Work", "React", "Next.js"];
 
+function getAuthHeader() {
+  const token = localStorage.getItem('admin_token');
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
 export default function ProjectsAdmin() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -28,7 +33,7 @@ export default function ProjectsAdmin() {
 
   const fetchProjects = useCallback(async () => {
     try {
-      const res = await fetch("/api/admin/projects");
+      const res = await fetch("/api/admin/projects", { headers: getAuthHeader() });
       if (res.ok) {
         const data = await res.json();
         setProjects(data);
@@ -53,7 +58,11 @@ export default function ProjectsAdmin() {
       const formData = new FormData();
       formData.append("file", file);
 
-      const res = await fetch("/api/admin/upload", { method: "POST", body: formData });
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        headers: getAuthHeader(),
+        body: formData,
+      });
       const data = await res.json();
 
       if (res.ok) {
@@ -102,7 +111,7 @@ export default function ProjectsAdmin() {
 
       const res = await fetch(url, {
         method,
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...getAuthHeader() },
         body: JSON.stringify(body),
       });
 
@@ -144,7 +153,10 @@ export default function ProjectsAdmin() {
     if (!confirm("Are you sure you want to delete this project?")) return;
 
     try {
-      const res = await fetch(`/api/admin/projects/${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/admin/projects/${id}`, {
+        method: "DELETE",
+        headers: getAuthHeader(),
+      });
       if (res.ok) {
         toast.success("Project deleted");
         fetchProjects();

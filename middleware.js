@@ -1,26 +1,16 @@
 import { NextResponse } from 'next/server';
-import jwt from 'jsonwebtoken';
 
 export function middleware(request) {
   const { pathname } = request.nextUrl;
 
-  if (pathname.startsWith('/admin/dashboard')) {
-    const token = request.cookies.get('admin_token')?.value;
-
-    if (!token) {
-      return NextResponse.redirect(new URL('/admin', request.url));
-    }
-
-    try {
-      jwt.verify(token, process.env.JWT_SECRET);
-    } catch {
-      return NextResponse.redirect(new URL('/admin', request.url));
-    }
+  // Skip all /admin routes — client-side auth handles these
+  if (pathname.startsWith('/admin')) {
+    return NextResponse.next();
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/admin/:path*'],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 };

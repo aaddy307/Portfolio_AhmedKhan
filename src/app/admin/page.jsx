@@ -13,10 +13,12 @@ export default function AdminLogin() {
   const router = useRouter();
 
   useEffect(() => {
-    // Verify localStorage token with server
     const token = localStorage.getItem('admin_token');
     if (token) {
-      fetch("/api/admin/login", { method: "HEAD" })
+      fetch("/api/admin/login", {
+        method: "HEAD",
+        headers: { Authorization: `Bearer ${token}` },
+      })
         .then((res) => {
           if (res.ok) router.replace("/admin/dashboard");
           else localStorage.removeItem('admin_token');
@@ -37,6 +39,7 @@ export default function AdminLogin() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
+        credentials: 'include',
       });
 
       const data = await res.json();
@@ -46,7 +49,8 @@ export default function AdminLogin() {
         if (data.token) {
           localStorage.setItem('admin_token', data.token);
         }
-        window.location.href = '/admin/dashboard';
+        // Use router.push with hard refresh to ensure layout re-mounts
+        router.push('/admin/dashboard');
       } else {
         toast.error(data.error || "Invalid credentials");
       }

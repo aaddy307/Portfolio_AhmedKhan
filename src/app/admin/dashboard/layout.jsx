@@ -17,15 +17,18 @@ export default function DashboardLayout({ children }) {
   const [checkingAuth, setCheckingAuth] = useState(true);
 
   useEffect(() => {
-    // Check localStorage token for quick redirect
     const token = localStorage.getItem('admin_token');
+
     if (!token) {
       router.replace("/admin");
       return;
     }
 
-    // Verify token with server
-    fetch("/api/admin/login", { method: "HEAD" })
+    // Verify token with server using Authorization header
+    fetch("/api/admin/login", {
+      method: "HEAD",
+      headers: { Authorization: `Bearer ${token}` },
+    })
       .then((res) => {
         if (!res.ok) {
           localStorage.removeItem('admin_token');
