@@ -36,11 +36,11 @@ export default function AdminLogin() {
 
       if (res.ok) {
         toast.success("Welcome back!");
-        // Navigate with token in URL as fallback for middleware cookie check
-        const navUrl = data.token
-          ? `/admin/dashboard?token=${encodeURIComponent(data.token)}`
-          : "/admin/dashboard";
-        window.location.href = navUrl;
+        // Set cookie directly from response before navigating
+        if (data.token) {
+          document.cookie = `admin_token=${data.token}; max-age=${7 * 24 * 60 * 60}; path=/; SameSite=Lax`;
+        }
+        window.location.href = '/admin/dashboard';
       } else {
         toast.error(data.error || "Invalid credentials");
       }
