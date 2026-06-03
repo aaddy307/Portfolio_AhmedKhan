@@ -4,6 +4,23 @@ import jwt from 'jsonwebtoken';
 import { connectDB } from '@/lib/mongodb';
 import Admin from '@/models/Admin';
 
+async function ensureAdmin() {
+  try {
+    await connectDB();
+    const count = await Admin.countDocuments();
+    if (count === 0) {
+      const username = process.env.ADMIN_USERNAME || 'aaddy307';
+      const passwordHash = process.env.ADMIN_PASSWORD_HASH
+        ? process.env.ADMIN_PASSWORD_HASH
+        : await bcrypt.hash('Mh05fl7946', 10);
+      await Admin.create({ username, passwordHash, role: 'admin' });
+      console.log('Admin user auto-created:', username);
+    }
+  } catch (e) {
+    console.error('Failed to auto-create admin:', e);
+  }
+}
+
 async function findAdmin(username) {
   try {
     await connectDB();
@@ -18,10 +35,6 @@ async function verifyCredentials(username, password) {
   const admin = await findAdmin(username);
   if (admin) {
     const valid = await bcrypt.compare(password, admin.passwordHash);
-    if (valid) return true;
-  }
-  if (username === process.env.ADMIN_USERNAME) {
-    const valid = await bcrypt.compare(password, process.env.ADMIN_PASSWORD_HASH || '');
     if (valid) return true;
   }
   return false;
@@ -50,6 +63,8 @@ export async function POST(request) {
         { status: 400 }
       );
     }
+
+    await ensureAdmin();
 
     const isValid = await verifyCredentials(username, password);
 
