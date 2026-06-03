@@ -5,27 +5,21 @@ import { cn } from "@/lib/utils";
 
 export function SectionHeading({ title, subtitle, className }) {
   return (
-    <div className={cn("flex flex-col items-center text-center mb-12", className)}>
-      <motion.h2
-        initial={{ opacity: 0, y: -20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        viewport={{ once: true, margin: "-100px" }}
-        className="text-3xl md:text-5xl font-bold mb-4"
-      >
+    <motion.div
+      className={cn("text-center mb-12", className)}
+      initial={{ opacity: 0, y: 10 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      viewport={{ once: true, margin: "-80px" }}
+    >
+      <h2 className="text-2xl sm:text-3xl font-bold text-zinc-200 mb-3 tracking-tight">
         {title}
-      </motion.h2>
+      </h2>
       {subtitle && (
-        <motion.p
-          className="text-muted-foreground max-w-xl sm:max-w-2xl"
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          viewport={{ once: true, margin: "-100px" }}
-        >
+        <p className="text-sm text-zinc-500 max-w-md mx-auto leading-relaxed">
           {subtitle}
-        </motion.p>
+        </p>
       )}
-    </div>
+    </motion.div>
   );
 }

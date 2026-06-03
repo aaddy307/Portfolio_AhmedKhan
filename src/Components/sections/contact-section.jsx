@@ -1,97 +1,92 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { SectionContainer } from "@/Components/section-container";
 import { getPersonalInfo, getSocialLinks } from "@/lib/config";
-import { motion } from "framer-motion";
-import { Github, Linkedin, Instagram, Mail, MapPin, MessageCircle, ArrowUpRight, Copy } from "lucide-react";
+import { Mail, MapPin, MessageCircle, Copy, ArrowUpRight } from "lucide-react";
 import { useState } from "react";
+import { Github, Linkedin, Instagram } from "lucide-react";
 import { WhatsAppIcon } from "@/Components/icons/whatsapp-icon";
 import { cn } from "@/lib/utils";
 
-function ContactCard({ icon: Icon, label, value, href, action, onAction, badge }) {
+function ContactRow({ icon: Icon, label, value, href, badge, onCopy }) {
   return (
     <motion.a
       href={href}
-      target={href?.startsWith('http') ? '_blank' : undefined}
+      target={href?.startsWith("http") ? "_blank" : undefined}
       rel="noopener noreferrer"
+      initial={{ opacity: 0, y: 8 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      viewport={{ once: true, margin: "-50px" }}
       className={cn(
-        'group relative block p-6 sm:p-8 rounded-2xl',
-        'bg-zinc-900/60 border border-zinc-800',
-        'hover:border-cyan-500/40 hover:bg-zinc-900/80',
-        'transition-all duration-300 hover:-translate-y-1',
-        'cursor-pointer'
+        "group flex items-center gap-4 p-4 rounded-xl",
+        "border border-white/5 bg-white/[0.02]",
+        "hover:border-white/10 hover:bg-white/[0.04]",
+        "transition-colors duration-200"
       )}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
     >
-      {/* Glow on hover */}
-      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-
-      {/* Top accent line */}
-      <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-cyan-500/0 to-transparent group-hover:via-cyan-500/50 transition-all duration-500" />
-
-      <div className="relative z-10 flex items-center gap-5">
-        {/* Icon */}
-        <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-500/20 to-purple-500/10 border border-cyan-500/20 flex items-center justify-center shrink-0 group-hover:border-cyan-500/40 group-hover:from-cyan-500/30 transition-all duration-300">
-          <Icon className="w-6 h-6 text-cyan-400" />
-        </div>
-
-        {/* Content */}
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-sm font-medium text-zinc-500">{label}</span>
-            {badge}
-          </div>
-          <p className="text-base sm:text-lg font-semibold text-white group-hover:text-cyan-400 transition-colors duration-300 truncate">
-            {value}
-          </p>
-        </div>
-
-        {/* Action icon */}
-        <div className="shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          {action ? (
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                onAction?.();
-              }}
-              className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 hover:bg-cyan-500/20 transition-colors"
-            >
-              {action}
-            </button>
-          ) : (
-            <ArrowUpRight className="w-5 h-5 text-cyan-400" />
-          )}
-        </div>
+      {/* Icon */}
+      <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center shrink-0">
+        <Icon className="h-4 w-4 text-zinc-500 group-hover:text-zinc-300 transition-colors" />
       </div>
+
+      {/* Content */}
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2 mb-0.5">
+          <span className="text-xs text-zinc-600 uppercase tracking-wider">{label}</span>
+          {badge}
+        </div>
+        <p className="text-sm text-zinc-300 truncate group-hover:text-white transition-colors">
+          {value}
+        </p>
+      </div>
+
+      {/* Action */}
+      {onCopy ? (
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            onCopy();
+          }}
+          className="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center text-zinc-600 hover:text-zinc-300 hover:bg-white/10 transition-colors shrink-0"
+          aria-label="Copy"
+        >
+          <Copy className="h-3.5 w-3.5" />
+        </button>
+      ) : (
+        <ArrowUpRight className="h-4 w-4 text-zinc-700 group-hover:text-zinc-500 transition-colors shrink-0" />
+      )}
     </motion.a>
   );
 }
 
-function SocialButton({ icon: Icon, label, href, color }) {
+function SocialLink({ icon: Icon, label, href, hrefColor }) {
   return (
     <motion.a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
+      initial={{ opacity: 0, y: 8 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      viewport={{ once: true, margin: "-50px" }}
       className={cn(
-        'flex-1 min-w-0 flex flex-col items-center gap-3 p-5 sm:p-6 rounded-2xl',
-        'bg-zinc-900/60 border border-zinc-800',
-        `hover:${color}/20 hover:border-${color}/40`,
-        'transition-all duration-300 hover:-translate-y-1 group'
+        "group flex items-center gap-3 p-4 rounded-xl",
+        "border border-white/5 bg-white/[0.02]",
+        `hover:border-[${hrefColor}]/30 hover:bg-[${hrefColor}]/5`,
+        "transition-colors duration-200"
       )}
-      whileHover={{ scale: 1.03 }}
-      whileTap={{ scale: 0.97 }}
-      style={{}}
+      style={hrefColor ? {
+        "--social-color": hrefColor
+      } : {}}
     >
-      <div className={cn(
-        'w-12 h-12 rounded-xl flex items-center justify-center',
-        `bg-${color || 'cyan'}-500/10 border border-${color || 'cyan'}-500/20`,
-        'group-hover:scale-110 transition-transform duration-300'
-      )}>
-        <Icon className="w-5 h-5" style={{ color: color === 'pink' ? '#ec4899' : color === 'cyan' ? '#06b6d4' : color === 'purple' ? '#8b5cf6' : color === 'green' ? '#22c55e' : '#06b6d4' }} />
+      <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center shrink-0 group-hover:bg-white/10 transition-colors">
+        <Icon className="h-4 w-4 text-zinc-500 group-hover:text-zinc-300 transition-colors" style={{ color: hrefColor }} />
       </div>
-      <span className="text-xs sm:text-sm font-medium text-zinc-400 group-hover:text-white transition-colors">{label}</span>
+      <span className="text-sm text-zinc-400 group-hover:text-zinc-200 transition-colors">
+        {label}
+      </span>
     </motion.a>
   );
 }
@@ -107,145 +102,93 @@ export function ContactSection() {
     setTimeout(() => setPhoneCopied(false), 2000);
   };
 
-  const whatsappSocial = socials.find((s) => s.icon === 'WhatsApp');
-  const otherSocials = socials.filter((s) => s.icon !== 'WhatsApp');
+  const whatsappSocial = socials.find((s) => s.icon === "WhatsApp");
+  const otherSocials = socials.filter((s) => s.icon !== "WhatsApp");
+
+  const iconMap = { Github, Linkedin, Instagram, WhatsApp: WhatsAppIcon };
+  const colorMap = { Github: "#06b6d4", Linkedin: "#8b5cf6", Instagram: "#ec4899" };
 
   return (
     <SectionContainer id="contact">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-2xl mx-auto">
         {/* Heading */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
+          transition={{ duration: 0.4 }}
+          viewport={{ once: true, margin: "-50px" }}
+          className="text-center mb-10"
         >
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4">
-            Let's{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
-              Connect
-            </span>
+          <h2 className="text-3xl sm:text-4xl font-bold text-zinc-200 mb-3">
+            Get in touch
           </h2>
-          <p className="text-zinc-500 max-w-lg mx-auto">
-            Have a project in mind or just want to say hi? Reach out and let's create something amazing together.
+          <p className="text-sm text-zinc-500 max-w-sm mx-auto">
+            Available for projects and collaborations. Reach out and let's build something together.
           </p>
         </motion.div>
 
-        {/* Contact cards */}
-        <div className="space-y-4 mb-8">
-          {/* Email */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            viewport={{ once: true }}
-          >
-            <ContactCard
-              icon={Mail}
-              label="Email"
-              value={personalInfo.email}
-              href={`mailto:${personalInfo.email}`}
+        {/* Contact rows */}
+        <div className="space-y-3 mb-8">
+          <ContactRow
+            icon={Mail}
+            label="Email"
+            value={personalInfo.email}
+            href={`mailto:${personalInfo.email}`}
+            badge={
+              <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-white/5 text-zinc-500 border border-white/5">
+                Primary
+              </span>
+            }
+          />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <ContactRow
+              icon={MessageCircle}
+              label="WhatsApp"
+              value={phoneCopied ? "Copied!" : personalInfo.phone}
+              href={whatsappSocial?.url}
+              onCopy={copyPhone}
               badge={
-                <span className="text-xs px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400/80 border border-cyan-500/20">
-                  Primary
+                <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-white/5 text-zinc-500 border border-white/5">
+                  Fast
                 </span>
               }
             />
-          </motion.div>
-
-          {/* Phone & Location row on desktop */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* Phone */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <ContactCard
-                icon={MessageCircle}
-                label="WhatsApp"
-                value={phoneCopied ? 'Copied!' : personalInfo.phone}
-                href={whatsappSocial?.url}
-                action={<Copy className="w-4 h-4" />}
-                onAction={copyPhone}
-                badge={
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-green-500/10 text-green-400/80 border border-green-500/20">
-                    Fast Reply
-                  </span>
-                }
-              />
-            </motion.div>
-
-            {/* Location */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.25 }}
-              viewport={{ once: true }}
-            >
-              <ContactCard
-                icon={MapPin}
-                label="Location"
-                value={personalInfo.location}
-              />
-            </motion.div>
+            <ContactRow
+              icon={MapPin}
+              label="Location"
+              value={personalInfo.location}
+            />
           </div>
         </div>
 
-        {/* Divider */}
+        {/* Social links */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          viewport={{ once: true }}
-          className="flex items-center gap-4 mb-8"
+          transition={{ duration: 0.4, delay: 0.1 }}
+          viewport={{ once: true, margin: "-50px" }}
+          className="pt-4"
         >
-          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-zinc-800 to-transparent" />
-          <span className="text-xs text-zinc-600 font-medium uppercase tracking-widest">or follow on</span>
-          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-zinc-800 to-transparent" />
+          <p className="text-xs text-zinc-700 uppercase tracking-widest text-center mb-4">
+            Follow
+          </p>
+          <div className="grid grid-cols-3 gap-3">
+            {otherSocials.map((social) => {
+              const Icon = iconMap[social.icon];
+              const color = colorMap[social.icon];
+              return (
+                <SocialLink
+                  key={social.platform}
+                  icon={Icon}
+                  label={social.platform}
+                  href={social.url}
+                  hrefColor={color}
+                />
+              );
+            })}
+          </div>
         </motion.div>
-
-        {/* Social buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.35 }}
-          viewport={{ once: true }}
-          className="grid grid-cols-3 gap-4"
-        >
-          {otherSocials.map((social) => {
-            const iconMap = { Github, Linkedin, Instagram, WhatsApp: WhatsAppIcon };
-            const Icon = iconMap[social.icon];
-            const colorMap = {
-              Github: '#06b6d4',
-              Linkedin: '#8b5cf6',
-              Instagram: '#ec4899',
-            };
-            const color = colorMap[social.icon] || '#06b6d4';
-            return (
-              <SocialButton
-                key={social.platform}
-                icon={Icon}
-                label={social.platform}
-                href={social.url}
-                color={social.icon === 'Instagram' ? 'pink' : social.icon === 'Linkedin' ? 'purple' : 'cyan'}
-              />
-            );
-          })}
-        </motion.div>
-
-        {/* Fun tagline */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          viewport={{ once: true }}
-          className="text-center text-zinc-700 text-sm mt-12"
-        >
-          I don't bite — say hello anytime! 👋
-        </motion.p>
       </div>
     </SectionContainer>
   );

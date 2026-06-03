@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { SectionContainer } from "@/Components/section-container";
 import { SectionHeading } from "@/Components/section-heading";
-import { motion } from "framer-motion";
 import { Badge } from "@/Components/ui/badge";
 import { Button } from "@/Components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter } from "@/Components/ui/card";
@@ -14,31 +14,29 @@ import Image from "next/image";
 const INITIAL_COUNT = 3;
 
 export function AchievementsSection() {
-  const [selectedAchievement, setSelectedAchievement] = useState(null);
   const [achievements, setAchievements] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedAchievement, setSelectedAchievement] = useState(null);
   const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
-    fetch('/api/certificates')
-      .then(res => res.json())
-      .then(data => {
-        const mapped = data.map(c => ({
-          ...c,
-          id: c._id,
-          organization: c.issuer,
-          imageUrl: c.imageUrl || '',
-        }));
-        setAchievements(mapped);
-      })
+    fetch("/api/certificates")
+      .then((res) => res.json())
+      .then((data) =>
+        setAchievements(
+          data.map((c) => ({
+            ...c,
+            id: c._id,
+            organization: c.issuer,
+            imageUrl: c.imageUrl || "",
+          }))
+        )
+      )
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
 
-  const displayedAchievements = showAll
-    ? achievements
-    : achievements.slice(0, INITIAL_COUNT);
-
+  const displayedAchievements = showAll ? achievements : achievements.slice(0, INITIAL_COUNT);
   const hasMore = achievements.length > INITIAL_COUNT;
 
   if (loading) return null;
@@ -50,14 +48,14 @@ export function AchievementsSection() {
         subtitle="Certifications, recognitions, and learning milestones."
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {displayedAchievements.map((achievement, index) => (
           <motion.div
             key={achievement.id}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.08 }}
-            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.3, delay: index * 0.05 }}
+            viewport={{ once: true, margin: "-50px" }}
           >
             <AchievementCard
               achievement={achievement}
@@ -70,19 +68,20 @@ export function AchievementsSection() {
       {hasMore && (
         <div className="flex justify-center mt-10">
           <Button
-            onClick={() => setShowAll(!showAll)}
             variant="outline"
-            className="rounded-full px-8 py-6 text-sm font-medium border-zinc-700 hover:border-cyan-500 hover:bg-cyan-500/5 hover:text-cyan-400 transition-all duration-300 gap-2"
+            size="sm"
+            onClick={() => setShowAll(!showAll)}
+            className="rounded-full text-xs text-zinc-500 hover:text-zinc-300 border-white/10 hover:border-white/20 px-6"
           >
             {showAll ? (
               <>
-                Show Less
-                <ChevronUp className="h-4 w-4" />
+                Show less
+                <ChevronUp className="ml-1 h-3 w-3" />
               </>
             ) : (
               <>
-                Show More ({achievements.length - INITIAL_COUNT} more)
-                <ChevronDown className="h-4 w-4" />
+                Show more ({achievements.length - INITIAL_COUNT})
+                <ChevronDown className="ml-1 h-3 w-3" />
               </>
             )}
           </Button>
@@ -99,95 +98,78 @@ export function AchievementsSection() {
 
 function AchievementCard({ achievement, onSelect }) {
   return (
-    <Card className="overflow-hidden h-full flex flex-col group relative bg-card hover:shadow-2xl transition-all duration-300 border-0 rounded-2xl cursor-pointer"
+    <Card
+      className="overflow-hidden h-full flex flex-col bg-white/[0.02] border-white/5 hover:border-white/10 rounded-xl transition-colors duration-200 group cursor-pointer"
       onClick={onSelect}
     >
-      {/* Animated corner accent */}
-      <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-primary/30 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-      {/* Certificate Image with overlay */}
-      <div className="relative h-56 overflow-hidden">
+      {/* Image */}
+      <div className="relative h-40 overflow-hidden">
         {achievement.imageUrl ? (
-          <>
-            <Image
-              src={achievement.imageUrl}
-              alt={achievement.title}
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              style={{ objectFit: "cover" }}
-              className="transition-transform duration-300 group-hover:scale-105"
-              loading="lazy"
-            />
-          </>
+          <Image
+            src={achievement.imageUrl}
+            alt={achievement.title}
+            fill
+            sizes="(max-width: 768px) 100vw, 33vw"
+            style={{ objectFit: "cover" }}
+            className="transition-transform duration-300 group-hover:scale-105"
+            loading="lazy"
+          />
         ) : (
-          <div className="relative h-full bg-gradient-to-br from-primary/5 via-purple-500/5 to-pink-500/5 group-hover:from-primary/10 group-hover:via-purple-500/10 group-hover:to-pink-500/10 transition-all duration-300">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <Award className="h-16 w-16 text-primary/20 group-hover:text-primary/40 group-hover:scale-110 transition-all duration-300" />
-            </div>
+          <div className="w-full h-full bg-white/5 flex items-center justify-center">
+            <Award className="h-10 w-10 text-zinc-800" />
           </div>
         )}
-
-        {/* Diagonal overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/40 to-transparent group-hover:from-black/70 transition-all duration-300" />
-
-        {/* Title overlay on image */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-0 group-hover:translate-y-[-4px] transition-transform duration-300">
-          <h3 className="text-xl font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] line-clamp-2">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+        <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between">
+          <h3 className="text-sm font-semibold text-white truncate drop-shadow-sm">
             {achievement.title}
           </h3>
         </div>
-
-        {/* Type badge overlay */}
-        <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-4 group-hover:translate-x-0">
-          <Badge className="bg-primary/90 backdrop-blur-sm text-primary-foreground border-0 shadow-lg">
-            {achievement.type}
-          </Badge>
-        </div>
       </div>
 
-      <CardContent className="flex-grow p-5 space-y-3">
-        <div className="flex items-center gap-2 text-sm text-muted-foreground group-hover:text-primary transition-colors duration-300">
-          <Award className="h-4 w-4" />
-          <span className="font-medium">{achievement.organization}</span>
+      <CardContent className="flex-grow p-4 space-y-3">
+        <div className="flex items-center gap-2 text-xs text-zinc-600">
+          <Award className="h-3 w-3 shrink-0" />
+          <span className="truncate">{achievement.organization}</span>
         </div>
-
-        <CardDescription className="line-clamp-2 text-sm leading-relaxed">
+        <CardDescription className="text-xs text-zinc-500 line-clamp-2 leading-relaxed">
           {achievement.description}
         </CardDescription>
-
-        <div className="flex items-center justify-between text-xs text-muted-foreground pt-2">
-          <div className="flex items-center gap-1.5">
-            <Calendar className="h-3.5 w-3.5" />
+        <div className="flex items-center gap-4 text-[10px] text-zinc-700">
+          <div className="flex items-center gap-1">
+            <Calendar className="h-2.5 w-2.5" />
             <span>{achievement.date}</span>
           </div>
-          <div className="flex items-center gap-1.5">
-            <Clock className="h-3.5 w-3.5" />
-            <span>{achievement.duration}</span>
-          </div>
+          {achievement.duration && (
+            <div className="flex items-center gap-1">
+              <Clock className="h-2.5 w-2.5" />
+              <span>{achievement.duration}</span>
+            </div>
+          )}
         </div>
       </CardContent>
 
-      <CardFooter className="p-5 pt-0 mt-auto">
+      <CardFooter className="p-4 pt-0">
         {achievement.certificateUrl ? (
           <Button
             asChild
-            className="w-full rounded-full font-semibold group-hover:shadow-lg group-hover:shadow-primary/30 transition-all duration-300"
-            size="lg"
+            size="sm"
+            className="w-full rounded-lg text-xs font-medium bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-zinc-200 border border-white/5 hover:border-white/10 transition-colors"
             onClick={(e) => e.stopPropagation()}
           >
             <a href={achievement.certificateUrl} target="_blank" rel="noopener noreferrer">
               View Certificate
-              <ExternalLink className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
+              <ExternalLink className="ml-1.5 h-3 w-3" />
             </a>
           </Button>
         ) : (
           <Button
-            className="w-full rounded-full font-semibold group-hover:shadow-lg group-hover:shadow-primary/30 transition-all duration-300"
-            size="lg"
+            size="sm"
+            className="w-full rounded-lg text-xs font-medium bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-zinc-200 border border-white/5 hover:border-white/10 transition-colors"
             onClick={onSelect}
           >
             View Details
-            <ExternalLink className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
+            <ExternalLink className="ml-1.5 h-3 w-3" />
           </Button>
         )}
       </CardFooter>
@@ -198,21 +180,13 @@ function AchievementCard({ achievement, onSelect }) {
 function AchievementDialog({ achievement, onClose }) {
   useEffect(() => {
     if (achievement) {
-      document.body.style.overflow = 'hidden';
-      document.body.style.position = 'fixed';
-      document.body.style.width = '100%';
-      document.documentElement.style.overflow = 'hidden';
-      window.history.pushState({ modal: true }, '');
-      const handlePopState = () => {
-        onClose();
-      };
-      window.addEventListener('popstate', handlePopState);
+      document.body.style.overflow = "hidden";
+      window.history.pushState({ modal: true }, "");
+      const handlePopState = () => onClose();
+      window.addEventListener("popstate", handlePopState);
       return () => {
-        document.body.style.overflow = '';
-        document.body.style.position = '';
-        document.body.style.width = '';
-        document.documentElement.style.overflow = '';
-        window.removeEventListener('popstate', handlePopState);
+        document.body.style.overflow = "";
+        window.removeEventListener("popstate", handlePopState);
       };
     }
   }, [achievement, onClose]);
@@ -220,73 +194,61 @@ function AchievementDialog({ achievement, onClose }) {
   if (!achievement) return null;
 
   return (
-    <Dialog open={!!achievement} onOpenChange={(open) => {
-      if (!open) {
-        if (window.history.state?.modal) {
-          window.history.back();
-        } else {
-          onClose();
+    <Dialog
+      open={!!achievement}
+      onOpenChange={(open) => {
+        if (!open) {
+          if (window.history.state?.modal) window.history.back();
+          else onClose();
         }
-      }
-    }}>
-      <DialogContent className="max-w-2xl max-h-[90vh] w-[95vw] sm:w-full pt-16 md:pt-14" style={{ WebkitOverflowScrolling: 'touch' }}>
-        <DialogHeader className="pr-12 text-left sm:text-center">
-          <div className="flex items-start justify-between gap-4">
-            <div className="flex-1 pr-4">
-              <DialogTitle className="text-lg md:text-2xl mb-2 leading-tight">{achievement.title}</DialogTitle>
-              <DialogDescription className="flex items-center gap-2 text-sm md:text-base">
-                <Award className="h-4 w-4 flex-shrink-0" />
-                <span className="line-clamp-2">{achievement.organization}</span>
+      }}
+    >
+      <DialogContent className="max-w-2xl max-h-[90vh] w-[95vw] rounded-xl bg-zinc-950 border-white/10 p-6 pt-16">
+        <DialogHeader className="pr-8 text-left mb-4">
+          <div className="flex items-start gap-3">
+            <Award className="h-5 w-5 text-zinc-600 mt-0.5 shrink-0" />
+            <div>
+              <DialogTitle className="text-lg text-zinc-200">{achievement.title}</DialogTitle>
+              <DialogDescription className="flex items-center gap-1 text-xs text-zinc-600 mt-1">
+                <span>{achievement.organization}</span>
               </DialogDescription>
             </div>
           </div>
         </DialogHeader>
 
-        {/* Certificate Image */}
-        <div className="relative h-48 md:h-80 rounded-lg border border-border mt-4 overflow-hidden" style={{ WebkitOverflowScrolling: 'touch' }}>
-          {achievement.imageUrl ? (
+        {/* Image */}
+        {achievement.imageUrl && (
+          <div className="relative h-48 md:h-64 rounded-lg overflow-hidden mb-4 bg-white/5">
             <Image
               src={achievement.imageUrl}
               alt={achievement.title}
               fill
               sizes="(max-width: 768px) 95vw, 672px"
               style={{ objectFit: "contain" }}
-              className="rounded-lg bg-muted"
+              className="bg-zinc-900/50"
               loading="lazy"
             />
-          ) : (
-            <div className="relative h-full bg-gradient-to-br from-primary/5 via-purple-500/5 to-pink-500/5">
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
-                <Award className="h-24 w-24 text-primary/20" />
-                <p className="text-sm text-muted-foreground">Certificate preview will appear here</p>
-              </div>
+          </div>
+        )}
+
+        {/* Meta */}
+        <div className="grid grid-cols-2 gap-3 py-3 border-y border-white/5">
+          <div className="flex items-center gap-2 text-xs text-zinc-500">
+            <Calendar className="h-3 w-3" />
+            <span>{achievement.date}</span>
+          </div>
+          {achievement.duration && (
+            <div className="flex items-center gap-2 text-xs text-zinc-500">
+              <Clock className="h-3 w-3" />
+              <span>{achievement.duration}</span>
             </div>
           )}
         </div>
 
-        <div className="grid grid-cols-2 gap-3 md:gap-4 py-3 md:py-4 mt-2">
-          <div className="flex items-center gap-2 text-sm">
-            <Calendar className="h-4 w-4 text-primary flex-shrink-0" />
-            <div>
-              <p className="text-xs text-muted-foreground">Date</p>
-              <p className="font-medium text-sm">{achievement.date}</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2 text-sm">
-            <Clock className="h-4 w-4 text-primary flex-shrink-0" />
-            <div>
-              <p className="text-xs text-muted-foreground">Duration</p>
-              <p className="font-medium text-sm">{achievement.duration}</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-2 md:mt-4">
-          <h4 className="text-base md:text-lg font-semibold mb-2 md:mb-3">About this achievement</h4>
-          <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
-            {achievement.description}
-          </p>
-        </div>
+        {/* Description */}
+        <p className="text-sm text-zinc-400 leading-relaxed">
+          {achievement.description}
+        </p>
       </DialogContent>
     </Dialog>
   );

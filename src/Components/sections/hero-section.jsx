@@ -1,253 +1,204 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { getPersonalInfo, getSocialLinks } from "@/lib/config";
 import { ButtonLink } from "@/Components/button-link";
-import { Github, Linkedin, Instagram, ArrowRight } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { ArrowRight, MapPin } from "lucide-react";
+import { Github, Linkedin, Instagram } from "lucide-react";
 import { WhatsAppIcon } from "@/Components/icons/whatsapp-icon";
-import { useState } from "react";
+import { cn } from "@/lib/utils";
 
-const skills = ['React', 'Next.js', 'Node.js', 'AI/ML', 'MongoDB', 'Figma', 'TypeScript', 'Tailwind'];
-const gradientColors = [
-  { x: 20, y: 30, color: 'bg-cyan-500/30', size: 300 },
-  { x: 70, y: 60, color: 'bg-purple-500/25', size: 350 },
-  { x: 50, y: 20, color: 'bg-blue-500/20', size: 280 },
-  { x: 85, y: 40, color: 'bg-pink-500/20', size: 320 },
-];
+const tools = ["React", "Next.js", "Node.js", "TypeScript", "MongoDB", "Figma", "AI/ML"];
 
-function FloatingOrb({ skill, delay }) {
+function AbstractVisual() {
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.5 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.6, delay }}
-      className="absolute"
-      style={{
-        left: `${Math.random() * 60 + 10}%`,
-        top: `${Math.random() * 50 + 10}%`,
-      }}
-      whileHover={{ scale: 1.15 }}
-    >
-      <div className="relative">
-        <div className="absolute -inset-2 rounded-full bg-gradient-to-r from-cyan-500/20 to-purple-500/20 blur-md" />
-        <div className="relative px-4 py-2 rounded-full bg-zinc-900/80 border border-zinc-700/50 backdrop-blur-sm">
-          <span className="text-xs font-medium text-zinc-300">{skill}</span>
-        </div>
+    <div className="relative w-full max-w-md">
+      {/* Main gradient orb */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div
+          className="w-72 h-72 rounded-full opacity-20"
+          style={{
+            background: "radial-gradient(circle at 30% 40%, #06b6d4 0%, #8b5cf6 50%, transparent 70%)",
+            filter: "blur(40px)",
+          }}
+        />
       </div>
-    </motion.div>
-  );
-}
 
-function AnimatedVisual({ visible }) {
-  const canvasRef = useRef(null);
+      {/* Glass card — role & tools */}
+      <div className="relative z-10 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-6 overflow-hidden">
+        {/* Top accent line */}
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-cyan-400 via-purple-500 to-transparent" />
 
-  useEffect(() => {
-    if (!visible) return;
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+        {/* Role tag */}
+        <div className="flex items-center gap-2 mb-5">
+          <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          <span className="text-xs text-zinc-400 font-medium uppercase tracking-widest">Current Focus</span>
+        </div>
 
-    const ctx = canvas.getContext('2d');
-    const dpr = window.devicePixelRatio || 1;
-    const size = 400;
-    canvas.width = size * dpr;
-    canvas.height = size * dpr;
-    ctx.scale(dpr, dpr);
-
-    const particles = Array.from({ length: 40 }, () => ({
-      x: Math.random() * size,
-      y: Math.random() * size,
-      r: Math.random() * 2 + 1,
-      vx: (Math.random() - 0.5) * 0.5,
-      vy: (Math.random() - 0.5) * 0.5,
-      alpha: Math.random() * 0.5 + 0.2,
-      color: ['#06b6d4', '#8b5cf6', '#ec4899', '#3b82f6'][Math.floor(Math.random() * 4)],
-    }));
-
-    let animId;
-    const draw = () => {
-      ctx.clearRect(0, 0, size, size);
-      particles.forEach((p) => {
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.x < 0 || p.x > size) p.vx *= -1;
-        if (p.y < 0 || p.y > size) p.vy *= -1;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        ctx.globalAlpha = p.alpha;
-        ctx.fill();
-      });
-      ctx.globalAlpha = 1;
-      animId = requestAnimationFrame(draw);
-    };
-    draw();
-    return () => cancelAnimationFrame(animId);
-  }, [visible]);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.8, rotateY: -15 }}
-      animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-      transition={{ duration: 1, delay: 0.3, type: 'spring' }}
-      className="relative w-full max-w-sm mx-auto"
-    >
-      {/* Background glow */}
-      <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 via-purple-500/10 to-transparent rounded-3xl blur-2xl" />
-
-      {/* Main glass card */}
-      <div className="relative rounded-3xl overflow-hidden border border-zinc-800/50 bg-zinc-900/40 backdrop-blur-xl shadow-2xl">
-        {/* Top gradient bar */}
-        <div className="h-1 w-full bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500" />
-
-        {/* Particle canvas */}
-        <div className="relative p-6 min-h-[400px] flex items-center justify-center">
-          <canvas
-            ref={canvasRef}
-            className="absolute inset-0 w-full h-full opacity-60"
-            style={{ width: '100%', height: '100%' }}
-          />
-
-          {/* Center icon */}
-          <motion.div
-            animate={{ y: [0, -8, 0] }}
-            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-            className="relative z-10 text-center"
-          >
-            <div className="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br from-cyan-500 to-purple-600 flex items-center justify-center shadow-[0_0_40px_rgba(6,182,212,0.4)] mb-4">
-              <span className="text-3xl font-bold text-white font-mono">AK</span>
-            </div>
-            <p className="text-sm font-medium text-zinc-400">AI & DS Student</p>
-            <p className="text-xs text-zinc-600 mt-1">Mumbai, India</p>
-          </motion.div>
-
-          {/* Floating skill orbs */}
-          {skills.map((skill, i) => (
-            <FloatingOrb key={skill} skill={skill} delay={0.5 + i * 0.12} />
+        {/* Stack list */}
+        <div className="space-y-2.5">
+          {tools.map((tool, i) => (
+            <motion.div
+              key={tool}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3, delay: 0.5 + i * 0.08 }}
+              className="flex items-center gap-3"
+            >
+              <span className="w-1 h-1 rounded-full bg-cyan-400/60 shrink-0" />
+              <span className="text-sm text-zinc-400">{tool}</span>
+            </motion.div>
           ))}
         </div>
 
-        {/* Stats row */}
-        <div className="grid grid-cols-3 border-t border-zinc-800/50">
-          {[
-            { label: 'Projects', value: '5+' },
-            { label: 'Technologies', value: '10+' },
-            { label: 'Achievements', value: '3+' },
-          ].map(({ label, value }) => (
-            <div key={label} className="p-4 text-center border-r border-zinc-800/50 last:border-r-0">
-              <div className="text-xl font-bold text-cyan-400">{value}</div>
-              <div className="text-xs text-zinc-500 mt-0.5">{label}</div>
-            </div>
-          ))}
-        </div>
+        {/* Separator */}
+        <div className="h-px bg-white/5 my-5" />
+
+        {/* Status row */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4, delay: 1.1 }}
+          className="flex items-center gap-4"
+        >
+          <div className="flex items-center gap-1.5 text-xs text-zinc-500">
+            <MapPin className="h-3 w-3 text-zinc-600" />
+            <span>Mumbai, India</span>
+          </div>
+          <div className="h-3 w-px bg-white/10" />
+          <div className="flex items-center gap-1.5 text-xs text-zinc-500">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400/70" />
+            <span>Open to work</span>
+          </div>
+        </motion.div>
       </div>
-    </motion.div>
+
+      {/* Decorative lines */}
+      <svg
+        className="absolute -top-8 -right-8 w-32 h-32 text-white/5"
+        viewBox="0 0 100 100"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="0.5"
+      >
+        <circle cx="50" cy="50" r="45" />
+        <circle cx="50" cy="50" r="30" />
+        <circle cx="50" cy="50" r="15" />
+        <line x1="0" y1="50" x2="100" y2="50" />
+        <line x1="50" y1="0" x2="50" y2="100" />
+      </svg>
+    </div>
   );
 }
 
 export function HeroSection() {
   const personalInfo = getPersonalInfo();
   const socials = getSocialLinks();
-  const [visible, setVisible] = useState(false);
+
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setVisible(true), 100);
-    return () => clearTimeout(timer);
+    setMounted(true);
   }, []);
 
   const containerVariants = {
     hidden: {},
-    visible: { transition: { staggerChildren: 0.15 } },
+    visible: { transition: { staggerChildren: 0.12 } },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
+    hidden: { opacity: 0, y: 16 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] } },
   };
 
   return (
-    <section className="relative min-h-screen flex items-center pt-20 pb-16 overflow-hidden">
-      {/* Background mesh gradient */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-[128px]" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-[128px]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-[128px]" />
+    <section className="relative min-h-screen flex items-center pt-24 pb-16 overflow-hidden">
+      {/* ── Background ──────────────────────────────────── */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Gradient base */}
+        <div className="absolute inset-0 bg-gradient-to-b from-zinc-950 via-zinc-950 to-black" />
+        {/* Subtle top highlight */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-cyan-500/[0.03] to-transparent" />
+        {/* Left accent */}
+        <div className="absolute top-1/4 left-0 w-[300px] h-[300px] bg-cyan-500/[0.04] rounded-full blur-[100px]" />
+        {/* Right accent */}
+        <div className="absolute bottom-1/3 right-0 w-[250px] h-[250px] bg-purple-500/[0.03] rounded-full blur-[100px]" />
       </div>
 
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center max-w-6xl mx-auto">
 
-          {/* Left: Text content */}
+          {/* ── Left: Content ─────────────────────────────── */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
-            animate="visible"
-            className="space-y-6 text-center lg:text-left order-2 lg:order-1"
+            animate={mounted ? "visible" : "hidden"}
+            className="space-y-6"
           >
-            {/* Greeting badge */}
-            <motion.div variants={itemVariants} className="inline-flex">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-sm font-medium">
-                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-                Available for opportunities
+            {/* Location tag */}
+            <motion.div variants={itemVariants}>
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 text-xs text-zinc-500 font-medium">
+                <MapPin className="h-3 w-3 text-cyan-400/70" />
+                Mumbai, India
               </div>
             </motion.div>
 
             {/* Name */}
             <motion.div variants={itemVariants}>
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-none">
-                <span className="text-zinc-300">Hi, I'm </span>
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400">
-                  {personalInfo.name}
-                </span>
+              <h1 className="text-4xl sm:text-5xl lg:text-[3.75rem] font-bold leading-[1.1] tracking-tight">
+                <span className="text-zinc-200">Ahmed Khan</span>
               </h1>
             </motion.div>
 
             {/* Title */}
             <motion.p
               variants={itemVariants}
-              className="text-lg sm:text-xl text-zinc-400 font-medium"
+              className="text-base sm:text-lg text-cyan-400/80 font-medium"
             >
               {personalInfo.title}
             </motion.p>
 
+            {/* Divider */}
+            <motion.div variants={itemVariants}>
+              <div className="w-12 h-px bg-gradient-to-r from-cyan-400/50 to-transparent" />
+            </motion.div>
+
             {/* Bio */}
             <motion.p
               variants={itemVariants}
-              className="text-zinc-500 max-w-lg mx-auto lg:mx-0 leading-relaxed"
+              className="text-zinc-500 leading-relaxed max-w-md text-sm sm:text-base"
             >
               {personalInfo.bio}
             </motion.p>
 
-            {/* CTA buttons */}
+            {/* CTA */}
             <motion.div
               variants={itemVariants}
-              className="flex flex-col sm:flex-row items-center gap-3 justify-center lg:justify-start"
+              className="flex flex-col sm:flex-row items-start gap-3 pt-2"
             >
               <ButtonLink
                 href="/#projects"
                 icon
-                className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-3 rounded-xl font-semibold text-sm shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:shadow-[0_0_30px_rgba(6,182,212,0.5)] transition-all duration-300"
+                className="bg-cyan-500 hover:bg-cyan-400 text-zinc-950 px-6 py-3 rounded-lg font-semibold text-sm transition-colors duration-200"
               >
-                View My Work
+                View Projects
                 <ArrowRight className="ml-2 h-4 w-4" />
               </ButtonLink>
               <ButtonLink
                 href="/#contact"
                 variant="outline"
-                className="w-full sm:w-auto border-zinc-700 hover:border-cyan-500 hover:bg-cyan-500/5 text-zinc-300 hover:text-cyan-400 px-6 py-3 rounded-xl text-sm transition-all duration-300"
+                className="border-white/10 text-zinc-400 hover:text-zinc-200 hover:border-white/20 px-6 py-3 rounded-lg text-sm transition-colors duration-200"
               >
                 Get In Touch
               </ButtonLink>
             </motion.div>
 
-            {/* Social links */}
+            {/* Social */}
             <motion.div
               variants={itemVariants}
-              className="flex items-center gap-4 justify-center lg:justify-start pt-2"
+              className="flex items-center gap-4 pt-2"
             >
-              <span className="text-xs text-zinc-600 font-medium uppercase tracking-widest">Connect</span>
-              <div className="h-px flex-1 bg-gradient-to-r from-zinc-800 to-transparent max-w-[60px] hidden lg:block" />
               {socials.map((social) => {
                 const iconMap = {
                   Github, Linkedin, Instagram, WhatsApp: WhatsAppIcon,
@@ -261,10 +212,10 @@ export function HeroSection() {
                     rel="noopener noreferrer"
                     aria-label={social.platform}
                     className={cn(
-                      'w-10 h-10 flex items-center justify-center rounded-xl',
-                      'border border-zinc-800 text-zinc-500',
-                      'hover:border-cyan-500/50 hover:bg-cyan-500/10 hover:text-cyan-400',
-                      'transition-all duration-300 hover:scale-110 active:scale-95'
+                      "w-9 h-9 flex items-center justify-center rounded-lg",
+                      "border border-white/10 text-zinc-600",
+                      "hover:border-cyan-400/30 hover:text-cyan-400",
+                      "transition-colors duration-200"
                     )}
                   >
                     {Icon && <Icon className="h-4 w-4" />}
@@ -274,12 +225,28 @@ export function HeroSection() {
             </motion.div>
           </motion.div>
 
-          {/* Right: Animated visual */}
-          <div className="order-1 lg:order-2 flex justify-center">
-            <AnimatedVisual visible={visible} />
-          </div>
+          {/* ── Right: Abstract visual ───────────────────── */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={mounted ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+            className="hidden lg:flex justify-center lg:justify-end"
+          >
+            <AbstractVisual />
+          </motion.div>
         </div>
       </div>
+
+      {/* ── Scroll indicator ──────────────────────────── */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={mounted ? { opacity: 1 } : {}}
+        transition={{ duration: 0.5, delay: 1.2 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+      >
+        <span className="text-[10px] uppercase tracking-[0.3em] text-zinc-700">Scroll</span>
+        <div className="w-px h-8 bg-gradient-to-b from-zinc-700 to-transparent" />
+      </motion.div>
     </section>
   );
 }

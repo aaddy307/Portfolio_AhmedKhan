@@ -1,15 +1,14 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { SectionContainer } from "@/Components/section-container";
 import { SectionHeading } from "@/Components/section-heading";
-import { RadialIntroMobile } from "@/Components/radial-intro-mobile";
-import { RadialIntroDesktop } from "@/Components/radial-intro-desktop";
 import { getSkills } from "@/lib/config";
 import { Progress } from "@/Components/ui/progress";
-import { motion } from "framer-motion";
+import { Badge } from "@/Components/ui/badge";
+import { MapPin, GraduationCap, Sparkles } from "lucide-react";
 import Image from "next/image";
 
-// Skill icon mapping
 const skillIcons = {
   react: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
   nextjs: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
@@ -24,181 +23,207 @@ const skillIcons = {
   vscode: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg",
   wordpress: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/wordpress/wordpress-plain.svg",
   figma: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg",
+  python: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
+  ai: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg",
 };
 
 function SkillBar({ skill, index }) {
   return (
     <motion.div
-      initial={{ opacity: 0, x: -20 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.08, ease: "easeOut" }}
-      viewport={{ once: true, amount: 0.15 }}
+      initial={{ opacity: 0, y: 10 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: index * 0.06 }}
+      viewport={{ once: true, margin: "-50px" }}
       className="space-y-2"
     >
       <div className="flex justify-between items-center">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
           {skill.icon && skillIcons[skill.icon] && (
-            <div className="w-6 h-6 flex-shrink-0 relative">
+            <div className="w-5 h-5 flex-shrink-0 relative">
               <Image
                 src={skillIcons[skill.icon]}
                 alt={`${skill.name} icon`}
-                width={24}
-                height={24}
-                className={`object-contain ${
-                  skill.icon === 'express' || skill.icon === 'github' 
-                    ? 'invert brightness-0 contrast-200' 
-                    : ''
-                }`}
+                width={20}
+                height={20}
+                className={`object-contain ${skill.icon === "express" || skill.icon === "github" ? "invert brightness-0 contrast-200" : ""}`}
               />
             </div>
           )}
-          <span className="font-medium">{skill.name}</span>
+          <span className="text-sm text-zinc-300">{skill.name}</span>
         </div>
-        <span className="text-sm text-muted-foreground">{skill.level}%</span>
+        <span className="text-xs text-zinc-600">{skill.level}%</span>
       </div>
-      <Progress value={skill.level} className="h-2" />
+      <Progress value={skill.level} className="h-1" />
     </motion.div>
   );
 }
 
 export function AboutSection() {
   const skills = getSkills();
-  const frontendSkills = skills.filter(skill => skill.category === "frontend");
-  const backendSkills = skills.filter(skill => skill.category === "backend");
-  const toolsSkills = skills.filter(skill => skill.category === "tools");
-  const otherSkills = skills.filter(skill => 
-    skill.category !== "frontend" && 
-    skill.category !== "backend" && 
-    skill.category !== "tools"
+  const frontendSkills = skills.filter((s) => s.category === "frontend");
+  const backendSkills = skills.filter((s) => s.category === "backend");
+  const toolsSkills = skills.filter((s) => s.category === "tools");
+  const otherSkills = skills.filter(
+    (s) => !["frontend", "backend", "tools"].includes(s.category)
   );
-
-  // Radial intro items based on skills
-  const radialItems = [
-    { id: 1, name: "React", src: skillIcons.react },
-    { id: 2, name: "Next.js", src: skillIcons.nextjs },
-    { id: 3, name: "Tailwind CSS", src: skillIcons.tailwind },
-    { id: 4, name: "JavaScript", src: skillIcons.javascript },
-    { id: 5, name: "Node.js", src: skillIcons.nodejs },
-    { id: 6, name: "MongoDB", src: skillIcons.mongodb },
-    { id: 7, name: "Figma", src: skillIcons.figma },
-    { id: 8, name: "GitHub", src: skillIcons.github, invert: true },
-  ];
 
   return (
     <SectionContainer id="about">
-      <SectionHeading 
-        title="About Me" 
-        subtitle="I'm a passionate web developer with a focus on creating beautiful, functional, and user-friendly experiences."
+      <SectionHeading
+        title="About Me"
+        subtitle="Full-stack web developer with a focus on modern technologies and clean user experiences."
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12 items-start">
-        {/* Radial Intro - Mobile and Desktop with scroll rotation */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          viewport={{ once: true, amount: 0.15 }}
-          className="lg:col-span-1 flex items-start justify-center lg:pt-8 relative"
-          id="radial-target"
-        >
-          <div className="lg:hidden">
-            <RadialIntroMobile orbitItems={radialItems} />
-          </div>
-          <div className="hidden lg:block">
-            <RadialIntroDesktop orbitItems={radialItems} />
-          </div>
-        </motion.div>
-
-        {/* Who I Am - Right Side */}
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          viewport={{ once: true, amount: 0.15 }}
-          className="lg:col-span-2 flex flex-col justify-start"
-        >
-          <h3 className="text-xl font-semibold mb-4">Who I Am</h3>
-          <div className="space-y-4 text-muted-foreground">
-            <p>
-              Passionate first-year B.Voc AI & DS student at Nexcore Institute of Technology with a strong foundation in full-stack web development using modern technologies.
-            </p>
-            <p>
-              Ex-student of Universal AI University, Karjat with deep appreciation for artificial intelligence. I combine my knowledge of AI/ML with web development to create innovative and intelligent solutions.
-            </p>
-            <p>
-              Actively seeking internships, projects, and collaborations to contribute my skills and grow as a developer. I&apos;m passionate about learning new technologies and building impactful applications.
-            </p>
-          </div>
-        </motion.div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-8">
-        {/* Left Column */}
-        <div className="flex flex-col">
-          {/* Frontend Skills */}
+      <div className="max-w-3xl mx-auto mb-16">
+        {/* Bio + info grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
+          {/* Bio card */}
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-            viewport={{ once: true, amount: 0.15 }}
-            className="mb-8"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            viewport={{ once: true, margin: "-50px" }}
+            className="lg:col-span-2 p-6 rounded-xl border border-white/5 bg-white/[0.02]"
           >
-            <h3 className="text-xl font-semibold mb-4">Frontend Skills</h3>
-            <div className="space-y-4">
-              {frontendSkills.map((skill, index) => (
-                <SkillBar key={skill.name} skill={skill} index={index} />
-              ))}
+            <h3 className="text-sm font-semibold text-zinc-500 uppercase tracking-widest mb-4">
+              Background
+            </h3>
+            <div className="space-y-3 text-sm text-zinc-400 leading-relaxed">
+              <p>
+                First-year B.Voc AI & DS student at Nexcore Institute of Technology with a strong foundation in full-stack web development using modern technologies.
+              </p>
+              <p>
+                Deep appreciation for artificial intelligence and its applications. I combine knowledge of AI/ML with web development to create intelligent, innovative solutions.
+              </p>
+              <p>
+                Actively seeking projects and collaborations to contribute my skills and grow as a developer.
+              </p>
             </div>
           </motion.div>
 
-          {/* Tools & Others */}
-          {toolsSkills.length > 0 && (
+          {/* Info card */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+            viewport={{ once: true, margin: "-50px" }}
+            className="space-y-3"
+          >
+            <div className="p-4 rounded-xl border border-white/5 bg-white/[0.02]">
+              <div className="flex items-center gap-2 text-zinc-600 mb-1">
+                <MapPin className="h-3.5 w-3.5" />
+                <span className="text-xs uppercase tracking-wider">Location</span>
+              </div>
+              <p className="text-sm text-zinc-300 font-medium">Mumbai, India</p>
+            </div>
+
+            <div className="p-4 rounded-xl border border-white/5 bg-white/[0.02]">
+              <div className="flex items-center gap-2 text-zinc-600 mb-1">
+                <GraduationCap className="h-3.5 w-3.5" />
+                <span className="text-xs uppercase tracking-wider">Education</span>
+              </div>
+              <p className="text-sm text-zinc-300 font-medium">B.Voc AI & DS</p>
+            </div>
+
+            <div className="p-4 rounded-xl border border-white/5 bg-white/[0.02]">
+              <div className="flex items-center gap-2 text-zinc-600 mb-1">
+                <Sparkles className="h-3.5 w-3.5" />
+                <span className="text-xs uppercase tracking-wider">Focus</span>
+              </div>
+              <p className="text-sm text-zinc-300 font-medium">AI & Web Dev</p>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Skills */}
+      <div className="max-w-3xl mx-auto">
+        <motion.h3
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.4 }}
+          viewport={{ once: true, margin: "-50px" }}
+          className="text-sm font-semibold text-zinc-500 uppercase tracking-widest mb-6 text-center"
+        >
+          Skills
+        </motion.h3>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Frontend */}
+          {frontendSkills.length > 0 && (
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
-              viewport={{ once: true, amount: 0.15 }}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.05 }}
+              viewport={{ once: true, margin: "-50px" }}
+              className="space-y-4"
             >
-              <h3 className="text-xl font-semibold mb-4">Tools & Others</h3>
+              <h4 className="text-xs font-medium text-zinc-600 uppercase tracking-wider">
+                Frontend
+              </h4>
               <div className="space-y-4">
-                {toolsSkills.map((skill, index) => (
-                  <SkillBar key={skill.name} skill={skill} index={index} />
+                {frontendSkills.map((skill, i) => (
+                  <SkillBar key={skill.name} skill={skill} index={i} />
                 ))}
               </div>
             </motion.div>
           )}
-        </div>
 
-        {/* Right Column */}
-        <div className="flex flex-col">
-          {/* Backend Skills */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-            viewport={{ once: true, amount: 0.15 }}
-            className="mb-8 lg:min-h-[308px]"
-          >
-            <h3 className="text-xl font-semibold mb-4">Backend Skills</h3>
-            <div className="space-y-4">
-              {backendSkills.map((skill, index) => (
-                <SkillBar key={skill.name} skill={skill} index={index} />
-              ))}
-            </div>
-          </motion.div>
+          {/* Backend */}
+          {backendSkills.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              className="space-y-4"
+            >
+              <h4 className="text-xs font-medium text-zinc-600 uppercase tracking-wider">
+                Backend
+              </h4>
+              <div className="space-y-4">
+                {backendSkills.map((skill, i) => (
+                  <SkillBar key={skill.name} skill={skill} index={i} />
+                ))}
+              </div>
+            </motion.div>
+          )}
 
-          {/* Design Skills */}
+          {/* Tools */}
+          {toolsSkills.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.15 }}
+              viewport={{ once: true, margin: "-50px" }}
+              className="space-y-4"
+            >
+              <h4 className="text-xs font-medium text-zinc-600 uppercase tracking-wider">
+                Tools
+              </h4>
+              <div className="space-y-4">
+                {toolsSkills.map((skill, i) => (
+                  <SkillBar key={skill.name} skill={skill} index={i} />
+                ))}
+              </div>
+            </motion.div>
+          )}
+
+          {/* Other */}
           {otherSkills.length > 0 && (
             <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
-              viewport={{ once: true, amount: 0.15 }}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+              viewport={{ once: true, margin: "-50px" }}
+              className="space-y-4"
             >
-              <h3 className="text-xl font-semibold mb-4">Design Skills</h3>
+              <h4 className="text-xs font-medium text-zinc-600 uppercase tracking-wider">
+                Design
+              </h4>
               <div className="space-y-4">
-                {otherSkills.map((skill, index) => (
-                  <SkillBar key={skill.name} skill={skill} index={index} />
+                {otherSkills.map((skill, i) => (
+                  <SkillBar key={skill.name} skill={skill} index={i} />
                 ))}
               </div>
             </motion.div>
