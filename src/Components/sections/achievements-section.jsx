@@ -8,13 +8,16 @@ import { Badge } from "@/Components/ui/badge";
 import { Button } from "@/Components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter } from "@/Components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/Components/ui/dialog";
-import { Award, Calendar, Clock, ExternalLink } from "lucide-react";
+import { Award, Calendar, Clock, ExternalLink, ChevronDown, ChevronUp } from "lucide-react";
 import Image from "next/image";
+
+const INITIAL_COUNT = 3;
 
 export function AchievementsSection() {
   const [selectedAchievement, setSelectedAchievement] = useState(null);
   const [achievements, setAchievements] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
     fetch('/api/certificates')
@@ -32,17 +35,23 @@ export function AchievementsSection() {
       .finally(() => setLoading(false));
   }, []);
 
+  const displayedAchievements = showAll
+    ? achievements
+    : achievements.slice(0, INITIAL_COUNT);
+
+  const hasMore = achievements.length > INITIAL_COUNT;
+
   if (loading) return null;
-  
+
   return (
     <SectionContainer id="achievements">
-      <SectionHeading 
-        title="Achievements" 
+      <SectionHeading
+        title="Achievements"
         subtitle="Certifications, recognitions, and learning milestones."
       />
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {achievements.map((achievement, index) => (
+        {displayedAchievements.map((achievement, index) => (
           <motion.div
             key={achievement.id}
             initial={{ opacity: 0, y: 20 }}
@@ -50,17 +59,39 @@ export function AchievementsSection() {
             transition={{ duration: 0.5, delay: index * 0.08 }}
             viewport={{ once: true, amount: 0.15 }}
           >
-            <AchievementCard 
-              achievement={achievement} 
-              onSelect={() => setSelectedAchievement(achievement)} 
+            <AchievementCard
+              achievement={achievement}
+              onSelect={() => setSelectedAchievement(achievement)}
             />
           </motion.div>
         ))}
       </div>
-      
-      <AchievementDialog 
-        achievement={selectedAchievement} 
-        onClose={() => setSelectedAchievement(null)} 
+
+      {hasMore && (
+        <div className="flex justify-center mt-10">
+          <Button
+            onClick={() => setShowAll(!showAll)}
+            variant="outline"
+            className="rounded-full px-8 py-6 text-sm font-medium border-zinc-700 hover:border-cyan-500 hover:bg-cyan-500/5 hover:text-cyan-400 transition-all duration-300 gap-2"
+          >
+            {showAll ? (
+              <>
+                Show Less
+                <ChevronUp className="h-4 w-4" />
+              </>
+            ) : (
+              <>
+                Show More ({achievements.length - INITIAL_COUNT} more)
+                <ChevronDown className="h-4 w-4" />
+              </>
+            )}
+          </Button>
+        </div>
+      )}
+
+      <AchievementDialog
+        achievement={selectedAchievement}
+        onClose={() => setSelectedAchievement(null)}
       />
     </SectionContainer>
   );
@@ -73,7 +104,7 @@ function AchievementCard({ achievement, onSelect }) {
     >
       {/* Animated corner accent */}
       <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-primary/30 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-      
+
       {/* Certificate Image with overlay */}
       <div className="relative h-56 overflow-hidden">
         {achievement.imageUrl ? (
@@ -95,17 +126,17 @@ function AchievementCard({ achievement, onSelect }) {
             </div>
           </div>
         )}
-        
+
         {/* Diagonal overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/40 to-transparent group-hover:from-black/70 transition-all duration-300" />
-        
+
         {/* Title overlay on image */}
         <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-0 group-hover:translate-y-[-4px] transition-transform duration-300">
           <h3 className="text-xl font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] line-clamp-2">
             {achievement.title}
           </h3>
         </div>
-        
+
         {/* Type badge overlay */}
         <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-4 group-hover:translate-x-0">
           <Badge className="bg-primary/90 backdrop-blur-sm text-primary-foreground border-0 shadow-lg">
@@ -119,11 +150,11 @@ function AchievementCard({ achievement, onSelect }) {
           <Award className="h-4 w-4" />
           <span className="font-medium">{achievement.organization}</span>
         </div>
-        
+
         <CardDescription className="line-clamp-2 text-sm leading-relaxed">
           {achievement.description}
         </CardDescription>
-        
+
         <div className="flex items-center justify-between text-xs text-muted-foreground pt-2">
           <div className="flex items-center gap-1.5">
             <Calendar className="h-3.5 w-3.5" />
@@ -138,7 +169,7 @@ function AchievementCard({ achievement, onSelect }) {
 
       <CardFooter className="p-5 pt-0 mt-auto">
         {achievement.certificateUrl ? (
-          <Button 
+          <Button
             asChild
             className="w-full rounded-full font-semibold group-hover:shadow-lg group-hover:shadow-primary/30 transition-all duration-300"
             size="lg"
@@ -150,7 +181,7 @@ function AchievementCard({ achievement, onSelect }) {
             </a>
           </Button>
         ) : (
-          <Button 
+          <Button
             className="w-full rounded-full font-semibold group-hover:shadow-lg group-hover:shadow-primary/30 transition-all duration-300"
             size="lg"
             onClick={onSelect}
@@ -167,24 +198,16 @@ function AchievementCard({ achievement, onSelect }) {
 function AchievementDialog({ achievement, onClose }) {
   useEffect(() => {
     if (achievement) {
-      // Lock background scroll - comprehensive fix for mobile
       document.body.style.overflow = 'hidden';
       document.body.style.position = 'fixed';
       document.body.style.width = '100%';
       document.documentElement.style.overflow = 'hidden';
-      
-      // Push history state for Android back button
       window.history.pushState({ modal: true }, '');
-      
-      // Handle popstate (back button)
       const handlePopState = () => {
         onClose();
       };
-      
       window.addEventListener('popstate', handlePopState);
-      
       return () => {
-        // Unlock background scroll - restore all properties
         document.body.style.overflow = '';
         document.body.style.position = '';
         document.body.style.width = '';
@@ -193,13 +216,12 @@ function AchievementDialog({ achievement, onClose }) {
       };
     }
   }, [achievement, onClose]);
-  
+
   if (!achievement) return null;
-  
+
   return (
     <Dialog open={!!achievement} onOpenChange={(open) => {
       if (!open) {
-        // Remove the history state we added
         if (window.history.state?.modal) {
           window.history.back();
         } else {
@@ -219,7 +241,7 @@ function AchievementDialog({ achievement, onClose }) {
             </div>
           </div>
         </DialogHeader>
-        
+
         {/* Certificate Image */}
         <div className="relative h-48 md:h-80 rounded-lg border border-border mt-4 overflow-hidden" style={{ WebkitOverflowScrolling: 'touch' }}>
           {achievement.imageUrl ? (
@@ -241,7 +263,7 @@ function AchievementDialog({ achievement, onClose }) {
             </div>
           )}
         </div>
-        
+
         <div className="grid grid-cols-2 gap-3 md:gap-4 py-3 md:py-4 mt-2">
           <div className="flex items-center gap-2 text-sm">
             <Calendar className="h-4 w-4 text-primary flex-shrink-0" />
@@ -258,7 +280,7 @@ function AchievementDialog({ achievement, onClose }) {
             </div>
           </div>
         </div>
-        
+
         <div className="mt-2 md:mt-4">
           <h4 className="text-base md:text-lg font-semibold mb-2 md:mb-3">About this achievement</h4>
           <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
