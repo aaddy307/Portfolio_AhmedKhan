@@ -1,118 +1,182 @@
 "use client";
 
+import { useState } from "react";
 import { SectionContainer } from "@/Components/section-container";
 import { SectionHeading } from "@/Components/section-heading";
 import { getWorkExperiences, getEducationExperiences } from "@/lib/config";
-import { motion } from "framer-motion";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/Components/ui/card";
+import { motion, AnimatePresence } from "framer-motion";
 import { Badge } from "@/Components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/Components/ui/tabs";
-import { BriefcaseIcon, GraduationCap } from "lucide-react";
+import { BriefcaseIcon, GraduationCap, MapPin, CalendarDays, ChevronRight } from "lucide-react";
+
+const tabs = [
+  { id: 'work', label: 'Work Experience', icon: BriefcaseIcon },
+  { id: 'education', label: 'Education', icon: GraduationCap },
+];
+
+function TimelineDot({ type }) {
+  return (
+    <div className="relative flex flex-col items-center">
+      {/* Pulse ring */}
+      <div className="absolute inset-0 rounded-full bg-primary/20 animate-ping" />
+      {/* Dot */}
+      <div className="relative w-10 h-10 rounded-full bg-primary flex items-center justify-center z-10 shadow-[0_0_20px_rgba(0,0,0,0.3)]">
+        <type.icon className="w-5 h-5 text-primary-foreground" />
+      </div>
+      {/* Line */}
+      <div className="w-0.5 flex-1 bg-gradient-to-b from-primary/60 to-transparent mt-2" />
+    </div>
+  );
+}
+
+function ExperienceCard({ experience, type }) {
+  return (
+    <div className="group relative">
+      {/* Card body */}
+      <div className="relative rounded-2xl border border-zinc-800 bg-zinc-900/60 backdrop-blur-sm overflow-hidden transition-all duration-300 hover:border-cyan-500/40 hover:shadow-[0_0_30px_rgba(6,182,212,0.1)] hover:-translate-y-0.5">
+        {/* Gradient accent bar */}
+        <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+        {/* Glow on hover */}
+        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+
+        <div className="p-5 sm:p-6 relative z-10">
+          {/* Header row */}
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
+            <div className="flex-1">
+              <h3 className="text-lg sm:text-xl font-bold text-white leading-tight mb-1 group-hover:text-cyan-400 transition-colors duration-300">
+                {experience.position}
+              </h3>
+              <p className="text-cyan-400/80 font-medium text-sm sm:text-base">
+                {experience.company}
+              </p>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <Badge variant="secondary" className="text-xs bg-cyan-500/10 text-cyan-400 border-cyan-500/20 hover:bg-cyan-500/10">
+                <CalendarDays className="w-3 h-3 mr-1" />
+                {experience.duration}
+              </Badge>
+            </div>
+          </div>
+
+          {/* Description */}
+          <p className="text-zinc-400 text-sm sm:text-base leading-relaxed mb-5">
+            {experience.description}
+          </p>
+
+          {/* Technologies */}
+          {experience.technologies?.length > 0 && (
+            <div className="flex flex-wrap gap-1.5">
+              {experience.technologies.map((tech) => (
+                <span
+                  key={tech}
+                  className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium rounded-full bg-zinc-800 text-zinc-300 border border-zinc-700 group-hover:border-cyan-500/30 group-hover:bg-cyan-500/5 group-hover:text-cyan-400 transition-all duration-300"
+                >
+                  <ChevronRight className="w-2.5 h-2.5 opacity-50" />
+                  {tech}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ExperienceList({ experiences, type }) {
+  return (
+    <div className="space-y-6 sm:space-y-8">
+      {experiences.map((experience, index) => (
+        <motion.div
+          key={experience.id}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.5,
+            delay: index * 0.1,
+            ease: 'easeOut',
+          }}
+          viewport={{ once: true, amount: 0.1 }}
+        >
+          <ExperienceCard experience={experience} type={type} />
+        </motion.div>
+      ))}
+    </div>
+  );
+}
 
 export function ExperienceSection() {
+  const [activeTab, setActiveTab] = useState('work');
   const workExperiences = getWorkExperiences();
   const educationExperiences = getEducationExperiences();
 
   return (
     <SectionContainer id="experience">
-      <SectionHeading 
-        title="Experience & Education" 
+      <SectionHeading
+        title="Experience & Education"
         subtitle="My professional journey and educational background"
       />
 
-      <Tabs defaultValue="work" className="max-w-3xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          viewport={{ once: true, amount: 0.15 }}
-          className="flex justify-center mb-8"
-        >
-          <TabsList className="grid grid-cols-2 w-full sm:w-[300px] max-w-full">
-            <TabsTrigger value="work" className="flex items-center gap-2">
-              <BriefcaseIcon className="h-4 w-4" /> Work
-            </TabsTrigger>
-            <TabsTrigger value="education" className="flex items-center gap-2">
-              <GraduationCap className="h-4 w-4" /> Education
-            </TabsTrigger>
-          </TabsList>
-        </motion.div>
+      {/* Tab triggers */}
+      <div className="flex justify-center mb-10">
+        <div className="inline-flex items-center gap-1 p-1 bg-zinc-900/80 border border-zinc-800 rounded-xl backdrop-blur-sm">
+          {tabs.map((tab) => {
+            const Icon = tab.icon;
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`
+                  relative flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 z-10
+                  ${isActive
+                    ? 'text-white'
+                    : 'text-zinc-400 hover:text-zinc-200'
+                  }
+                `}
+              >
+                {isActive && (
+                  <motion.div
+                    layoutId="activeTab"
+                    className="absolute inset-0 bg-primary/20 border border-primary/30 rounded-lg"
+                    transition={{ type: 'spring', duration: 0.4 }}
+                  />
+                )}
+                <Icon className={`w-4 h-4 relative z-10 ${isActive ? 'text-cyan-400' : ''}`} />
+                <span className="relative z-10">{tab.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
 
-        <TabsContent value="work">
-          <div className="relative space-y-6">
-            {/* Continuous vertical timeline line */}
-            <div className="hidden sm:block absolute left-[3.75rem] top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-primary/50 to-transparent"></div>
-            
-            {workExperiences.map((experience, index) => (
-              <ExperienceItem 
-                key={experience.id} 
-                experience={experience} 
-                index={index}
-              />
-            ))}
-          </div>
-        </TabsContent>
-        
-        <TabsContent value="education">
-          <div className="relative space-y-6">
-            {/* Continuous vertical timeline line */}
-            <div className="hidden sm:block absolute left-[3.75rem] top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-primary/50 to-transparent"></div>
-            
-            {educationExperiences.map((experience, index) => (
-              <ExperienceItem 
-                key={experience.id} 
-                experience={experience} 
-                index={index}
-              />
-            ))}
-          </div>
-        </TabsContent>
-      </Tabs>
+      {/* Content */}
+      <div className="max-w-3xl mx-auto">
+        <AnimatePresence mode="wait">
+          {activeTab === 'work' && (
+            <motion.div
+              key="work"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.25 }}
+            >
+              <ExperienceList experiences={workExperiences} type="work" />
+            </motion.div>
+          )}
+          {activeTab === 'education' && (
+            <motion.div
+              key="education"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.25 }}
+            >
+              <ExperienceList experiences={educationExperiences} type="education" />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </SectionContainer>
-  );
-}
-
-function ExperienceItem({ experience, index }) {
-  return (
-    <div className="relative">
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        transition={{ 
-          duration: 0.5, 
-          delay: index * 0.08,
-          ease: "easeOut"
-        }}
-        viewport={{ once: true, amount: 0.15 }}
-        className="ml-0 sm:ml-[7.5rem] transition-all duration-300 ease-out hover:ml-[7.75rem] md:hover:mr-[-3rem]"
-      >
-        <Card className="relative hover:border-primary transition-all duration-300 ease-out">
-          <CardHeader className="relative">
-            {/* Timeline dot/icon */}
-            <div className="absolute -left-12 sm:-left-[5.25rem] top-6 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-primary flex items-center justify-center ring-4 ring-background z-10">
-              {experience.type === 'work' ? (
-                <BriefcaseIcon className="h-5 w-5 sm:h-6 sm:w-6 text-primary-foreground" />
-              ) : (
-                <GraduationCap className="h-5 w-5 sm:h-6 sm:w-6 text-primary-foreground" />
-              )}
-            </div>
-            <CardTitle className="font-semibold">{experience.position}</CardTitle>
-            <CardDescription>
-              {experience.company} | {experience.duration}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground mb-4">{experience.description}</p>
-            <div className="flex flex-wrap gap-2">
-              {experience.technologies.map((tech) => (
-                <Badge key={tech} variant="secondary">
-                  {tech}
-                </Badge>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </motion.div>
-    </div>
   );
 }
