@@ -13,12 +13,19 @@ export default function AdminLogin() {
   const router = useRouter();
 
   useEffect(() => {
-    fetch("/api/admin/login", { method: "HEAD" })
-      .then((res) => {
-        if (res.ok) router.replace("/admin/dashboard");
-      })
-      .catch(() => {})
-      .finally(() => setCheckingAuth(false));
+    // Verify localStorage token with server
+    const token = localStorage.getItem('admin_token');
+    if (token) {
+      fetch("/api/admin/login", { method: "HEAD" })
+        .then((res) => {
+          if (res.ok) router.replace("/admin/dashboard");
+          else localStorage.removeItem('admin_token');
+        })
+        .catch(() => {})
+        .finally(() => setCheckingAuth(false));
+    } else {
+      setCheckingAuth(false);
+    }
   }, [router]);
 
   const handleSubmit = async (e) => {
@@ -36,9 +43,8 @@ export default function AdminLogin() {
 
       if (res.ok) {
         toast.success("Welcome back!");
-        // Set cookie directly from response before navigating
         if (data.token) {
-          document.cookie = `admin_token=${data.token}; max-age=${7 * 24 * 60 * 60}; path=/; SameSite=Lax`;
+          localStorage.setItem('admin_token', data.token);
         }
         window.location.href = '/admin/dashboard';
       } else {

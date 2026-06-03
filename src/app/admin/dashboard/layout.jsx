@@ -17,9 +17,20 @@ export default function DashboardLayout({ children }) {
   const [checkingAuth, setCheckingAuth] = useState(true);
 
   useEffect(() => {
+    // Check localStorage token for quick redirect
+    const token = localStorage.getItem('admin_token');
+    if (!token) {
+      router.replace("/admin");
+      return;
+    }
+
+    // Verify token with server
     fetch("/api/admin/login", { method: "HEAD" })
       .then((res) => {
-        if (!res.ok) router.replace("/admin");
+        if (!res.ok) {
+          localStorage.removeItem('admin_token');
+          router.replace("/admin");
+        }
       })
       .catch(() => router.replace("/admin"))
       .finally(() => setCheckingAuth(false));
@@ -27,6 +38,7 @@ export default function DashboardLayout({ children }) {
 
   const handleLogout = async () => {
     try {
+      localStorage.removeItem('admin_token');
       await fetch("/api/admin/logout", { method: "POST" });
       toast.success("Logged out");
       router.push("/admin");
