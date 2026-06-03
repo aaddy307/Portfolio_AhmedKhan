@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
-require('dotenv').config({ path: path.resolve(__dirname, '../.env.local') });
 
 const ProjectSchema = new mongoose.Schema({
   title: { type: String, required: true },
@@ -203,7 +202,7 @@ const certificatesData = [
 async function seed() {
   const MONGODB_URI = process.env.MONGODB_URI;
   if (!MONGODB_URI) {
-    console.error('MONGODB_URI not found in .env.local');
+    console.error('MONGODB_URI not found in .env');
     process.exit(1);
   }
 
