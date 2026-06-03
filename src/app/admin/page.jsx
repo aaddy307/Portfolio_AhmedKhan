@@ -36,7 +36,7 @@ export default function AdminLogin() {
 
       if (res.ok) {
         toast.success("Welcome back!");
-        router.push("/admin/dashboard");
+        window.location.href = "/admin/dashboard";
       } else {
         toast.error(data.error || "Invalid credentials");
       }
