@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { connectDB } from '@/lib/mongodb';
+import { checkRateLimit, clearRateLimit } from '@/lib/rateLimit';
 import Admin from '@/models/Admin';
 
 async function ensureAdmin() {
@@ -10,14 +11,21 @@ async function ensureAdmin() {
     const count = await Admin.countDocuments();
     if (count === 0) {
       const username = process.env.ADMIN_USERNAME || 'aaddy307';
-      const passwordHash = process.env.ADMIN_PASSWORD_HASH
-        ? process.env.ADMIN_PASSWORD_HASH
-        : await bcrypt.hash('Mh05fl7946', 10);
+      const passwordHash = process.env.ADMIN_PASSWORD_HASH;
+
+      if (!passwordHash) {
+        throw new Error(
+          'ADMIN_PASSWORD_HASH environment variable is not set. ' +
+          'Please set it before the server starts.'
+        );
+      }
+
       await Admin.create({ username, passwordHash, role: 'admin' });
       console.log('Admin user auto-created:', username);
     }
   } catch (e) {
     console.error('Failed to auto-create admin:', e);
+    throw e;
   }
 }
 
@@ -64,6 +72,20 @@ export async function POST(request) {
       );
     }
 
+    // Rate limiting check
+    const rateLimit = checkRateLimit(request);
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { error: rateLimit.message },
+        {
+          status: 429,
+          headers: {
+            'Retry-After': Math.ceil(rateLimit.retryAfterMs / 1000).toString(),
+          },
+        }
+      );
+    }
+
     await ensureAdmin();
 
     const isValid = await verifyCredentials(username, password);
@@ -74,6 +96,9 @@ export async function POST(request) {
         { status: 401 }
       );
     }
+
+    // Login successful — clear rate limit for this IP
+    clearRateLimit(request);
 
     const token = jwt.sign(
       { username, role: 'admin' },
