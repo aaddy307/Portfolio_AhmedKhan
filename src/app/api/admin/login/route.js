@@ -48,8 +48,9 @@ export async function POST(request) {
       { expiresIn: '7d' }
     );
 
+    // Token is returned in body AND set as cookie for reliability
     const response = NextResponse.json(
-      { message: 'Login successful' },
+      { message: 'Login successful', token },
       { status: 200 }
     );
 
